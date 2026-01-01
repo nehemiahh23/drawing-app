@@ -1,8 +1,12 @@
-body {
-	display: flex;
-	height: 100vh;
-	justify-content: center;
-	align-items: center;
+body, html {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	box-sizing: border-box;
+}
+
+*, *::before, *::after {
+	box-sizing: inherit;
 }
 
 fieldset {
@@ -40,4 +44,8 @@ fieldset input[type=submit] {
 	justify-content: center;
 	gap: 30px;
 	align-items: center;
+}
+
+main {
+	height: 100%;
 }
