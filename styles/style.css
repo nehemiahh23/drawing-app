@@ -9,6 +9,7 @@ body, html {
 	box-sizing: inherit;
 }
 
+/* #region login */
 fieldset {
 	width: 300px;
 	height: 450px;
@@ -45,7 +46,32 @@ fieldset input[type=submit] {
 	gap: 30px;
 	align-items: center;
 }
+/* #endregion */
 
+/* #region image browser */
 main {
+	display: flex;
+	flex-wrap: wrap;
+	height: 100%;
+	padding-top: 5%;
+    margin: 0 2%;
+}
+
+.card {
+	display: flex;
+	flex-direction: column;
+	height: 200px;
+	margin: 0 2%;
+    flex: 1;
+    align-items: center;
+}
+
+.card img {
+	/* width: 100%; */
 	height: 100%;
 }
+
+.card h3 {
+	margin: 0;
+}
+/* #endregion */
