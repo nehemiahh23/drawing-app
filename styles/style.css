@@ -3,6 +3,8 @@ body, html {
 	padding: 0;
 	height: 100%;
 	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
 }
 
 *, *::before, *::after {
@@ -49,11 +51,15 @@ fieldset input[type=submit] {
 /* #endregion */
 
 /* #region image browser */
+#search {
+	margin: 1% auto;
+}
+
 main {
 	display: flex;
 	flex-wrap: wrap;
 	height: 100%;
-	padding-top: 5%;
+	padding-top: 3%;
     margin: 0 2%;
 }
 
@@ -74,5 +80,9 @@ main {
 
 .card h3 {
 	margin: 0;
+}
+
+#img-modal {
+	z-index: 99;
 }
 /* #endregion */

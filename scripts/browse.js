@@ -1,5 +1,8 @@
 const main = document.querySelector("main")
 const container = document.createDocumentFragment()
+const search = document.getElementById("search")
+const imgModal = document.getElementById("img-modal")
+let disable = false
 
 fetch("http://localhost:3002/images")
 .then(r => r.json())
@@ -8,6 +11,7 @@ fetch("http://localhost:3002/images")
 	main.appendChild(container)
 })
 
+search.addEventListener("input", handleInput)
 main.addEventListener("mouseover", handleHover)
 main.addEventListener("mouseout", handleHover)
 
@@ -26,7 +30,20 @@ function renderCard(data) {
 	return card
 }
 
+// TODO: hover should enlarge img into a new z-index w/o affecting page flow
 function handleHover(e) {
-	if (e.target.tagName !== "IMG") return
+	if (e.target.tagName !== "IMG" || disable) return
 	e.type === "mouseover" ? e.target.style.height = "110%" : e.target.style.height = "100%"	
+}
+
+function handleInput(e) {
+	for (node of main.childNodes) {
+		node.classList ? node.style.display = "flex" : null
+	}
+
+	const nonMatches = Array.from(main.childNodes).filter(node => node.classList && !node.textContent.toLowerCase().includes(e.target.value.toLowerCase()))
+
+	for (node of nonMatches) {
+		node.style.display = "none"
+	}
 }
