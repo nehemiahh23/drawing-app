@@ -1,0 +1,14 @@
+{
+  "name": "capstone",
+  "version": "1.0.0",
+  "description": "A simple image browser that uses DOM manipulation to carry out its functions. Currently stores image data in *db.json*.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "json-server": "^1.0.0-beta.3"
+  }
+}
