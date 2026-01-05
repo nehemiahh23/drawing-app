@@ -11,7 +11,8 @@ fetch("http://localhost:3002/images")
 	main.appendChild(container)
 })
 
-search.addEventListener("input", handleInput)
+search.addEventListener("keydown", handleInput)
+search.addEventListener("keyup", handleInput)
 main.addEventListener("mouseover", handleHover)
 main.addEventListener("mouseout", handleHover)
 
@@ -37,11 +38,14 @@ function handleHover(e) {
 }
 
 function handleInput(e) {
+	if (e.key.match(/[^\w\s]/)) {
+		e.preventDefault()
+	}
 	for (node of main.childNodes) {
 		node.classList ? node.style.display = "flex" : null
 	}
 
-	const nonMatches = Array.from(main.childNodes).filter(node => node.classList && !node.textContent.toLowerCase().includes(e.target.value.toLowerCase()))
+	const nonMatches = Array.from(main.childNodes).filter(node => node.classList && !node.textContent.toLowerCase().includes(e.target.value.toLowerCase())) // .childNodes = parent/child reference; .filter ilterates over collection of elements
 
 	for (node of nonMatches) {
 		node.style.display = "none"
