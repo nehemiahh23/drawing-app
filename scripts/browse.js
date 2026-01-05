@@ -59,5 +59,6 @@ function handlePaste(e) {
 
 	if (data.match(/[^\w\s]/)) {
 		e.preventDefault()
+		alert("Image titles cannot contain special characters.")
 	}
 }
