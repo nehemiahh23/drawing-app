@@ -13,6 +13,7 @@ fetch("http://localhost:3002/images")
 
 search.addEventListener("keydown", handleInput)
 search.addEventListener("keyup", handleInput)
+search.addEventListener("paste", handlePaste)
 main.addEventListener("mouseover", handleHover)
 main.addEventListener("mouseout", handleHover)
 
@@ -41,6 +42,7 @@ function handleInput(e) {
 	if (e.key.match(/[^\w\s]/)) {
 		e.preventDefault()
 	}
+
 	for (node of main.childNodes) {
 		node.classList ? node.style.display = "flex" : null
 	}
@@ -49,5 +51,13 @@ function handleInput(e) {
 
 	for (node of nonMatches) {
 		node.style.display = "none"
+	}
+}
+
+function handlePaste(e) {
+	const data = e.clipboardData.getData("text/plain")
+
+	if (data.match(/[^\w\s]/)) {
+		e.preventDefault()
 	}
 }
