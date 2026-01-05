@@ -1,7 +1,6 @@
-# Working Title
+# The Document Object Model
+## Per Scholas Module 316 SBA
 
-Per Scholas Capstone
+A simple image browser that uses DOM manipulation to carry out its functions. Currently stores image data in *db.json*. 
 
-Use at least two Browser Object Model (BOM) properties or methods.
-Ensure that the program runs without errors (comment out things that do not work, and explain your blockers - you can still receive partial credit).
-Include a README file that contains a description of your application.
+Image cards are added dynamically using JavaScript document fragments. The search function filters through the templated elements and hides them using CSS properties. 
