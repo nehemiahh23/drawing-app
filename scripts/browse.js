@@ -73,11 +73,11 @@ function handlePaste(e) {
 	}
 }
 
-function displayMessage(element, message) {
+function displayMessage(element, message) { // TODO: Figure out a way to prevent this execution while another timeout is running
 	element.textContent = message
 	element.style.display = "revert"
 	setTimeout(() => {
 		element.style.display = "none"
 		element.textContent = ""
-	}, 3000)
+	}, 4500)
 }
