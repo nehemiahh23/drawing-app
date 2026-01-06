@@ -74,13 +74,17 @@ function handlePaste(e) {
 }
 
 function displayMessage(element, message) {
-	element.textContent = message
 	element.style.display = "revert"
-	displayTimeout()
+	element.textContent = message
+	setTimeout(() => {
+		displayTimeout(element)
+	}, 4500)
 }
 
-function displayTimeout() {
+function displayTimeout(element) {
+	console.log("a")
+	if (element.style.display = "none") return
 	element.style.display = "none"
 	element.textContent = ""
-	setTimeout(displayTimeout, 4500)
+	displayTimeout(element)
 }
