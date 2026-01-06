@@ -1,6 +1,7 @@
 const main = document.querySelector("main")
 const container = document.createDocumentFragment()
 const search = document.getElementById("search")
+const charError = document.getElementById("char-error")
 const imgModal = document.getElementById("img-modal")
 let disable = false
 
@@ -41,6 +42,8 @@ function handleHover(e) {
 function handleInput(e) {
 	if (e.key.match(/[^\w\s]/)) {
 		e.preventDefault()
+		charError.style.display = "revert"
+		setTimeout(() => charError.style.display = "none", 5000)
 	}
 
 	for (node of main.childNodes) {

@@ -55,6 +55,12 @@ fieldset input[type=submit] {
 	margin: 1% auto;
 }
 
+#char-error {
+	color: red;
+	display: none;
+	position: absolute;
+}
+
 main {
 	display: flex;
 	flex-wrap: wrap;

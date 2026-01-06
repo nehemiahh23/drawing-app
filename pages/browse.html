@@ -9,7 +9,12 @@
 	<script defer src="../scripts/browse.js"></script>
 </head>
 <body>
-	<input type="text" id="search" maxlength="40">
+	<div id="search">
+		<label for="search">Search: </label>
+		<input type="text" maxlength="40" name="search" autocomplete="off">
+		<br>
+		<span id="char-error">Titles cannot contain special characters!</span>
+	</div>
 	<main>
 	</main>
 	<div id="img-modal"></div>

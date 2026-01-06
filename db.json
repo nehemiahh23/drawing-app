@@ -54,6 +54,11 @@
 			"id": 10,
 			"title": "TV",
 			"src": "https://www.shutterstock.com/blog/wp-content/uploads/sites/5/2019/06/4-3-_aspect_ratio_cover1.jpg"
+		},
+		{
+			"id": 11,
+			"title": "Rock",
+			"src": "https://www.shutterstock.com/image-photo/old-random-sized-stone-wall-260nw-2714815705.jpg"
 		}
 	]
 }
