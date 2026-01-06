@@ -42,16 +42,19 @@ function handleHover(e) {
 function handleInput(e) {
 	if (e.key.match(/[^\w\s]/)) {
 		e.preventDefault()
-		charError.style.display = "revert"
-		setTimeout(() => charError.style.display = "none", 5000)
+		displayMessage(charError, "Titles cannot contain special characters!")
 	}
-
+	
+	if (e.target.value.length === 40 && e.key.match(/[\w\s]/)) {
+		displayMessage(charError, "Titles cannot be over 40 characters!")
+	}
+	
 	for (node of main.childNodes) {
 		node.classList ? node.style.display = "flex" : null
 	}
-
+	
 	const nonMatches = Array.from(main.childNodes).filter(node => node.classList && !node.textContent.toLowerCase().includes(e.target.value.toLowerCase())) // .childNodes = parent/child reference; .filter ilterates over collection of elements
-
+	
 	for (node of nonMatches) {
 		node.style.display = "none"
 	}
@@ -59,9 +62,22 @@ function handleInput(e) {
 
 function handlePaste(e) {
 	const data = e.clipboardData.getData("text/plain")
-
+	
 	if (data.match(/[^\w\s]/)) {
 		e.preventDefault()
 		alert("Image titles cannot contain special characters.")
 	}
+
+	if (e.target.value.length === 40 && e.key.match(/[\w\s]/)) {
+		displayMessage(charError, "Titles cannot be over 40 characters!")
+	}
+}
+
+function displayMessage(element, message) {
+	element.textContent = message
+	element.style.display = "revert"
+	setTimeout(() => {
+		element.style.display = "none"
+		element.textContent = ""
+	}, 3000)
 }
