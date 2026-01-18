@@ -1,9 +1,13 @@
+import photos, { next_url } from "../../server/app.js"
+
 const main = document.querySelector("main")
 const container = document.createDocumentFragment()
 const search = document.getElementById("search")
 const charError = document.getElementById("char-error")
 const imgModal = document.getElementById("img-modal")
 let disable = false
+
+console.log(photos, next_url)
 
 fetch("http://localhost:3002/images")
 .then(r => r.json())
