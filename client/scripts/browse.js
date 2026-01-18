@@ -49,13 +49,13 @@ function handleInput(e) {
 		displayMessage(charError, "Titles cannot be over 40 characters!")
 	}
 	
-	for (node of main.childNodes) {
+	for (let node of main.childNodes) {
 		node.classList ? node.style.display = "flex" : null
 	}
 	
 	const nonMatches = Array.from(main.childNodes).filter(node => node.classList && !node.textContent.toLowerCase().includes(e.target.value.toLowerCase())) // .childNodes = parent/child reference; .filter ilterates over collection of elements
 	
-	for (node of nonMatches) {
+	for (let node of nonMatches) {
 		node.style.display = "none"
 	}
 }
