@@ -1,22 +1,11 @@
-import "dotenv/config";
-const API_KEY = process.env.PEXELS_KEY;
-export async function initialLoad(page_url) {
-    const results = [];
-    const response = await fetch(page_url, { headers: new Headers({ "Authorization": API_KEY }) });
-    if (!response.ok) {
-        throw new Error(`API call responded with ${response.statusText}`);
-    }
-    const data = await response.json();
-    data.photos.forEach(photo => {
-        const newPhoto = {
-            id: photo.id,
-            src: photo.src.original,
-            url: photo.url,
-            author: photo.photographer
-        };
-        results.push(newPhoto);
+import { initialLoad } from "./functions.js";
+let page_url = "https://api.pexels.com/v1/curated?per_page=12";
+export default function routes(app) {
+    app.get("/", async (rq, rs) => {
+        const data = await initialLoad(page_url);
+        rs.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+        rs.send(data[0]);
+        page_url = data[1];
     });
-    page_url = data.next_page;
-    return results;
 }
 //# sourceMappingURL=routes.js.map

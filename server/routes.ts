@@ -1,34 +1,13 @@
-import type { Photo } from "./app.js"
-import "dotenv/config"
+import { initialLoad } from "./functions.js"
+import type { Application } from "express"
 
-interface PhotoResponse {
-	page: number,
-	per_page: number,
-	photos: Array<{ id: number, src: { original: string }, url: string, photographer: string }>,
-	total_results: number,
-	next_page: string
-}
+let page_url: string = "https://api.pexels.com/v1/curated?per_page=12"
 
-const API_KEY: string = process.env.PEXELS_KEY as string
-
-export async function initialLoad(page_url: string): Promise<Photo[]> {
-	const results: Photo[] = []
-	const response = await fetch(page_url, { headers: new Headers({ "Authorization": API_KEY })})
-	if (!response.ok) { throw new Error(`API call responded with ${response.statusText}`) }
-	const data = await response.json() as PhotoResponse
-	
-	data.photos.forEach(photo => {
-		const newPhoto: Photo = {
-			id: photo.id,
-			src: photo.src.original,
-			url: photo.url,
-			author: photo.photographer
-		} 
-
-		results.push(newPhoto)
+export default function routes(app: Application): void {
+	app.get("/", async (rq, rs) => {
+		const data = await initialLoad(page_url)
+		rs.setHeader("Access-Control-Allow-Origin", "http://localhost:5500")
+		rs.send(data[0])
+		page_url = data[1]
 	})
-
-	page_url = data.next_page
-
-	return results
 }

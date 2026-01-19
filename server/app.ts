@@ -1,14 +1,26 @@
-import { initialLoad } from "./routes.js"
-import "http"
+import express from "express"
+import routes from "./routes.js"
+
+const app = express()
 
 export interface Photo {
 	id: Number,
 	src: String,
 	url: String,
-	author: String
+	author: String,
+	alt: String
 }
 
-let page_url: string = "https://api.pexels.com/v1/curated?per_page=12"
-const photos: Photo[] = await initialLoad(page_url)
+export interface PhotoResponse {
+	page: number,
+	per_page: number,
+	photos: Array<{ id: number, src: { original: string }, url: string, photographer: string, alt: string }>,
+	total_results: number,
+	next_page: string
+}
 
-export default photos
+routes(app)
+
+app.listen(3000, () => {
+	console.log("Server running on port 3000")
+})

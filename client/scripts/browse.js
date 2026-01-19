@@ -1,5 +1,3 @@
-import photos from "../../server/app.js"
-
 const main = document.querySelector("main")
 const container = document.createDocumentFragment()
 const search = document.getElementById("search")
@@ -7,9 +5,7 @@ const charError = document.getElementById("char-error")
 const imgModal = document.getElementById("img-modal")
 let disable = false
 
-console.log(photos)
-
-fetch("http://localhost:3002/images")
+fetch("http://localhost:3000/")
 .then(r => r.json())
 .then(data => {
 	data.forEach(img => container.appendChild(renderCard(img)))
@@ -25,14 +21,15 @@ main.addEventListener("mouseout", handleHover)
 function renderCard(data) {
 	const card = document.createElement("div")
 	const img = document.createElement("img")
-	const title = document.createElement("h3")
+	const author = document.createElement("h3")
 
 	card.className = "card"
 	// card.id = `img${data.id}`
 	img.src = data.src
-	title.textContent = data.title
+	img.alt = data.alt
+	author.textContent = data.author
 	card.appendChild(img)
-	card.appendChild(title)
+	card.appendChild(author)
 	
 	return card
 }

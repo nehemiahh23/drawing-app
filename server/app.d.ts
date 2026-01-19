@@ -3,7 +3,21 @@ export interface Photo {
     src: String;
     url: String;
     author: String;
+    alt: String;
 }
-declare const photos: Photo[];
-export default photos;
+export interface PhotoResponse {
+    page: number;
+    per_page: number;
+    photos: Array<{
+        id: number;
+        src: {
+            original: string;
+        };
+        url: string;
+        photographer: string;
+        alt: string;
+    }>;
+    total_results: number;
+    next_page: string;
+}
 //# sourceMappingURL=app.d.ts.map

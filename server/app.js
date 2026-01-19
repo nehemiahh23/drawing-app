@@ -1,5 +1,8 @@
-import { initialLoad } from "./routes.js";
-let page_url = "https://api.pexels.com/v1/curated?per_page=12";
-const photos = await initialLoad(page_url);
-export default photos;
+import express from "express";
+import routes from "./routes.js";
+const app = express();
+routes(app);
+app.listen(3000, () => {
+    console.log("Server running on port 3000");
+});
 //# sourceMappingURL=app.js.map

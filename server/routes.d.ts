@@ -1,4 +1,3 @@
-import type { Photo } from "./app.js";
-import "dotenv/config";
-export declare function initialLoad(page_url: string): Promise<Photo[]>;
+import type { Application } from "express";
+export default function routes(app: Application): void;
 //# sourceMappingURL=routes.d.ts.map
