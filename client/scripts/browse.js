@@ -5,7 +5,7 @@ const charError = document.getElementById("char-error")
 const imgModal = document.getElementById("img-modal")
 let disable = false
 
-fetch("http://localhost:3000/")
+fetch("http://localhost:3000/curated")
 .then(r => r.json())
 .then(data => {
 	data.forEach(img => container.appendChild(renderCard(img)))
@@ -41,10 +41,10 @@ function handleHover(e) {
 }
 
 function handleInput(e) {
-	if (e.key.match(/[^\w\s]/)) {
-		e.preventDefault()
-		displayMessage(charError, "Titles cannot contain special characters!")
-	}
+	// if (e.key.match(/[^\w\s]/)) {
+	// 	e.preventDefault()
+	// 	displayMessage(charError, "Titles cannot contain special characters!")
+	// }
 	
 	if (e.target.value.length === 40 && e.key.match(/[\w\s]/)) {
 		displayMessage(charError, "Titles cannot be over 40 characters!")
@@ -64,10 +64,10 @@ function handleInput(e) {
 function handlePaste(e) {
 	const data = e.clipboardData.getData("text/plain")
 	
-	if (data.match(/[^\w\s]/)) {
-		e.preventDefault()
-		alert("Image titles cannot contain special characters.")
-	}
+	// if (data.match(/[^\w\s]/)) {
+	// 	e.preventDefault()
+	// 	alert("Image titles cannot contain special characters.")
+	// }
 
 	if (e.target.value.length === 40 && e.key.match(/[\w\s]/)) {
 		displayMessage(charError, "Titles cannot be over 40 characters!")
