@@ -10,12 +10,10 @@ interface PhotoResponse {
 }
 
 const API_KEY: string = process.env.PEXELS_KEY as string
-let nextPage: string = "https://api.pexels.com/v1/curated?per_page=3"
 
-export async function initialLoad(): Promise<Photo[]> {
+export async function initialLoad(page_url: string): Promise<Photo[]> {
 	const results: Photo[] = []
-	// TODO: ADD HEADERS AND CATCH CANCER AGAIN
-	const response = await fetch(nextPage, { headers: new Headers({ "Authorization": API_KEY })})
+	const response = await fetch(page_url, { headers: new Headers({ "Authorization": API_KEY })})
 	if (!response.ok) { throw new Error(`API call responded with ${response.statusText}`) }
 	const data = await response.json() as PhotoResponse
 	
@@ -30,8 +28,7 @@ export async function initialLoad(): Promise<Photo[]> {
 		results.push(newPhoto)
 	})
 
-	nextPage = data.next_page
-	console.log(results)
+	page_url = data.next_page
 
 	return results
 }
