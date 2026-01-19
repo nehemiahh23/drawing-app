@@ -1,4 +1,5 @@
+import { initialLoad } from "./routes.js";
+initialLoad();
 const photos = [];
-export let next_url;
 export default photos;
 //# sourceMappingURL=app.js.map

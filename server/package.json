@@ -4,8 +4,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"start": "npx tsc && node app.js",
-	"dev": "tsc-watch -b ./tsconfig.json --onSuccess \"nodemon app.js\""
+    "start": "npx tsc && node app.js",
+    "dev": "tsc-watch -b ./tsconfig.json --onSuccess \"nodemon app.js\""
   },
   "keywords": [],
   "author": "",
@@ -16,5 +16,8 @@
     "@types/node": "^25.0.9",
     "nodemon": "^3.1.11",
     "tsc-watch": "^7.2.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
   }
 }

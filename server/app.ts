@@ -1,12 +1,12 @@
-interface Photo {
+import { initialLoad } from "./routes.js"
+initialLoad()
+export interface Photo {
+	id: Number,
 	src: String,
 	url: String,
 	author: String
 }
 
 const photos: Photo[] = []
-export let next_url: String
-
-
 
 export default photos
