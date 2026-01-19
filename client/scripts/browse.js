@@ -5,7 +5,7 @@ const charError = document.getElementById("char-error")
 const imgModal = document.getElementById("img-modal")
 let disable = false
 
-fetch("http://localhost:3000/curated")
+fetch("http://localhost:3000/")
 .then(r => r.json())
 .then(data => {
 	data.forEach(img => container.appendChild(renderCard(img)))
