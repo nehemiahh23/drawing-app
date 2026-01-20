@@ -8,7 +8,7 @@ Image cards are added dynamically using JavaScript document fragments. Paginated
 Images won't display on the page unless the Express server is running. To activate it:
 
 1. Navigate to the ``/server`` folder.
-2. Create a ``.env`` file.
+2. Open ``.env``:
 	- Set ``PEXELS_KEY`` equal to [your Pexels API KEY](https://www.pexels.com/api/key/)
 	- Set ``CLIENT_PORT`` equal to the port you will use for the frontend
 3. Run ``npm install``
