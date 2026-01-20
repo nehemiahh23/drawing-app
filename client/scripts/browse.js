@@ -29,7 +29,7 @@ function renderCard(data) {
 	// card.id = `img${data.id}`
 	img.src = data.src
 	img.alt = data.alt
-	author.textContent = data.author
+	author.textContent = `by ${data.author}`
 	card.appendChild(img)
 	card.appendChild(author)
 	
@@ -81,7 +81,10 @@ function handlePageChange(e) {
 	
 	fetch(`http://localhost:3000/${e.target.id}`)
 	.then(r => {
-		if (r.status == 400) { throw new Error("400 Bad request") }
+		if (r.status == 400) {
+			alert("Page does not exist!")
+			throw new Error("400 Bad request")
+		}
 		return r.json()
 	})
 	.then(data => {
