@@ -13,12 +13,12 @@
   "description": "",
   "type": "module",
   "devDependencies": {
-    "@types/express": "^5.0.6",
-    "@types/node": "^25.0.9",
-    "nodemon": "^3.1.11",
-    "tsc-watch": "^7.2.0"
-  },
-  "dependencies": {
+	  "nodemon": "^3.1.11",
+	  "tsc-watch": "^7.2.0"
+	},
+	"dependencies": {
+	"@types/express": "^5.0.6",
+	"@types/node": "^25.0.9",
     "dotenv": "^17.2.3",
     "express": "^5.2.1"
   }
