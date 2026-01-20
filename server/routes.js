@@ -1,6 +1,6 @@
 import { loadPhotos } from "./functions.js";
 import "dotenv/config";
-const PORT = process.env.FE_PORT;
+const PORT = process.env.CLIENT_PORT;
 const photoCache = [];
 let pageUrl = "https://api.pexels.com/v1/curated?page=1&per_page=12";
 let page = 0;

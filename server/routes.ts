@@ -3,7 +3,7 @@ import type { Application } from "express"
 import type { Photo } from "./app.js"
 import "dotenv/config"
 
-const PORT: string = process.env.FE_PORT as string
+const PORT: string = process.env.CLIENT_PORT as string
 const photoCache: Array<Photo[]> = []
 let pageUrl: string = "https://api.pexels.com/v1/curated?page=1&per_page=12"
 let page: number = 0

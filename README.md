@@ -10,7 +10,7 @@ Images won't display on the page unless the Express server is running. To activa
 1. Navigate to the ``/server`` folder.
 2. Create a ``.env`` file.
 	- Set ``PEXELS_KEY`` equal to [your Pexels API KEY](https://www.pexels.com/api/key/)
-	- Set ``FE_PORT`` equal to the port you will use for the frontend
+	- Set ``CLIENT_PORT`` equal to the port you will use for the frontend
 3. Run ``npm install``
 4. Run ``npm start``
 	- The backend server runs on port 3000
