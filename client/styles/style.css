@@ -79,8 +79,9 @@ main {
     align-items: center;
 }
 
-.card img {
+.card a, .card img {
 	/* width: 100%; */
+	z-index: 2;
 	height: 100%;
 	transition: height 0.5s;
 }

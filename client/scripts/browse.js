@@ -22,15 +22,19 @@ pageBtns.addEventListener("click", handlePageChange)
 
 function renderCard(data) {
 	const card = document.createElement("div")
+	const a = document.createElement("a")
 	const img = document.createElement("img")
 	const author = document.createElement("h3")
 
 	card.className = "card"
 	// card.id = `img${data.id}`
+	a.href = data.url
+	a.target = "_blank"
 	img.src = data.src
 	img.alt = data.alt
 	author.textContent = `by ${data.author}`
-	card.appendChild(img)
+	a.appendChild(img)
+	card.appendChild(a)
 	card.appendChild(author)
 	
 	return card
