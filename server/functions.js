@@ -1,6 +1,6 @@
 import "dotenv/config";
 const API_KEY = process.env.PEXELS_KEY;
-export async function initialLoad(page_url) {
+export async function loadPhotos(page_url) {
     const results = [];
     const response = await fetch(page_url, { headers: new Headers({ "Authorization": API_KEY }) });
     if (!response.ok) {

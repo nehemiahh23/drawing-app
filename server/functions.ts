@@ -3,7 +3,7 @@ import "dotenv/config"
 
 const API_KEY: string = process.env.PEXELS_KEY as string
 
-export async function initialLoad(page_url: string): Promise<[Photo[], string]> {
+export async function loadPhotos(page_url: string): Promise<[Photo[], string]> {
 	const results: Photo[] = []
 	const response = await fetch(page_url, { headers: new Headers({ "Authorization": API_KEY })})
 	if (!response.ok) { throw new Error(`API call responded with ${response.statusText}`) }
