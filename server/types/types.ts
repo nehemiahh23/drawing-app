@@ -2,7 +2,7 @@ export interface Photo {
 	id: number,
 	src: String,
 	url: String,
-	author: String,
+	author: String | Number,
 	alt: String
 }
 
@@ -24,5 +24,6 @@ export interface User {
 export interface Comment {
 	id: number,
 	userId: number,
+	photoId: number,
 	content: String
 }
