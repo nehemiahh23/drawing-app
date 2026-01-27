@@ -1,4 +1,4 @@
-import type { Photo, PhotoResponse } from "./app.js"
+import type { Photo, PhotoResponse } from "./types/types.js"
 import "dotenv/config"
 
 const API_KEY: string = process.env.PEXELS_KEY as string

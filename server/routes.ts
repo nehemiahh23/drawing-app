@@ -1,6 +1,6 @@
 import { loadPhotos } from "./functions.js"
 import type { Application } from "express"
-import type { Photo } from "./app.js"
+import type { Photo } from "./types/types.js"
 import "dotenv/config"
 
 const PORT: string = process.env.CLIENT_PORT as string

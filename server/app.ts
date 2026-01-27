@@ -1,26 +1,19 @@
 import express from "express"
 import routes from "./routes.js"
 
+// setup
 const app = express()
 
-export interface Photo {
-	id: Number,
-	src: String,
-	url: String,
-	author: String,
-	alt: String
-}
+// mw
 
-export interface PhotoResponse {
-	page: number,
-	per_page: number,
-	photos: Array<{ id: number, src: { original: string }, url: string, photographer: string, alt: string }>,
-	total_results: number,
-	next_page: string
-}
+// view engine
 
+// routes
 routes(app)
 
+// err mw
+
+// listener
 app.listen(3000, () => {
 	console.log("Server running on port 3000")
 })
