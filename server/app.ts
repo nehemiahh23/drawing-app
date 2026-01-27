@@ -3,7 +3,7 @@ import userRoutes from "./routes/userRoutes.js"
 import photoRoutes from "./routes/photoRoutes.js"
 import commentRoutes from "./routes/commentRoutes.js"
 import routes from "./routes.js"
-import { requestLogger } from "./middleware/middleware.js"
+import { requestLogger, globalError } from "./middleware/middleware.js"
 
 // setup
 const app = express()
@@ -20,6 +20,7 @@ app.use("/api/photos", photoRoutes)
 app.use("/api/comments", commentRoutes)
 
 // err mw
+app.use(globalError)
 
 // listener
 app.listen(3000, () => {

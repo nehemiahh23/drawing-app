@@ -23,8 +23,35 @@ router.route("/")
     else {
         rs.status(400).json({ error: "Insufficient data to create resource." });
     }
-})
+});
+router.route("/:id")
     .patch((rq, rs) => {
+    const { username, password } = rq.body;
+    const user = users.find(user => user.id === Number(rq.params.id));
+    if (!user) {
+        console.log(user);
+        rs.status(404).json({ error: "User does not exist." });
+        return;
+    }
+    if (user.username === username) {
+        rs.status(304).json({ error: "Username not modified." });
+        return;
+    }
+    if (users.find((user) => user.username === username)) {
+        rs.status(409).json({ error: "User already exists with that username." });
+        return;
+    }
+    if (username && !password) {
+        user.username = username;
+        rs.json(user);
+    }
+    else if (password && !username) { // separate for validation/encryption purposes
+        user.password = password;
+        rs.json(user);
+    }
+    else {
+        rs.status(400).json({ error: "Invalid data to update resource." });
+    }
 })
     .delete((rq, rs) => {
 });
