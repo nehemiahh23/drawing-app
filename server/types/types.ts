@@ -1,5 +1,5 @@
 export interface Photo {
-	id: Number,
+	id: number,
 	src: String,
 	url: String,
 	author: String,
@@ -15,14 +15,14 @@ export interface PhotoResponse {
 }
 
 export interface User {
-	id: Number,
+	id: number,
 	username: String,
 	password: String,
 	favorites: Photo[]
 }
 
 export interface Comment {
-	id: Number,
-	userId: Number,
+	id: number,
+	userId: number,
 	content: String
 }

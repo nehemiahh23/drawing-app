@@ -15,7 +15,7 @@ app.use(requestLogger)
 // view engine
 
 // routes
-app.use("/api/users", userRoutes)
+app.use("/users", userRoutes)
 app.use("/api/photos", photoRoutes)
 app.use("/api/comments", commentRoutes)
 

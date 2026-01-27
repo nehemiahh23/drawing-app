@@ -8,5 +8,14 @@ router.route("/")
 .get((_rq, rs) => {
 	rs.json(comments)
 })
+.post((rq, rs) => {
+	
+})
+.patch((rq, rs) => {
+	
+})
+.delete((rq, rs) => {
+	
+})
 
 export default router
