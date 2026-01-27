@@ -36,7 +36,7 @@ router.route("/:id")
 
 	if (!user) {
 		console.log(user)
-		rs.status(404).json({ error: "User does not exist." })
+		rs.status(400).json({ error: "User does not exist." })
 		return
 	}
 	
@@ -61,7 +61,13 @@ router.route("/:id")
 	}
 })
 .delete((rq, rs) => {
-	
+	const user: User = users.find((user, i) => {
+		if (user.id === Number(rq.params.id)) {
+			return users.splice(i, 1)
+		}
+	}) as User
+
+	user ? rs.json(user) : rs.status(400).json({ error: "User does not exist." })
 })
 
 export default router

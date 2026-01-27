@@ -30,7 +30,7 @@ router.route("/:id")
     const user = users.find(user => user.id === Number(rq.params.id));
     if (!user) {
         console.log(user);
-        rs.status(404).json({ error: "User does not exist." });
+        rs.status(400).json({ error: "User does not exist." });
         return;
     }
     if (user.username === username) {
@@ -54,6 +54,12 @@ router.route("/:id")
     }
 })
     .delete((rq, rs) => {
+    const user = users.find((user, i) => {
+        if (user.id === Number(rq.params.id)) {
+            return users.splice(i, 1);
+        }
+    });
+    user ? rs.json(user) : rs.status(400).json({ error: "User does not exist." });
 });
 export default router;
 //# sourceMappingURL=userRoutes.js.map
