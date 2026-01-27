@@ -1,12 +1,18 @@
-# The Document Object Model
-## Per Scholas Module 316 SBA
+# JavaScript Web Application
+## Per Scholas Module 308A SBA
 
-A simple image browser that uses DOM manipulation to carry out its functions. Currently stores image data in *db.json*. 
+An image browser that caches paginated sets of images in an Express.js server and calls on the [Pexels](https://www.pexels.com/api/documentation/) API for stock images. 
 
-Image cards are added dynamically using JavaScript document fragments. The search function filters through the templated elements and hides them using CSS properties. 
+Image cards are added dynamically using JavaScript document fragments. Paginated data is stored in an array which persists as long as the express server is running. API calls are only made when a new page of images is needed. 
 
-Images won't display on the page unless the json server is running. To activate it:
+Images won't display on the page unless the Express server is running. To activate it:
 
-1. Navigate to the project root folder.
-2. Run ``npm install``
-3. Run ``json-server --watch db.json --port=3002``
+1. Navigate to the ``/server`` folder.
+2. Open ``.env``:
+	- Set ``PEXELS_KEY`` equal to [your Pexels API KEY](https://www.pexels.com/api/key/)
+	- Set ``CLIENT_PORT`` equal to the port you will use for the frontend
+3. Run ``npm install``
+4. Run ``npm start``
+	- The backend server runs on port 3000
+
+The images are viewable from the ``/pages/browse.html`` route.
