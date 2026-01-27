@@ -5,8 +5,8 @@ import photos from "../db/photos.js"
 const router = express.Router()
 
 router.route("/")
-.get((_rq, rs) => {
-	rs.json(photos)
+.get((rq, rs) => {
+	rq.query.id ? rs.json(photos.find(photo => photo.id === Number(rq.query.id))) : rs.json(photos)
 })
 .post((rq, rs) => {
 	// should check user session before anything

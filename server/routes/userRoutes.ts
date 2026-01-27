@@ -5,6 +5,14 @@ import users from "../db/users.js"
 const router = express.Router()
 
 router.route("/")
+.get((rq, rs) => {
+	if (rq.query.id) {
+		const user = users.find(user => user.id === Number(rq.query.id))
+		user ? rs.json(user) : rs.status(400).json({ error: "User does not exist." })
+	} else {
+		rs.status(403).json({ error: "Forbidden resource." })
+	}
+})
 .post((rq, rs) => {
 	const { username, password } = rq.body
 	const lastUser: User = users.at(-1) as User
