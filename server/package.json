@@ -4,8 +4,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx tsc && node app.js",
-    "dev": "tsc-watch -b ./tsconfig.json --onSuccess \"nodemon app.js\""
+    "start": "npx tsc && node dist/app.js",
+    "dev": "tsc-watch -b ./tsconfig.json --onSuccess \"nodemon dist/app.js\""
   },
   "keywords": [],
   "author": "",
