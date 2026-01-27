@@ -20,4 +20,15 @@ export interface PhotoResponse {
     total_results: number;
     next_page: string;
 }
+export interface User {
+    id: Number;
+    username: String;
+    password: String;
+    favorites: Photo[];
+}
+export interface Comment {
+    id: Number;
+    userId: Number;
+    content: String;
+}
 //# sourceMappingURL=types.d.ts.map
