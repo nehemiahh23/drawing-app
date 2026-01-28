@@ -12,9 +12,9 @@ export function getPhotoComments(rq: Request, rs: Response) {
 			rs.status(400).json({ error: "Requested resource does not exist." })
 			return
 		}
-
+		
 		const ids = photo.comment_ids as number[]
-
+		
 		ids.forEach((id) => {
 			const comment: Comment = comments.find(c => c.id === id) as Comment
 			data.push(comment)
@@ -32,9 +32,14 @@ export function deleteComment(rq: Request, rs: Response) {
 			return comments.splice(i, 1)
 		}
 	}) as Comment
+	const photo: Photo = photos.find(photo => photo.id === comment.photoId) as Photo
+	
+	if (!photo) {
+		rs.status(400).json({ error: "Requested resource does not exist." })
+		return
+	}
 
 	if (comment) {
-		const photo: Photo = photos.find(photo => photo.id === comment.photoId) as Photo
 		photo.comment_ids.find((id, i) => {
 			id === comment.id ? photo.comment_ids.splice(i, 1) : null
 		})
@@ -50,7 +55,13 @@ export function createComment(rq: Request, rs: Response) {
 	const content = rq.body.content
 	const lastComment: Comment = comments.at(-1) as Comment
 	const i: number = lastComment ? lastComment.id + 1 : 1
+	const photo: Photo = photos.find(photo => photo.id === Number(rq.params.photo_id)) as Photo
 	
+	if (!photo) {
+		rs.status(400).json({ error: "Photo does not exist." })
+		return
+	}
+
 	if (content) {
 		// TODO: push i to photo comment id array
 		const newComment: Comment = {
@@ -59,7 +70,6 @@ export function createComment(rq: Request, rs: Response) {
 			photoId: Number(rq.params.photo_id),
 			userId: 0 // currently logged in user id
 		}
-		const photo: Photo = photos.find(photo => photo.id === Number(rq.params.photo_id)) as Photo
 
 		comments.push(newComment)
 		photo.comment_ids.push(i)

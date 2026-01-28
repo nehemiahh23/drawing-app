@@ -25,8 +25,12 @@ export function deleteComment(rq, rs) {
             return comments.splice(i, 1);
         }
     });
+    const photo = photos.find(photo => photo.id === comment.photoId);
+    if (!photo) {
+        rs.status(400).json({ error: "Requested resource does not exist." });
+        return;
+    }
     if (comment) {
-        const photo = photos.find(photo => photo.id === comment.photoId);
         photo.comment_ids.find((id, i) => {
             id === comment.id ? photo.comment_ids.splice(i, 1) : null;
         });
@@ -41,6 +45,11 @@ export function createComment(rq, rs) {
     const content = rq.body.content;
     const lastComment = comments.at(-1);
     const i = lastComment ? lastComment.id + 1 : 1;
+    const photo = photos.find(photo => photo.id === Number(rq.params.photo_id));
+    if (!photo) {
+        rs.status(400).json({ error: "Photo does not exist." });
+        return;
+    }
     if (content) {
         // TODO: push i to photo comment id array
         const newComment = {
@@ -49,7 +58,6 @@ export function createComment(rq, rs) {
             photoId: Number(rq.params.photo_id),
             userId: 0 // currently logged in user id
         };
-        const photo = photos.find(photo => photo.id === Number(rq.params.photo_id));
         comments.push(newComment);
         photo.comment_ids.push(i);
         rs.json(newComment);
