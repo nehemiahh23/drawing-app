@@ -1,21 +1,15 @@
 import express from "express"
-import type { Comment } from "../types/types.js"
-import comments from "../db/comments.js"
+import * as commentController from "../controllers/commentController.js"
 
 const router = express.Router()
 
 router.route("/")
-.get((_rq, rs) => {
-	rs.json(comments)
-})
-.post((rq, rs) => {
-	
-})
-.patch((rq, rs) => {
-	
-})
-.delete((rq, rs) => {
-	
-})
+.get(commentController.getPhotoComments)
+
+router.route("/:id")
+.delete(commentController.deleteComment)
+
+router.route("/:photo_id/new")
+.post(commentController.createComment)
 
 export default router

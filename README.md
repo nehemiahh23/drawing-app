@@ -1,6 +1,8 @@
 # Per Scholas Module 318 SBA
 <!-- TODO: Add info about technologies used -->
 <!-- TODO: Add info about API endpoints (table?) -->
+<!-- TODO: Add session functionality -->
+<!-- TODO: Add auth functionality -->
 
 - Create and use at least two pieces of custom middleware.
 - Create and use error-handling middleware.

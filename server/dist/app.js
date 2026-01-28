@@ -2,7 +2,7 @@ import express from "express";
 import userRoutes from "./routes/userRoutes.js";
 import photoRoutes from "./routes/photoRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
-import routes from "./routes.js";
+// import routes from "./routes.js"
 import { requestLogger, globalError } from "./middleware/middleware.js";
 // setup
 const app = express();

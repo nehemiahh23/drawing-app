@@ -4,6 +4,7 @@ export interface Photo {
     url: String;
     author: String | Number;
     alt: String;
+    comment_ids: Number[];
 }
 export interface PhotoResponse {
     page: number;
