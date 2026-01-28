@@ -3,11 +3,26 @@ import type { User } from "../types/types.js"
 import users from "../db/users.js"
 
 export function getUser(rq: Request, rs: Response) {
-	if (rq.query.id) {
-		const user = users.find(user => user.id === Number(rq.query.id))
-		user ? rs.json(user) : rs.status(400).json({ error: "User does not exist." })
+	const username = rq.query.username
+	const password = rq.query.password
+
+	if (!username || !password) {
+		rs.redirect("/login/invalid")
+		return
+	}
+	
+	const user = users.find(user => user.username === username)
+	
+	if (user) {
+		if (password !== user.password) {
+			rs.redirect("/login/invalid")
+			return
+		}
+		rs.redirect("/photos")
 	} else {
-		rs.status(403).json({ error: "Forbidden resource." })
+		// rs.status(400).json({ error: "User does not exist." })
+		rs.redirect("/login/invalid")
+		return
 	}
 }
 
@@ -15,9 +30,10 @@ export function createUser(rq: Request, rs: Response) {
 	const { username, password } = rq.body
 	const lastUser: User = users.at(-1) as User
 	const i: number = lastUser ? lastUser.id + 1 : 1
-
+	
 	if (users.find((user) => user.username === username)) {
-		rs.status(409).json({ error: "User already exists with that username." })
+		// rs.status(409).json({ error: "User already exists with that username." })
+		rs.redirect("/register/invalid")
 		return
 	}
 	
@@ -29,9 +45,11 @@ export function createUser(rq: Request, rs: Response) {
 			favorites: []
 		}
 		users.push(newUser)
-		rs.json(newUser)	
+		rs.redirect("/photos")
 	} else {
-		rs.status(400).json({ error: "Insufficient data to create resource." })
+		// rs.status(400).json({ error: "Insufficient data to create resource." })
+		rs.redirect("/register/invalid")
+		return
 	}
 }
 

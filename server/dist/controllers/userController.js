@@ -1,11 +1,23 @@
 import users from "../db/users.js";
 export function getUser(rq, rs) {
-    if (rq.query.id) {
-        const user = users.find(user => user.id === Number(rq.query.id));
-        user ? rs.json(user) : rs.status(400).json({ error: "User does not exist." });
+    const username = rq.query.username;
+    const password = rq.query.password;
+    if (!username || !password) {
+        rs.redirect("/login/invalid");
+        return;
+    }
+    const user = users.find(user => user.username === username);
+    if (user) {
+        if (password !== user.password) {
+            rs.redirect("/login/invalid");
+            return;
+        }
+        rs.redirect("/photos");
     }
     else {
-        rs.status(403).json({ error: "Forbidden resource." });
+        // rs.status(400).json({ error: "User does not exist." })
+        rs.redirect("/login/invalid");
+        return;
     }
 }
 export function createUser(rq, rs) {
@@ -13,7 +25,8 @@ export function createUser(rq, rs) {
     const lastUser = users.at(-1);
     const i = lastUser ? lastUser.id + 1 : 1;
     if (users.find((user) => user.username === username)) {
-        rs.status(409).json({ error: "User already exists with that username." });
+        // rs.status(409).json({ error: "User already exists with that username." })
+        rs.redirect("/register/invalid");
         return;
     }
     if (username && password) {
@@ -24,10 +37,12 @@ export function createUser(rq, rs) {
             favorites: []
         };
         users.push(newUser);
-        rs.json(newUser);
+        rs.redirect("/photos");
     }
     else {
-        rs.status(400).json({ error: "Insufficient data to create resource." });
+        // rs.status(400).json({ error: "Insufficient data to create resource." })
+        rs.redirect("/register/invalid");
+        return;
     }
 }
 export function editUser(rq, rs) {
