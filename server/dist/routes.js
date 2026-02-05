@@ -2,17 +2,14 @@
 // import type { Application } from "express"
 // import type { Photo } from "./types/types.js"
 // import "dotenv/config"
-
+export {};
 // const PORT: string = process.env.CLIENT_PORT as string
 // const photoCache: Array<Photo[]> = []
 // let pageUrl: string = "https://api.pexels.com/v1/curated?page=1&per_page=12"
 // let page: number = 0
-
 // export default function routes(app: Application): void {
-
 // 	app.get("/", async (rq, rs) => {
 // 		page = 0
-
 // 		if (photoCache[0]) {
 // 			console.log(page)
 // 			rs.setHeader("Access-Control-Allow-Origin", `http://localhost:${PORT}`)
@@ -25,10 +22,8 @@
 // 			photoCache.push(data[0])
 // 		}
 // 	})
-	
 // 	app.get("/next", async (rq, rs) => {
 // 		page++
-		
 // 		if (photoCache[page + 1]) {
 // 			console.log(page)
 // 			rs.setHeader("Access-Control-Allow-Origin", `http://localhost:${PORT}`)
@@ -41,7 +36,6 @@
 // 			photoCache.push(data[0])
 // 		}
 // 	})
-	
 // 	app.get("/prev", async (rq, rs) => {
 // 		if (photoCache[page - 1]) {
 // 			page--
@@ -57,3 +51,4 @@
 // 		}
 // 	})
 // }
+//# sourceMappingURL=routes.js.map
