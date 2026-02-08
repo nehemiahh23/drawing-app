@@ -1,5 +1,5 @@
 import type { Request, Response } from "express"
-import type { User } from "../types/types.js"
+import type { User } from "../models/types.js";
 import users from "../db/users.js"
 
 export function getUser(rq: Request, rs: Response) {

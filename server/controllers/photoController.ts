@@ -1,5 +1,5 @@
 import type { Request, Response } from "express"
-import type { Photo } from "../types/types.js"
+import type { Photo } from "../models/types.js";
 import photos from "../db/photos.js"
 
 export function getPhotos(rq: Request, rs: Response) {

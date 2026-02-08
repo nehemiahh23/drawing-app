@@ -1,4 +1,4 @@
-import type { Photo } from "../types/types.js";
+import type { Photo } from "../models/types.js";
 
 const photos: Photo[] = [
     {

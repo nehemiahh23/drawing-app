@@ -1,4 +1,4 @@
-import type { User } from "../types/types.js";
+import type { User } from "../models/types.js";
 
 const users: User[] = [
 	{

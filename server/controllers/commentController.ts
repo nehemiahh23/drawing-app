@@ -1,5 +1,5 @@
 import type { Request, Response } from "express"
-import type { Comment, Photo } from "../types/types.js"
+import type { Comment, Photo } from "../models/types.js";
 import comments from "../db/comments.js"
 import photos from "../db/photos.js"
 

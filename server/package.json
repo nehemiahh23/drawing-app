@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx tsc && node dist/app.js",
-    "dev": "tsc-watch -b ./tsconfig.json --onSuccess \"nodemon dist/app.js\""
+    "dev": "tsc-watch -b ./tsconfig.json --onSuccess \"nodemon dist/app.js\"",
+	"clean": "rm -rf dist && mkdir dist && npx tsc"
   },
   "keywords": [],
   "author": "",
