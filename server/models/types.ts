@@ -1,22 +1,19 @@
-export interface Photo {
-	id: number,
-	src: String,
-	url: String,
-	author: String | Number,
-	alt: String
-	comment_ids: Number[]
+export interface Drawing {
+	src: string,
+	userId: string | number,
+	title: string,
+	likes: number
+	commentIds: number[]
 }
 
 export interface User {
-	id: number,
-	username: String,
-	password: String,
-	favorites: Photo[]
+	username: string,
+	password: string,
+	favorites: Drawing[]
 }
 
 export interface Comment {
-	id: number,
 	userId: number,
-	photoId: number,
-	content: String
+	drawingId: number,
+	content: string
 }

@@ -38,12 +38,12 @@ Description Paragraph
 | POST | /users | Creates a user with a unique id and provided username. |
 | PATCH | /users/:id | Edit the given users username or password. |
 | DELETE | /users/:id | Deletes the selected user. |
-| GET | /api/photos | Returns all photos. Can query a specific image by `id`. |
-| POST | /api/photos | Create new photo. |
-| DELETE | /api/photos/:id | Delete the selected photo |
-| GET | /api/comments | Get the comments on the queried `photo_id` matching the query params. |
+| GET | /api/drawings | Returns all drawings. Can query a specific image by `id`. |
+| POST | /api/drawings | Create new drawing. |
+| DELETE | /api/drawings/:id | Delete the selected drawing |
+| GET | /api/comments | Get the comments on the queried `drawing_id` matching the query params. |
 | DELETE | /api/comments/:id | Delete the selected comment |
-| POST | /api/comments/:photo_id/new | Post a new comment under the given photo. |
+| POST | /api/comments/:drawing_id/new | Post a new comment under the given drawing. |
 | GET | /login | View that uses a form and the GET /users route for logins. |
 | GET | /register | View that uses a form and the POST /users route to create users. |
-| GET | /photos | View that displays all the photos in the db. |
+| GET | /drawings | View that displays all the drawings in the db. |

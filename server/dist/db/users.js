@@ -1,6 +1,5 @@
 const users = [
     {
-        id: 1,
         username: "nelihenry",
         password: "password123",
         favorites: []

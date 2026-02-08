@@ -4,12 +4,12 @@ import * as commentController from "../controllers/commentController.js"
 const router = express.Router()
 
 router.route("/")
-.get(commentController.getPhotoComments)
+// .get(commentController.getDrawingComments)
 
 router.route("/:id")
-.delete(commentController.deleteComment)
+// .delete(commentController.deleteComment)
 
-router.route("/:photo_id/new")
-.post(commentController.createComment)
+router.route("/:drawing_id/new")
+// .post(commentController.createComment)
 
 export default router
