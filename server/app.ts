@@ -1,4 +1,6 @@
 import express from "express"
+import "dotenv/config"
+import connect from "./db/conn.js"
 import fs from "fs"
 import photos from "./db/photos.js"
 import userRoutes from "./routes/userRoutes.js"
@@ -9,6 +11,8 @@ import { requestLogger, globalError } from "./middleware/middleware.js"
 
 // setup
 const app = express()
+const PORT = process.env.SERVER_PORT || 3001
+connect()
 
 // mw
 app.use(express.urlencoded({ extended: true }))
@@ -62,6 +66,6 @@ app.get("/photos", (rq, rs) => {
 app.use(globalError)
 
 // listener
-app.listen(3000, () => {
-	console.log("Server running on port 3000")
+app.listen(PORT, () => {
+	console.log(`Server running on port ${PORT}.`)
 })
