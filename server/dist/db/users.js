@@ -1,5 +1,6 @@
 const users = [
     {
+        email: "me@here.com",
         username: "nelihenry",
         password: "password123",
         likes: []

@@ -4,15 +4,21 @@ import Drawing from "./drawingSchema.js"
 
 const userSchema = new mongoose.Schema<IUser>(
 	{
+		email: {
+			type: String,
+			required: true,
+			unique: true
+		},
 		username: {
 			type: String,
-			required: true
+			required: true,
+			unique: true
 		},
 		password: {
 			type: String,
 			required: true
 		},
-		likes: [Drawing]
+		likes: [String]
 	}
 )
 

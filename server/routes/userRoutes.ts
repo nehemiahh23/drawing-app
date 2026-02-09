@@ -5,10 +5,10 @@ const router = express.Router()
 
 router.route("/")
 // .get(userController.getUser)
-// .post(userController.createUser)
+.post(userController.createUser)
 
 router.route("/:id")
-// .patch(userController.editUser)
-// .delete(userController.deleteUser)
+.put(userController.editUser)
+.delete(userController.deleteUser)
 
 export default router

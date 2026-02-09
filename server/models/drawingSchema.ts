@@ -13,7 +13,8 @@ const drawingSchema = new mongoose.Schema<IDrawing>(
 		},
 		title: {
 			type: String,
-			required: true
+			required: true,
+			unique: true
 		},
 		likes: {
 			type: Number,
