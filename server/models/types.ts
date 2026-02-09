@@ -1,15 +1,15 @@
-export interface Drawing {
+export interface IDrawing {
 	src: string,
-	userId: string | number,
+	userId: string,
 	title: string,
-	likes: number
+	likes: number,
 	commentIds: number[]
 }
 
 export interface User {
 	username: string,
 	password: string,
-	favorites: Drawing[]
+	favorites: IDrawing[]
 }
 
 export interface Comment {

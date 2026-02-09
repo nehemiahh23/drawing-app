@@ -1,6 +1,6 @@
-import type { Drawing } from "../models/types.js";
+import type { IDrawing } from "../models/types.js";
 
-const drawings: Drawing[] = [
+const drawings: IDrawing[] = [
     
 ]
 
