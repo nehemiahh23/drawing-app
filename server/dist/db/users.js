@@ -2,7 +2,7 @@ const users = [
     {
         username: "nelihenry",
         password: "password123",
-        favorites: []
+        likes: []
     }
 ];
 export default users;

@@ -3,17 +3,17 @@ export interface IDrawing {
 	userId: string,
 	title: string,
 	likes: number,
-	commentIds: number[]
+	commentIds: string[]
 }
 
-export interface User {
+export interface IUser {
 	username: string,
 	password: string,
-	favorites: IDrawing[]
+	likes: IDrawing[]
 }
 
-export interface Comment {
-	userId: number,
-	drawingId: number,
+export interface IComment {
+	userId: string,
+	drawingId: string,
 	content: string
 }

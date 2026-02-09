@@ -1,10 +1,10 @@
-import type { User } from "../models/types.js";
+import type { IUser } from "../models/types.js";
 
-const users: User[] = [
+const users: IUser[] = [
 	{
 		username: "nelihenry",
 		password: "password123",
-		favorites: []
+		likes: []
 	}
 ]
 

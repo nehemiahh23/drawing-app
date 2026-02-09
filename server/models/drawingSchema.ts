@@ -1,7 +1,7 @@
-import { Schema } from "mongoose";
+import mongoose from "mongoose";
 import type { IDrawing } from "./types.js";
 
-const drawingSchema = new Schema<IDrawing>(
+const drawingSchema = new mongoose.Schema<IDrawing>(
 	{
 		src: {
 			type: String,
@@ -19,9 +19,10 @@ const drawingSchema = new Schema<IDrawing>(
 			type: Number,
 			required: true
 		},
-		commentIds: {
-			type: [Number],
-			required: true
-		}
+		commentIds: [String]
 	}
 )
+
+drawingSchema.set("timestamps", true)
+
+export default mongoose.model("Drawing", drawingSchema)

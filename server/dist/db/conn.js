@@ -5,7 +5,7 @@ async function connect() {
     try {
         await mongoose.connect(conn);
         console.log("MongoDB Connected Successfully.");
-        mongoose.pluralize(s => s);
+        // mongoose.pluralize(s => s)
     }
     catch (err) {
         console.error(err);
