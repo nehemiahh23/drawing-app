@@ -5,7 +5,7 @@ router.route("/")
     .get(drawingController.getDrawings)
     .post(drawingController.createDrawing);
 router.route("/:id")
-    .get(drawingController.getDrawings);
-// .delete(drawingController.deleteDrawing)
+    .get(drawingController.getDrawings)
+    .delete(drawingController.deleteDrawing);
 export default router;
 //# sourceMappingURL=drawingRoutes.js.map

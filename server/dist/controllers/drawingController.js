@@ -3,9 +3,8 @@ export async function getDrawings(rq, rs) {
     let data;
     if (rq.params.id) {
         data = await Drawing.find({ _id: rq.params.id });
-        if (!data) {
+        if (!data.length) {
             rs.status(404).json({ error: "Drawing does not exist." });
-            return;
         }
         else {
             rs.json(data);
@@ -13,8 +12,8 @@ export async function getDrawings(rq, rs) {
     }
     else {
         data = await Drawing.find({});
+        rs.json(data);
     }
-    rs.json(data);
 }
 export async function createDrawing(rq, rs) {
     const { src, title } = rq.body;
@@ -31,12 +30,18 @@ export async function createDrawing(rq, rs) {
         rs.status(400).json({ error: "Insufficient data to create resource." });
     }
 }
-// export function deleteDrawing(rq: Request, rs: Response) {
-// 	const drawing: Drawing = drawings.find((drawing, i) => {
-// 		if (drawing.id === Number(rq.params.id)) {
-// 			return drawings.splice(i, 1)
-// 		}
-// 	}) as Drawing
-// 	drawing ? rs.json(drawing) : rs.status(400).json({ error: "Drawing does not exist." })
-// }
+export async function deleteDrawing(rq, rs) {
+    if (!rq.params.id) {
+        rs.status(400).json({ error: "Must specify an id parameter to delete." });
+    }
+    else {
+        const target = await Drawing.findByIdAndDelete(rq.params.id);
+        if (!target) {
+            rs.status(404).json({ error: "Requested resource not found." });
+        }
+        else {
+            rs.json(target);
+        }
+    }
+}
 //# sourceMappingURL=drawingController.js.map

@@ -9,6 +9,6 @@ router.route("/")
 
 router.route("/:id")
 .get(drawingController.getDrawings)
-// .delete(drawingController.deleteDrawing)
+.delete(drawingController.deleteDrawing)
 
 export default router
