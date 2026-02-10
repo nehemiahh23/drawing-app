@@ -26,7 +26,6 @@ const drawingSchema = new mongoose.Schema({
             const data = [];
             for (let id of this.commentIds) {
                 const c = await Comment.findById(id);
-                console.log(c);
                 data.push(c);
             }
             return data;

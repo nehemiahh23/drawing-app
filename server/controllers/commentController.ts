@@ -24,7 +24,6 @@ export async function getDrawingComments(rq: Request, rs: Response) {
 		
 		if (drawing) {
 			const comments = await drawing.getComments()
-			console.log(comments)
 			if (comments.length) { rs.json(comments) }
 			else { rs.status(404).json({ error: "No comments on requested resource." }) }
 		} else {

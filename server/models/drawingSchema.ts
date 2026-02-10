@@ -31,7 +31,6 @@ const drawingSchema = new mongoose.Schema<IDrawing>(
 
 				for (let id of this.commentIds) {
 					const c: IComment = await Comment.findById(id) as IComment
-					console.log(c)
 					data.push(c)
 				}
 

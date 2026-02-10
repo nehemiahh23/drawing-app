@@ -23,7 +23,6 @@ export async function getDrawingComments(rq, rs) {
         const drawing = await Drawing.findById(rq.params.drawing_id);
         if (drawing) {
             const comments = await drawing.getComments();
-            console.log(comments);
             if (comments.length) {
                 rs.json(comments);
             }
