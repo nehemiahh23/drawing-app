@@ -24,6 +24,8 @@ Description Paragraph
 3. Run ``npm start``.
 	- For live updating, run ``npm run dev`` instead.
 
+## Usage
+
 ## Technologies Used
 - TypeScript
 - Node.js

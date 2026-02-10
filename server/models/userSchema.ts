@@ -22,6 +22,8 @@ const userSchema = new mongoose.Schema<IUser>(
 	}
 )
 
+userSchema.index({ username: "text" })
+
 userSchema.set("timestamps", true)
 
 export default mongoose.model("User", userSchema)
