@@ -3,7 +3,6 @@ import type { IComment } from "./types.js";
 
 const commentSchema = new mongoose.Schema<IComment>(
 	{
-		
 		userId: {
 			type: String,
 			required: true
@@ -18,4 +17,4 @@ const commentSchema = new mongoose.Schema<IComment>(
 
 commentSchema.set("timestamps", true)
 
-export default mongoose.model("Comment", commentSchema)
+export default mongoose.model<IComment>("Comment", commentSchema)

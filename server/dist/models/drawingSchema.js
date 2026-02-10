@@ -24,9 +24,11 @@ const drawingSchema = new mongoose.Schema({
     methods: {
         async getComments() {
             const data = [];
-            // for (let id of this.commentIds) {
-            // 	data.push(Comment.findById(id))
-            // }
+            for (let id of this.commentIds) {
+                const c = await Comment.findById(id);
+                console.log(c);
+                data.push(c);
+            }
             return data;
         }
     }
