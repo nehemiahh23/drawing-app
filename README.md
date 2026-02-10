@@ -8,6 +8,9 @@ An API and database that stores data for a full-stack social drawing app. Uses a
 
 ## Setup
 1. Navigate to the ``/server`` folder.
+2. Create your ``.env`` file, using ``.env.example`` as a template.
+	- Set the port that your Express server will listen on.
+	- Set your connection string. Note that this app uses Mongoose, which allows specifying the desired database at the end of the connection string.
 2. Run ``npm install`` to install dependencies.
 3. Run ``npm start``.
 	- For live code updating, run ``npm run dev`` instead.
