@@ -4,49 +4,33 @@
 <!-- TODO: Add session functionality -->
 <!-- TODO: Add auth functionality -->
 
-Description Paragraph
-
-- Use at least three different data collections within the database (such as users, posts, or comments).
-- Utilize reasonable data modeling practices.
-- Create GET routes for all data that should be exposed to the client, using appropriate query commands to retrieve the data from the database.
-- Create POST routes for data, as appropriate, using appropriate insertion commands to add data to the database. At least one data collection should allow for client creation via a POST request.
-- Create PATCH or PUT routes for data, as appropriate, using appropriate update commands to change data in the database. At least one data collection should allow for client manipulation via a PATCH or PUT request.
-- Create DELETE routes for data, as appropriate, using appropriate delete commands to remove data from the database. At least one data collection should allow for client deletion via a DELETE request.
-- Include sensible indexes for any and all fields that are queried frequently. For fields that may have a high write-to-read ratio, you may forgo indexes for performance considerations. Make comments of this where applicable.
-- Include sensible MongoDB data validation rules for at least one data collection.
-	- Note: this may be accomplished in a number of ways. If you choose to perform this task outside of your application's code, you must include a way to test the validation within the application's routes. This can be as simple as providing a POST route that attempts to create an invalid document and displays the resulting error.
-- Populate your application's collections with sample data illustrating the use case of the collections. You must include at least five sample documents per collection.
-	- Note: Double-check this requirement before submission. Testing your delete routes may leave you under the requirement. To be safe, populate your collections with sample data well above the requirement (we recommend 10-20 documents).
+An API and database that stores data for a full-stack social drawing app. Uses a MongoDB document database to store data for users, drawings, and post comments.
 
 ## Setup
 1. Navigate to the ``/server`` folder.
 2. Run ``npm install`` to install dependencies.
 3. Run ``npm start``.
-	- For live updating, run ``npm run dev`` instead.
+	- For live code updating, run ``npm run dev`` instead.
 
-## Usage
+<!-- ## Usage -->
 
 ## Technologies Used
 - TypeScript
 - Node.js
 - Express
 - MongoDB/Mongoose
-- [Fly.io](https://fly.io/)
-- [Go-Fast CDN](https://github.com/kevinanielsen/go-fast-cdn)
+- [Fly.io](https://fly.io/) (didnt get to it)
+- [Go-Fast CDN](https://github.com/kevinanielsen/go-fast-cdn) (didnt get to it)
 
 ## API Routes
 | Method | Path | Description |
 | --- | --- | --- |
-| GET | /users | Searches users for `username` and `password` matching the query params. |
-| POST | /users | Creates a user with a unique id and provided username. |
-| PATCH | /users/:id | Edit the given users username or password. |
+| POST | /users | Creates a user. Username and email must be unique. |
+| PUT | /users/:id | Edit the given users username and/or password. |
 | DELETE | /users/:id | Deletes the selected user. |
-| GET | /api/drawings | Returns all drawings. Can query a specific image by `id`. |
-| POST | /api/drawings | Create new drawing. |
+| GET | /api/drawings | Returns all drawings. Can also return a specific image by `/:id` parameter. |
+| POST | /api/drawings | Create new drawing. Title must be unique. User ID is currently a set placeholder value. |
 | DELETE | /api/drawings/:id | Delete the selected drawing |
-| GET | /api/comments | Get the comments on the queried `drawing_id` matching the query params. |
-| DELETE | /api/comments/:id | Delete the selected comment |
-| POST | /api/comments/:drawing_id/new | Post a new comment under the given drawing. |
-| GET | /login | View that uses a form and the GET /users route for logins. |
-| GET | /register | View that uses a form and the POST /users route to create users. |
-| GET | /drawings | View that displays all the drawings in the db. |
+| GET | /api/comments/post/:drawing_id | Get the comments associated with the `/:drawing_id`. |
+| POST | /api/comments/post/:drawing_id | Post a new comment under the `/:drawing_id`. |
+| DELETE | /api/comments/:id | Delete the selected comment. User ID is currently a set placeholder value. |
