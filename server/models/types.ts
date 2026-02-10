@@ -16,7 +16,7 @@ export interface IUser {
 	likes: IDrawing[]
 }
 
-export interface IComment {
+export interface IComment extends Document {
 	userId: string,
 	drawingId: string,
 	content: string

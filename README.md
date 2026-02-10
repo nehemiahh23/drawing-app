@@ -12,7 +12,8 @@ An API and database that stores data for a full-stack social drawing app. Uses a
 3. Run ``npm start``.
 	- For live code updating, run ``npm run dev`` instead.
 
-<!-- ## Usage -->
+## Usage
+- Use the ``/seed`` route to seed the db with test data.
 
 ## Technologies Used
 - TypeScript
@@ -25,6 +26,7 @@ An API and database that stores data for a full-stack social drawing app. Uses a
 ## API Routes
 | Method | Path | Description |
 | --- | --- | --- |
+| POST | /seed | Empties the database and seeds with test data from ``/utils/seed.ts``. |
 | POST | /users | Creates a user. Username and email must be unique. |
 | PUT | /users/:id | Edit the given users username and/or password. |
 | DELETE | /users/:id | Deletes the selected user. |
