@@ -3,13 +3,13 @@ import * as commentController from "../controllers/commentController.js"
 
 const router = express.Router()
 
-router.route("/")
-// .get(commentController.getDrawingComments)
-
 router.route("/:id")
 // .delete(commentController.deleteComment)
 
-router.route("/:drawing_id/new")
+router.route("/post/:drawing_id")
+.get(commentController.getDrawingComments)
+
+router.route("/new/:drawing_id")
 // .post(commentController.createComment)
 
 export default router

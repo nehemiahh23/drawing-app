@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Comment from "./commentSchema.js"
 import type { IDrawing } from "./types.js";
 
 const drawingSchema = new mongoose.Schema<IDrawing>(
@@ -21,9 +22,34 @@ const drawingSchema = new mongoose.Schema<IDrawing>(
 			required: true
 		},
 		commentIds: [String]
+	},
+	{
+		timestamps: true,
+		methods: {
+			async getComments() {
+				const data: any[] = []
+
+				// for (let id of this.commentIds) {
+				// 	data.push(Comment.findById(id))
+				// }
+
+				return data
+			}
+		}	
 	}
 )
 
-drawingSchema.set("timestamps", true)
+// drawingSchema.methods.getComments = async function (cb: Function) {
+// 	const data: any[] = []
 
-export default mongoose.model("Drawing", drawingSchema)
+// 	for (let id of this.commentIds) {
+// 		console.log(await Comment.findById({ _id: id }))
+// 		// data.push(Comment.findById({ _id: id }))
+// 	}
+
+// 	return data
+// }
+
+// drawingSchema.set("timestamps", true)
+
+export default mongoose.model<IDrawing>("Drawing", drawingSchema)

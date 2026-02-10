@@ -4,7 +4,7 @@ declare const _default: mongoose.Model<IComment, {}, {}, {
     id: string;
 }, mongoose.Document<unknown, {}, IComment, {
     id: string;
-}, mongoose.ResolveSchemaOptions<mongoose.DefaultSchemaOptions>> & Omit<IComment & {
+}, mongoose.DefaultSchemaOptions> & Omit<IComment & {
     _id: mongoose.Types.ObjectId;
 } & {
     __v: number;
@@ -22,7 +22,7 @@ declare const _default: mongoose.Model<IComment, {}, {}, {
     __v: number;
 }), any, IComment>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, IComment, mongoose.Document<unknown, {}, IComment, {
     id: string;
-}, mongoose.ResolveSchemaOptions<mongoose.DefaultSchemaOptions>> & Omit<IComment & {
+}, mongoose.DefaultSchemaOptions> & Omit<IComment & {
     _id: mongoose.Types.ObjectId;
 } & {
     __v: number;
@@ -31,7 +31,7 @@ declare const _default: mongoose.Model<IComment, {}, {}, {
 }, {
     userId?: mongoose.SchemaDefinitionProperty<string, IComment, mongoose.Document<unknown, {}, IComment, {
         id: string;
-    }, mongoose.ResolveSchemaOptions<mongoose.DefaultSchemaOptions>> & Omit<IComment & {
+    }, mongoose.DefaultSchemaOptions> & Omit<IComment & {
         _id: mongoose.Types.ObjectId;
     } & {
         __v: number;
@@ -40,7 +40,7 @@ declare const _default: mongoose.Model<IComment, {}, {}, {
     }>;
     drawingId?: mongoose.SchemaDefinitionProperty<string, IComment, mongoose.Document<unknown, {}, IComment, {
         id: string;
-    }, mongoose.ResolveSchemaOptions<mongoose.DefaultSchemaOptions>> & Omit<IComment & {
+    }, mongoose.DefaultSchemaOptions> & Omit<IComment & {
         _id: mongoose.Types.ObjectId;
     } & {
         __v: number;
@@ -49,7 +49,7 @@ declare const _default: mongoose.Model<IComment, {}, {}, {
     }>;
     content?: mongoose.SchemaDefinitionProperty<string, IComment, mongoose.Document<unknown, {}, IComment, {
         id: string;
-    }, mongoose.ResolveSchemaOptions<mongoose.DefaultSchemaOptions>> & Omit<IComment & {
+    }, mongoose.DefaultSchemaOptions> & Omit<IComment & {
         _id: mongoose.Types.ObjectId;
     } & {
         __v: number;

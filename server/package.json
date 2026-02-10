@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx tsc && node dist/app.js",
     "dev": "tsc-watch -b ./tsconfig.json --onSuccess \"nodemon dist/app.js\"",
-	"clean": "rm -rf dist && mkdir dist && npx tsc"
+    "clean": "rm -rf dist && mkdir dist && npx tsc"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +22,6 @@
     "@types/node": "^25.0.9",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "mongoose": "^9.1.6"
+    "mongoose": "^9.2.0"
   }
 }

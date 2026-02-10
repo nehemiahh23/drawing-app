@@ -4,7 +4,7 @@ declare const _default: mongoose.Model<IUser, {}, {}, {
     id: string;
 }, mongoose.Document<unknown, {}, IUser, {
     id: string;
-}, mongoose.ResolveSchemaOptions<mongoose.DefaultSchemaOptions>> & Omit<IUser & {
+}, mongoose.DefaultSchemaOptions> & Omit<IUser & {
     _id: mongoose.Types.ObjectId;
 } & {
     __v: number;
@@ -22,7 +22,7 @@ declare const _default: mongoose.Model<IUser, {}, {}, {
     __v: number;
 }), any, IUser>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, IUser, mongoose.Document<unknown, {}, IUser, {
     id: string;
-}, mongoose.ResolveSchemaOptions<mongoose.DefaultSchemaOptions>> & Omit<IUser & {
+}, mongoose.DefaultSchemaOptions> & Omit<IUser & {
     _id: mongoose.Types.ObjectId;
 } & {
     __v: number;
@@ -31,7 +31,7 @@ declare const _default: mongoose.Model<IUser, {}, {}, {
 }, {
     email?: mongoose.SchemaDefinitionProperty<string, IUser, mongoose.Document<unknown, {}, IUser, {
         id: string;
-    }, mongoose.ResolveSchemaOptions<mongoose.DefaultSchemaOptions>> & Omit<IUser & {
+    }, mongoose.DefaultSchemaOptions> & Omit<IUser & {
         _id: mongoose.Types.ObjectId;
     } & {
         __v: number;
@@ -40,7 +40,7 @@ declare const _default: mongoose.Model<IUser, {}, {}, {
     }>;
     username?: mongoose.SchemaDefinitionProperty<string, IUser, mongoose.Document<unknown, {}, IUser, {
         id: string;
-    }, mongoose.ResolveSchemaOptions<mongoose.DefaultSchemaOptions>> & Omit<IUser & {
+    }, mongoose.DefaultSchemaOptions> & Omit<IUser & {
         _id: mongoose.Types.ObjectId;
     } & {
         __v: number;
@@ -49,7 +49,7 @@ declare const _default: mongoose.Model<IUser, {}, {}, {
     }>;
     password?: mongoose.SchemaDefinitionProperty<string, IUser, mongoose.Document<unknown, {}, IUser, {
         id: string;
-    }, mongoose.ResolveSchemaOptions<mongoose.DefaultSchemaOptions>> & Omit<IUser & {
+    }, mongoose.DefaultSchemaOptions> & Omit<IUser & {
         _id: mongoose.Types.ObjectId;
     } & {
         __v: number;
@@ -58,7 +58,7 @@ declare const _default: mongoose.Model<IUser, {}, {}, {
     }>;
     likes?: mongoose.SchemaDefinitionProperty<import("./types.js").IDrawing[], IUser, mongoose.Document<unknown, {}, IUser, {
         id: string;
-    }, mongoose.ResolveSchemaOptions<mongoose.DefaultSchemaOptions>> & Omit<IUser & {
+    }, mongoose.DefaultSchemaOptions> & Omit<IUser & {
         _id: mongoose.Types.ObjectId;
     } & {
         __v: number;

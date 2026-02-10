@@ -1,1 +1,1 @@
-{"version":3,"file":"drawingSchema.d.ts","sourceRoot":"","sources":["../../models/drawingSchema.ts"],"names":[],"mappings":"AAAA,OAAO,QAAQ,MAAM,UAAU,CAAC;AAChC,OAAO,KAAK,EAAE,QAAQ,EAAE,MAAM,YAAY,CAAC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA2B3C,wBAAuD"}
+{"version":3,"file":"drawingSchema.d.ts","sourceRoot":"","sources":["../../models/drawingSchema.ts"],"names":[],"mappings":"AAAA,OAAO,QAAQ,MAAM,UAAU,CAAC;AAEhC,OAAO,KAAK,EAAE,QAAQ,EAAE,MAAM,YAAY,CAAC;;;;;;;;AAoD3C,wBAAiE"}

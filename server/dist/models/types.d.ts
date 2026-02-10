@@ -1,9 +1,11 @@
-export interface IDrawing {
+import { Document } from "mongoose";
+export interface IDrawing extends Document {
     src: string;
     userId: string;
     title: string;
     likes: number;
     commentIds: string[];
+    getComments(): Promise<IComment[]>;
 }
 export interface IUser {
     email: string;

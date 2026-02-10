@@ -1,26 +1,26 @@
-// import type { Request, Response } from "express"
-// import comments from "../db/comments.js"
-// import drawings from "../db/drawings.js"
-export {};
-// export function getDrawingComments(rq: Request, rs: Response) {
-// 	if (rq.query.drawing_id) {
-// 		const data: Comment[] = []
-// 		const drawing = drawings.find(drawing => drawing.id === Number(rq.query.drawing_id)) as Drawing
-// 		if (!drawing) {
-// 			rs.status(400).json({ error: "Requested resource does not exist." })
-// 			return
-// 		}
-// 		const ids = drawing.commentIds as number[]
-// 		ids.forEach((id) => {
-// 			const comment: Comment = comments.find(c => c.id === id) as Comment
-// 			data.push(comment)
-// 		})
-// 		rs.json(data)
-// 	} else {
-// 		rs.status(403).json({ error: "Forbidden resource (Must query using drawing_id)." })
-// 	}
-// }
-// export function deleteComment(rq: Request, rs: Response) {
+import Comment from "../models/commentSchema.js";
+import Drawing from "../models/drawingSchema.js";
+export async function getDrawingComments(rq, rs) {
+    if (rq.params.drawing_id) {
+        const drawing = await Drawing.findById(rq.params.drawing_id);
+        if (drawing) {
+            const comments = await drawing.getComments();
+            if (comments.length) {
+                rs.json(comments);
+            }
+            else {
+                rs.status(404).json({ error: "No comments on requested resource." });
+            }
+        }
+        else {
+            rs.status(404).json({ error: "Drawing does not exist." });
+        }
+    }
+    else {
+        rs.status(403).json({ error: "Must query comments using drawing_id)." });
+    }
+}
+// export async function deleteComment(rq: Request, rs: Response) {
 // 	const comment: Comment = comments.find((comment, i) => {
 // 		if (comment.id === Number(rq.params.id)) {
 // 			return comments.splice(i, 1)
@@ -40,7 +40,7 @@ export {};
 // 		rs.status(400).json({ error: "Comment does not exist." })
 // 	}
 // }
-// export function createComment(rq: Request, rs: Response) {
+// export async function createComment(rq: Request, rs: Response) {
 // 	// should check user session before anything
 // 	const content = rq.body.content
 // 	const lastComment: Comment = comments.at(-1) as Comment

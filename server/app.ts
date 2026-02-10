@@ -19,7 +19,7 @@ app.use(requestLogger)
 // routes
 app.use("/users", userRoutes)
 app.use("/api/drawings", drawingRoutes)
-// app.use("/api/comments", commentRoutes)
+app.use("/api/comments", commentRoutes)
 
 // err mw
 app.use(globalError)

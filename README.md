@@ -1,5 +1,6 @@
 # Mongoose + Express Application
 ## Per Scholas Module 319 SBA
+<!-- TODO: Separation of posts and drawings -->
 <!-- TODO: Add session functionality -->
 <!-- TODO: Add auth functionality -->
 
