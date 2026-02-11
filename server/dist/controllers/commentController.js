@@ -1,69 +1,64 @@
-import comments from "../db/comments.js";
-import photos from "../db/photos.js";
-export function getPhotoComments(rq, rs) {
-    if (rq.query.photo_id) {
-        const data = [];
-        const photo = photos.find(photo => photo.id === Number(rq.query.photo_id));
-        if (!photo) {
-            rs.status(400).json({ error: "Requested resource does not exist." });
-            return;
-        }
-        const ids = photo.comment_ids;
-        ids.forEach((id) => {
-            const comment = comments.find(c => c.id === id);
-            data.push(comment);
-        });
-        rs.json(data);
+import Comment from "../models/commentSchema.js";
+import Drawing from "../models/drawingSchema.js";
+export async function deleteComment(rq, rs) {
+    if (!rq.params.id) {
+        rs.status(400).json({ error: "Must specify an id parameter to delete." });
     }
     else {
-        rs.status(403).json({ error: "Forbidden resource (Must query using photo_id)." });
+        const target = await Comment.findByIdAndDelete(rq.params.id);
+        if (!target) {
+            rs.status(404).json({ error: "Requested comment not found." });
+        }
+        else {
+            const drawing = await Drawing.findById(target.drawingId);
+            const i = drawing.commentIds.indexOf(String(target._id));
+            drawing.commentIds.splice(i, 1);
+            drawing.save();
+            rs.json(target);
+        }
     }
 }
-export function deleteComment(rq, rs) {
-    const comment = comments.find((comment, i) => {
-        if (comment.id === Number(rq.params.id)) {
-            return comments.splice(i, 1);
+export async function getDrawingComments(rq, rs) {
+    if (rq.params.drawing_id) {
+        const drawing = await Drawing.findById(rq.params.drawing_id);
+        if (drawing) {
+            const comments = await drawing.getComments();
+            if (comments.length) {
+                rs.json(comments);
+            }
+            else {
+                rs.status(404).json({ error: "No comments on requested resource." });
+            }
         }
-    });
-    const photo = photos.find(photo => photo.id === comment.photoId);
-    if (!photo) {
-        rs.status(400).json({ error: "Requested resource does not exist." });
-        return;
-    }
-    if (comment) {
-        photo.comment_ids.find((id, i) => {
-            id === comment.id ? photo.comment_ids.splice(i, 1) : null;
-        });
-        rs.json(comment);
+        else {
+            rs.status(404).json({ error: "Drawing does not exist." });
+        }
     }
     else {
-        rs.status(400).json({ error: "Comment does not exist." });
+        rs.status(403).json({ error: "Must query comments using drawing_id." });
     }
 }
-export function createComment(rq, rs) {
-    // should check user session before anything
-    const content = rq.body.content;
-    const lastComment = comments.at(-1);
-    const i = lastComment ? lastComment.id + 1 : 1;
-    const photo = photos.find(photo => photo.id === Number(rq.params.photo_id));
-    if (!photo) {
-        rs.status(400).json({ error: "Photo does not exist." });
-        return;
-    }
-    if (content) {
-        // TODO: push i to photo comment id array
-        const newComment = {
-            id: i,
-            content: content,
-            photoId: Number(rq.params.photo_id),
-            userId: 0 // currently logged in user id
-        };
-        comments.push(newComment);
-        photo.comment_ids.push(i);
-        rs.json(newComment);
+export async function createComment(rq, rs) {
+    if (rq.params.drawing_id) {
+        const drawing = await Drawing.findById(rq.params.drawing_id);
+        if (drawing) {
+            const content = rq.body.content;
+            if (content) {
+                const newComment = await Comment.create({ ...rq.body, userId: "placeholder0000000000000" });
+                drawing.commentIds.push(String(newComment._id));
+                drawing.save();
+                rs.json(newComment);
+            }
+            else {
+                rs.status(400).json({ error: "Insufficient data to create resource." });
+            }
+        }
+        else {
+            rs.status(404).json({ error: "Drawing does not exist." });
+        }
     }
     else {
-        rs.status(400).json({ error: "Insufficient data to create resource." });
+        rs.status(403).json({ error: "Must post comment with drawing_id." });
     }
 }
 //# sourceMappingURL=commentController.js.map

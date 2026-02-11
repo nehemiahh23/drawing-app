@@ -1,14 +1,12 @@
 const comments = [
     {
-        id: 1,
-        userId: 1,
-        photoId: 1,
+        userId: "1",
+        drawingId: "1",
         content: "good pic"
     },
     {
-        id: 2,
-        userId: 1,
-        photoId: 1,
+        userId: "1",
+        drawingId: "1",
         content: "actually nvm it sucks"
     },
 ];

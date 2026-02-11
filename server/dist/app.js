@@ -1,54 +1,40 @@
 import express from "express";
-import fs from "fs";
-import photos from "./db/photos.js";
+import "dotenv/config";
+import connect from "./db/conn.js";
 import userRoutes from "./routes/userRoutes.js";
-import photoRoutes from "./routes/photoRoutes.js";
+import drawingRoutes from "./routes/drawingRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
-// import routes from "./routes.js"
+import { drawings, users, comments } from "./utils/seed.js";
+import Drawing from "./models/drawingSchema.js";
+import User from "./models/userSchema.js";
+import Comment from "./models/commentSchema.js";
 import { requestLogger, globalError } from "./middleware/middleware.js";
 // setup
 const app = express();
+const PORT = process.env.SERVER_PORT || 3001;
+connect();
 // mw
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(requestLogger);
-// view engine
-app.engine("html", (path, options, cb) => {
-    fs.readFile(path, options, (err, data) => {
-        if (err)
-            return cb(err);
-        let imgs = "";
-        photos.forEach(photo => imgs += `<img src="${photo.src}" alt="${photo.alt}"></img><br>`);
-        let render = data.toString().replace("#imgs#", imgs);
-        return cb(null, render);
-    });
-});
-app.set("views", "./views");
-app.set("view engine", "html");
-app.use(express.static("views/styles"));
 // routes
 app.use("/users", userRoutes);
-app.use("/api/photos", photoRoutes);
+app.use("/api/drawings", drawingRoutes);
 app.use("/api/comments", commentRoutes);
-app.get("/login", (rq, rs) => {
-    rs.render("login");
-});
-app.get("/login/invalid", (rq, rs) => {
-    rs.render("invalidLogin");
-});
-app.get("/register", (rq, rs) => {
-    rs.render("register");
-});
-app.get("/register/invalid", (rq, rs) => {
-    rs.render("invalidRegister");
-});
-app.get("/photos", (rq, rs) => {
-    rs.render("photos");
+app.route("/seed")
+    .post(async (rq, rs) => {
+    await Drawing.deleteMany({});
+    await User.deleteMany({});
+    await Comment.deleteMany({});
+    await Drawing.insertMany(drawings);
+    await User.insertMany(users);
+    await Comment.insertMany(comments);
+    rs.json("Seeded database.");
 });
 // err mw
 app.use(globalError);
 // listener
-app.listen(3000, () => {
-    console.log("Server running on port 3000");
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}.`);
 });
 //# sourceMappingURL=app.js.map

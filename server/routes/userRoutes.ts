@@ -4,11 +4,11 @@ import * as userController from "../controllers/userController.js"
 const router = express.Router()
 
 router.route("/")
-.get(userController.getUser)
+// .get(userController.getUser)
 .post(userController.createUser)
 
 router.route("/:id")
-.patch(userController.editUser)
+.put(userController.editUser)
 .delete(userController.deleteUser)
 
 export default router

@@ -1,9 +1,9 @@
 const users = [
     {
-        id: 1,
+        email: "me@here.com",
         username: "nelihenry",
         password: "password123",
-        favorites: []
+        likes: []
     }
 ];
 export default users;
