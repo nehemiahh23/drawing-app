@@ -1,19 +1,22 @@
 import express from "express"
 import "dotenv/config"
 import connect from "./db/conn.js"
+import cloudConnect from "./db/cloudConn.js"
 import userRoutes from "./routes/userRoutes.js"
 import drawingRoutes from "./routes/drawingRoutes.js"
 import commentRoutes from "./routes/commentRoutes.js"
+import { requestLogger, globalError } from "./middleware/middleware.js"
 import { drawings, users, comments } from "./utils/seed.js"
 import Drawing from "./models/drawingSchema.js"
 import User from "./models/userSchema.js"
 import Comment from "./models/commentSchema.js"
-import { requestLogger, globalError } from "./middleware/middleware.js"
 
 // setup
 const app = express()
 const PORT = process.env.SERVER_PORT || 3001
 connect()
+cloudConnect()
+
 
 // mw
 app.use(express.urlencoded({ extended: true }))
