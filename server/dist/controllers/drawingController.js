@@ -16,19 +16,14 @@ export async function getDrawings(rq, rs) {
     }
 }
 export async function createDrawing(rq, rs) {
-    const { src, title } = rq.body;
-    if (src && title) {
-        const newDrawing = await Drawing.create({
-            src: src,
-            title: title,
-            userId: "0",
-            likes: 0
-        });
-        rs.json(newDrawing);
-    }
-    else {
-        rs.status(400).json({ error: "Insufficient data to create resource." });
-    }
+    // const newDrawing = await Drawing.create({
+    // 	...rq.body,
+    // 	userId: "0",
+    // 	likes: 0
+    // })
+    // rs.json(newDrawing)
+    console.log(rq.file);
+    rs.json({ msg: "Uploaded drawing successfully." });
 }
 export async function deleteDrawing(rq, rs) {
     if (!rq.params.id) {
