@@ -2,3 +2,4 @@ node_modules
 *.tsbuildinfo
 .vscode
 .env
+server/public/assets
