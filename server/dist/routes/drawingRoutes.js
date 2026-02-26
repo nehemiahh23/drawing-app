@@ -2,7 +2,7 @@ import express from "express";
 import multer from "multer";
 import * as drawingController from "../controllers/drawingController.js";
 const router = express.Router();
-const upload = multer({ dest: "./uploads/" });
+const upload = multer({ dest: "./public/temp" });
 router.route("/")
     .get(drawingController.getDrawings)
     .post(upload.single('drawing'), drawingController.createDrawing);

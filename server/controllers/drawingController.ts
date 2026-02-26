@@ -1,5 +1,8 @@
 import type { Request, Response } from "express"
 import Drawing from "../models/drawingSchema.js"
+import { v2 as cloudinary } from 'cloudinary'
+import fs from "fs"
+import "dotenv/config"
 
 export async function getDrawings(rq: Request, rs: Response) {
 	let data 
@@ -15,15 +18,35 @@ export async function getDrawings(rq: Request, rs: Response) {
 }
 
 export async function createDrawing(rq: Request, rs: Response) {
-	// const newDrawing = await Drawing.create({
-	// 	...rq.body,
-	// 	userId: "0",
-	// 	likes: 0
-	// })
+	if (!rq.file) { return rs.status(400).json({ error: "Insufficient data to create resource." }) }
+	
+	let newDrawing
+	let uploadRes
+	
+	try {
+		newDrawing = await Drawing.create({
+			...rq.body,
+			src: "temp",
+			userId: "0",
+			likes: 0
+		})
+	} catch(err) {
+		fs.unlink(`./${rq.file.path}`, err => err && console.log(err))
+		return rs.status(500).json(err)
+	}
 
-	// rs.json(newDrawing)
-	console.log(rq.file)
-	rs.json({msg: "Uploaded drawing successfully."})
+	try {
+		uploadRes = await cloudinary.uploader.upload(rq.file.path)
+		if (!uploadRes.url) { throw new Error("Cloudinary upload failed.") }
+		newDrawing.src = uploadRes.url
+		await newDrawing.save()
+
+		fs.unlink(`./${rq.file.path}`, err => err && console.log(err))
+		rs.json(newDrawing)
+	} catch(err) {
+		newDrawing.deleteOne()
+		return rs.status(500).json({ error: err })
+	}
 }
 
 export async function deleteDrawing(rq: Request, rs: Response) {
