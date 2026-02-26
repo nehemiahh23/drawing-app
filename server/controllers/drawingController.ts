@@ -19,6 +19,9 @@ export async function getDrawings(rq: Request, rs: Response) {
 
 export async function createDrawing(rq: Request, rs: Response) {
 	if (!rq.file) { return rs.status(400).json({ error: "Insufficient data to create resource." }) }
+
+	const type = rq.file.mimetype
+	if (type.slice(0, 6) !== "image/") { return rs.status(400).json({ error: "Invalid file type." }) }
 	
 	let newDrawing
 	let uploadRes

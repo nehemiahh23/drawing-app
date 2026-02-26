@@ -1,7 +1,6 @@
 import Drawing from "../models/drawingSchema.js";
 import { v2 as cloudinary } from 'cloudinary';
 import fs from "fs";
-import path, { dirname } from "path";
 import "dotenv/config";
 export async function getDrawings(rq, rs) {
     let data;
@@ -23,12 +22,12 @@ export async function createDrawing(rq, rs) {
     if (!rq.file) {
         return rs.status(400).json({ error: "Insufficient data to create resource." });
     }
+    const type = rq.file.mimetype;
+    if (type.slice(0, 6) !== "image/") {
+        return rs.status(400).json({ error: "Invalid file type." });
+    }
     let newDrawing;
     let uploadRes;
-    // make rq obj, blank url
-    // try catch mongo doc creation
-    // try catch cloud upload
-    // get doc, set url
     try {
         newDrawing = await Drawing.create({
             ...rq.body,
