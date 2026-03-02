@@ -1,41 +1,20 @@
-# Mongoose + Express Application
-## Per Scholas Module 319 SBA
+# React Application
+## Per Scholas Module 320 SBA
 <!-- TODO: Separation of posts and drawings -->
 <!-- TODO: Add session functionality -->
 <!-- TODO: Add auth functionality -->
 
-An API and database that stores data for a full-stack social drawing app. Uses a MongoDB document database to store data for users, drawings, and post comments.
+A React frontend which displays data from [Pexels API](http://pexels.com/). Data is displayed at the `/feed` endpoint (navigate by pressing the Gallery button). A feature to load more images when the user scrolls to the bottom is in development.
 
 ## Setup
-1. Navigate to the ``/server`` folder.
+1. Navigate to the ``/client`` folder.
 2. Create your ``.env`` file, using ``.env.example`` as a template.
-	- Set the port that your Express server will listen on.
-	- Set your connection string. Note that this app uses Mongoose, which allows specifying the desired database at the end of the connection string.
+	- If you're grading me, I will have send the API key for you to use. If not, get a free key from Pexels. 
 2. Run ``npm install`` to install dependencies.
-3. Run ``npm start``.
-	- For live code updating, run ``npm run dev`` instead.
+3. Run ``npm run dev``.
 
 ## Usage
-- Use the ``/seed`` route to seed the db with test data.
+- Use the Gallery button to view the image data.
 
 ## Technologies Used
-- TypeScript
-- Node.js
-- Express
-- MongoDB/Mongoose
-- [Fly.io](https://fly.io/) (didnt get to it)
-- [Go-Fast CDN](https://github.com/kevinanielsen/go-fast-cdn) (didnt get to it)
-
-## API Routes
-| Method | Path | Description |
-| --- | --- | --- |
-| POST | /seed | Empties the database and seeds with test data from ``/utils/seed.ts``. |
-| POST | /users | Creates a user. Username and email must be unique. |
-| PUT | /users/:id | Edit the given users username and/or password. |
-| DELETE | /users/:id | Deletes the selected user. |
-| GET | /api/drawings | Returns all drawings. Can also return a specific image by `/:id` parameter. |
-| POST | /api/drawings | Create new drawing. Title must be unique. User ID is currently a set placeholder value. |
-| DELETE | /api/drawings/:id | Delete the selected drawing |
-| GET | /api/comments/post/:drawing_id | Get the comments associated with the `/:drawing_id`. |
-| POST | /api/comments/post/:drawing_id | Post a new comment under the `/:drawing_id`. |
-| DELETE | /api/comments/:id | Delete the selected comment. User ID is currently a set placeholder value. |
+- Vite + React
