@@ -14,29 +14,15 @@ const drawingSchema = new mongoose.Schema<IDrawing>(
 		},
 		title: {
 			type: String,
-			required: true,
-			unique: true
-		},
-		likes: {
-			type: Number,
 			required: true
 		},
-		commentIds: [String]
+		locked: {
+			type: Boolean,
+			required: true
+		}
 	},
 	{
-		timestamps: true,
-		methods: {
-			async getComments() {
-				const data: IComment[] = []
-
-				for (let id of this.commentIds) {
-					const c: IComment = await Comment.findById(id) as IComment
-					data.push(c)
-				}
-
-				return data
-			}
-		}	
+		timestamps: true
 	}
 )
 

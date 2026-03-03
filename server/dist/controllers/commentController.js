@@ -18,11 +18,11 @@ export async function deleteComment(rq, rs) {
         }
     }
 }
-export async function getDrawingComments(rq, rs) {
-    if (rq.params.drawing_id) {
-        const drawing = await Drawing.findById(rq.params.drawing_id);
-        if (drawing) {
-            const comments = await drawing.getComments();
+export async function getPostComments(rq, rs) {
+    if (rq.params.post_id) {
+        const post = await Drawing.findById(rq.params.post_id);
+        if (post) {
+            const comments = await post.getComments();
             if (comments.length) {
                 rs.json(comments);
             }
@@ -31,11 +31,11 @@ export async function getDrawingComments(rq, rs) {
             }
         }
         else {
-            rs.status(404).json({ error: "Drawing does not exist." });
+            rs.status(404).json({ error: "Post does not exist." });
         }
     }
     else {
-        rs.status(403).json({ error: "Must query comments using drawing_id." });
+        rs.status(403).json({ error: "Must query comments using post_id." });
     }
 }
 export async function createComment(rq, rs) {

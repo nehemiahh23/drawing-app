@@ -5,6 +5,7 @@ import cloudConnect from "./db/cloudConn.js";
 import userRoutes from "./routes/userRoutes.js";
 import drawingRoutes from "./routes/drawingRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
+import postRoutes from "./routes/postRoutes.js";
 import { requestLogger, globalError } from "./middleware/middleware.js";
 import { drawings, users, comments } from "./utils/seed.js";
 import Drawing from "./models/drawingSchema.js";
@@ -23,6 +24,7 @@ app.use(requestLogger);
 app.use("/users", userRoutes);
 app.use("/api/drawings", drawingRoutes);
 app.use("/api/comments", commentRoutes);
+app.use("/api/posts", postRoutes);
 app.route("/seed")
     .post(async (rq, rs) => {
     await Drawing.deleteMany({});

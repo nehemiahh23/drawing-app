@@ -18,19 +18,19 @@ export async function deleteComment(rq: Request, rs: Response) {
 	}
 }
 
-export async function getDrawingComments(rq: Request, rs: Response) {
-	if (rq.params.drawing_id) {
-		const drawing = await Drawing.findById(rq.params.drawing_id)
+export async function getPostComments(rq: Request, rs: Response) {
+	if (rq.params.post_id) {
+		const post = await Drawing.findById(rq.params.post_id)
 		
-		if (drawing) {
-			const comments = await drawing.getComments()
+		if (post) {
+			const comments = await post.getComments()
 			if (comments.length) { rs.json(comments) }
 			else { rs.status(404).json({ error: "No comments on requested resource." }) }
 		} else {
-			rs.status(404).json({ error: "Drawing does not exist." })
+			rs.status(404).json({ error: "Post does not exist." })
 		}
 	} else {
-		rs.status(403).json({ error: "Must query comments using drawing_id." })
+		rs.status(403).json({ error: "Must query comments using post_id." })
 	}
 }
 

@@ -18,6 +18,7 @@ export async function getDrawings(rq: Request, rs: Response) {
 }
 
 export async function createDrawing(rq: Request, rs: Response) {
+	// check session before allowing creation
 	if (!rq.file) { return rs.status(400).json({ error: "Insufficient data to create resource." }) }
 
 	const type = rq.file.mimetype
@@ -30,8 +31,7 @@ export async function createDrawing(rq: Request, rs: Response) {
 		newDrawing = await Drawing.create({
 			...rq.body,
 			src: "temp",
-			userId: "0",
-			likes: 0
+			userId: "0"
 		})
 	} catch(err) {
 		fs.unlink(`./${rq.file.path}`, err => err && console.log(err))
@@ -40,7 +40,7 @@ export async function createDrawing(rq: Request, rs: Response) {
 
 	try {
 		uploadRes = await cloudinary.uploader.upload(rq.file.path)
-		if (!uploadRes.url) { throw new Error("Cloudinary upload failed.") }
+		if (!uploadRes.url) { throw new Error("Cloud upload failed.") }
 		newDrawing.src = uploadRes.url
 		await newDrawing.save()
 
