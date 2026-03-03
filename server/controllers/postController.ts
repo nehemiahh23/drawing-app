@@ -24,15 +24,18 @@ export async function getPosts(rq: Request, rs: Response) {
 
 export async function createPost(rq: Request, rs: Response) {
 	// check session before allowing creation (cache userId)
-	const { drawingId, title } = rq.body
+	let { drawingId, title } = rq.body
 
 	if (drawingId) {
-		// const drawing = await Drawing.find({ _id: drawingId })
+		if (!title) {
+			const drawing: IDrawing = await Drawing.findById(drawingId) as IDrawing
+			title = drawing.title
+		}
 		
 		const newPost = await Post.create({
 			userId: "698b76afafb4035d69232a72",
 			drawingId: drawingId,
-			title: title, // ? title : drawing.title
+			title: title,
 			likes: 0
 		})
 
