@@ -3,7 +3,7 @@ import * as commentController from "../controllers/commentController.js";
 const router = express.Router();
 router.route("/:id")
     .delete(commentController.deleteComment);
-router.route("/post/:drawing_id")
+router.route("/post/:post_id")
     .get(commentController.getPostComments)
     .post(commentController.createComment);
 export default router;

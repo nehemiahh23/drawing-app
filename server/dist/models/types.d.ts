@@ -17,7 +17,7 @@ export interface IUser {
 }
 export interface IComment extends Document {
     userId: string;
-    drawingId: string;
+    postId: string;
     content: string;
 }
 export interface IPost extends Document {
