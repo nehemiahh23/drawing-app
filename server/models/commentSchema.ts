@@ -7,7 +7,7 @@ const commentSchema = new mongoose.Schema<IComment>(
 			type: String,
 			required: true
 		},
-		drawingId: {
+		postId: {
 			type: String,
 			required: true
 		},

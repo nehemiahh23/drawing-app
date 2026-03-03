@@ -11,26 +11,14 @@ const drawingSchema = new mongoose.Schema({
     },
     title: {
         type: String,
-        required: true,
-        unique: true
-    },
-    likes: {
-        type: Number,
         required: true
     },
-    commentIds: [String]
-}, {
-    timestamps: true,
-    methods: {
-        async getComments() {
-            const data = [];
-            for (let id of this.commentIds) {
-                const c = await Comment.findById(id);
-                data.push(c);
-            }
-            return data;
-        }
+    locked: {
+        type: Boolean,
+        required: true
     }
+}, {
+    timestamps: true
 });
 drawingSchema.index({ title: "text" });
 drawingSchema.index({ likes: -1 });

@@ -56,7 +56,16 @@ declare const _default: mongoose.Model<IUser, {}, {}, {
     }, "id"> & {
         id: string;
     }>;
-    likes?: mongoose.SchemaDefinitionProperty<import("./types.js").IDrawing[], IUser, mongoose.Document<unknown, {}, IUser, {
+    likes?: mongoose.SchemaDefinitionProperty<string[], IUser, mongoose.Document<unknown, {}, IUser, {
+        id: string;
+    }, mongoose.DefaultSchemaOptions> & Omit<IUser & {
+        _id: mongoose.Types.ObjectId;
+    } & {
+        __v: number;
+    }, "id"> & {
+        id: string;
+    }>;
+    getLikes?: mongoose.SchemaDefinitionProperty<() => Promise<import("./types.js").IDrawing[]>, IUser, mongoose.Document<unknown, {}, IUser, {
         id: string;
     }, mongoose.DefaultSchemaOptions> & Omit<IUser & {
         _id: mongoose.Types.ObjectId;

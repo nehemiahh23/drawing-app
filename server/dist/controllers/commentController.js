@@ -1,5 +1,5 @@
 import Comment from "../models/commentSchema.js";
-import Drawing from "../models/drawingSchema.js";
+import Post from "../models/postSchema.js";
 export async function deleteComment(rq, rs) {
     if (!rq.params.id) {
         rs.status(400).json({ error: "Must specify an id parameter to delete." });
@@ -10,19 +10,19 @@ export async function deleteComment(rq, rs) {
             rs.status(404).json({ error: "Requested comment not found." });
         }
         else {
-            const drawing = await Drawing.findById(target.drawingId);
-            const i = drawing.commentIds.indexOf(String(target._id));
-            drawing.commentIds.splice(i, 1);
-            drawing.save();
+            const post = await Post.findById(target.postId);
+            const i = post.commentIds.indexOf(String(target._id));
+            post.commentIds.splice(i, 1);
+            post.save();
             rs.json(target);
         }
     }
 }
-export async function getDrawingComments(rq, rs) {
-    if (rq.params.drawing_id) {
-        const drawing = await Drawing.findById(rq.params.drawing_id);
-        if (drawing) {
-            const comments = await drawing.getComments();
+export async function getPostComments(rq, rs) {
+    if (rq.params.post_id) {
+        const post = await Post.findById(rq.params.post_id);
+        if (post) {
+            const comments = await post.getComments();
             if (comments.length) {
                 rs.json(comments);
             }
@@ -31,22 +31,27 @@ export async function getDrawingComments(rq, rs) {
             }
         }
         else {
-            rs.status(404).json({ error: "Drawing does not exist." });
+            rs.status(404).json({ error: "Post does not exist." });
         }
     }
     else {
-        rs.status(403).json({ error: "Must query comments using drawing_id." });
+        rs.status(403).json({ error: "Must query comments using post_id." });
     }
 }
 export async function createComment(rq, rs) {
-    if (rq.params.drawing_id) {
-        const drawing = await Drawing.findById(rq.params.drawing_id);
-        if (drawing) {
+    if (rq.params.post_id) {
+        const post = await Post.findById(rq.params.post_id);
+        if (post) {
             const content = rq.body.content;
+            const postId = rq.params.post_id;
             if (content) {
-                const newComment = await Comment.create({ ...rq.body, userId: "placeholder0000000000000" });
-                drawing.commentIds.push(String(newComment._id));
-                drawing.save();
+                const newComment = await Comment.create({
+                    content: content,
+                    postId: postId,
+                    userId: "placeholder0000000000000"
+                });
+                post.commentIds.push(String(newComment._id));
+                post.save();
                 rs.json(newComment);
             }
             else {
@@ -54,11 +59,11 @@ export async function createComment(rq, rs) {
             }
         }
         else {
-            rs.status(404).json({ error: "Drawing does not exist." });
+            rs.status(404).json({ error: "Post does not exist." });
         }
     }
     else {
-        rs.status(403).json({ error: "Must post comment with drawing_id." });
+        rs.status(403).json({ error: "Must post comment with post_id." });
     }
 }
 //# sourceMappingURL=commentController.js.map

@@ -19,6 +19,7 @@ export async function getDrawings(rq, rs) {
     }
 }
 export async function createDrawing(rq, rs) {
+    // check session before allowing creation
     if (!rq.file) {
         return rs.status(400).json({ error: "Insufficient data to create resource." });
     }
@@ -33,7 +34,7 @@ export async function createDrawing(rq, rs) {
             ...rq.body,
             src: "temp",
             userId: "0",
-            likes: 0
+            locked: false
         });
     }
     catch (err) {
@@ -43,7 +44,7 @@ export async function createDrawing(rq, rs) {
     try {
         uploadRes = await cloudinary.uploader.upload(rq.file.path);
         if (!uploadRes.url) {
-            throw new Error("Cloudinary upload failed.");
+            throw new Error("Cloud upload failed.");
         }
         newDrawing.src = uploadRes.url;
         await newDrawing.save();
