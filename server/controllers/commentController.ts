@@ -35,14 +35,19 @@ export async function getPostComments(rq: Request, rs: Response) {
 }
 
 export async function createComment(rq: Request, rs: Response) {
-	if (rq.params.drawing_id) {
+	if (rq.params.post_id) {
 		const post = await Post.findById(rq.params.post_id)
 		
 		if (post) {
 			const content = rq.body.content
+			const postId: string = rq.params.post_id as string
 		
 			if (content) {
-				const newComment = await Comment.create({ ...rq.body, userId: "placeholder0000000000000" })
+				const newComment = await Comment.create({ 
+					content: content,
+					postId: postId, 
+					userId: "placeholder0000000000000"
+				 })
 				post.commentIds.push(String(newComment._id))
 				post.save()
 				rs.json(newComment)
@@ -51,6 +56,6 @@ export async function createComment(rq: Request, rs: Response) {
 			rs.status(404).json({ error: "Post does not exist." })
 		}
 	} else {
-		rs.status(403).json({ error: "Must post comment with drawing_id." })
+		rs.status(403).json({ error: "Must post comment with post_id." })
 	}
 }

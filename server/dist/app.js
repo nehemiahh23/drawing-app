@@ -7,10 +7,11 @@ import drawingRoutes from "./routes/drawingRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 import { requestLogger, globalError } from "./middleware/middleware.js";
-import { drawings, users, comments } from "./utils/seed.js";
+import { drawings, users, comments, posts } from "./utils/seed.js";
 import Drawing from "./models/drawingSchema.js";
 import User from "./models/userSchema.js";
 import Comment from "./models/commentSchema.js";
+import Post from "./models/postSchema.js";
 // setup
 const app = express();
 const PORT = process.env.SERVER_PORT || 3001;
@@ -30,9 +31,11 @@ app.route("/seed")
     await Drawing.deleteMany({});
     await User.deleteMany({});
     await Comment.deleteMany({});
+    await Post.deleteMany({});
     await Drawing.insertMany(drawings);
     await User.insertMany(users);
     await Comment.insertMany(comments);
+    await Post.insertMany(posts);
     rs.json("Seeded database.");
 });
 // err mw

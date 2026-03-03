@@ -3,19 +3,27 @@ export declare const drawings: {
     src: string;
     userId: string;
     title: string;
-    likes: number;
-    commentIds: string[];
+    locked: boolean;
 }[];
 export declare const users: {
+    _id: string;
     email: string;
     username: string;
     password: string;
     likes: never[];
 }[];
-export declare const comments: {
+export declare const posts: {
     _id: string;
     userId: string;
     drawingId: string;
+    title: string;
+    likes: number;
+    commentIds: string[];
+}[];
+export declare const comments: {
+    _id: string;
+    userId: string;
+    postId: string;
     content: string;
 }[];
 //# sourceMappingURL=seed.d.ts.map

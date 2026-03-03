@@ -27,8 +27,8 @@ export async function createPost(rq: Request, rs: Response) {
 	let { drawingId, title } = rq.body
 
 	if (drawingId) {
+		const drawing: IDrawing = await Drawing.findById(drawingId) as IDrawing
 		if (!title) {
-			const drawing: IDrawing = await Drawing.findById(drawingId) as IDrawing
 			title = drawing.title
 		}
 		
@@ -39,6 +39,8 @@ export async function createPost(rq: Request, rs: Response) {
 			likes: 0
 		})
 
+		drawing.locked = true
+		drawing.save()
 		rs.json(newPost)
 	} else {
 		rs.status(400).json({ error: "Insufficient data to create resource." })

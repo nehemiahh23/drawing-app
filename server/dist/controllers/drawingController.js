@@ -33,7 +33,8 @@ export async function createDrawing(rq, rs) {
         newDrawing = await Drawing.create({
             ...rq.body,
             src: "temp",
-            userId: "0"
+            userId: "0",
+            locked: false
         });
     }
     catch (err) {

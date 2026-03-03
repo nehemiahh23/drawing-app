@@ -31,7 +31,8 @@ export async function createDrawing(rq: Request, rs: Response) {
 		newDrawing = await Drawing.create({
 			...rq.body,
 			src: "temp",
-			userId: "0"
+			userId: "0",
+			locked: false
 		})
 	} catch(err) {
 		fs.unlink(`./${rq.file.path}`, err => err && console.log(err))

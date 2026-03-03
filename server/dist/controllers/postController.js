@@ -26,8 +26,8 @@ export async function createPost(rq, rs) {
     // check session before allowing creation (cache userId)
     let { drawingId, title } = rq.body;
     if (drawingId) {
+        const drawing = await Drawing.findById(drawingId);
         if (!title) {
-            const drawing = await Drawing.findById(drawingId);
             title = drawing.title;
         }
         const newPost = await Post.create({
@@ -36,6 +36,8 @@ export async function createPost(rq, rs) {
             title: title,
             likes: 0
         });
+        drawing.locked = true;
+        drawing.save();
         rs.json(newPost);
     }
     else {

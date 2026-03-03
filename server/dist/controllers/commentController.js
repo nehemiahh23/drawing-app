@@ -39,12 +39,17 @@ export async function getPostComments(rq, rs) {
     }
 }
 export async function createComment(rq, rs) {
-    if (rq.params.drawing_id) {
+    if (rq.params.post_id) {
         const post = await Post.findById(rq.params.post_id);
         if (post) {
             const content = rq.body.content;
+            const postId = rq.params.post_id;
             if (content) {
-                const newComment = await Comment.create({ ...rq.body, userId: "placeholder0000000000000" });
+                const newComment = await Comment.create({
+                    content: content,
+                    postId: postId,
+                    userId: "placeholder0000000000000"
+                });
                 post.commentIds.push(String(newComment._id));
                 post.save();
                 rs.json(newComment);
@@ -58,7 +63,7 @@ export async function createComment(rq, rs) {
         }
     }
     else {
-        rs.status(403).json({ error: "Must post comment with drawing_id." });
+        rs.status(403).json({ error: "Must post comment with post_id." });
     }
 }
 //# sourceMappingURL=commentController.js.map
