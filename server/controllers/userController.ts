@@ -1,7 +1,12 @@
 import type { Request, Response } from "express"
+import { validationResult } from "express-validator"
 import User from "../models/userSchema.js"
 
 export async function createUser(rq: Request, rs: Response) {
+	const errors = validationResult(rq)
+
+	if (!errors.isEmpty()) { return rs.status(400).json({ errors: errors.array() }) }
+
 	const { email, username, password } = rq.body
 	
 	if (email && username && password) {

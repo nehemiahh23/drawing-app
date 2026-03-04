@@ -1,5 +1,10 @@
+import { validationResult } from "express-validator";
 import User from "../models/userSchema.js";
 export async function createUser(rq, rs) {
+    const errors = validationResult(rq);
+    if (!errors.isEmpty()) {
+        return rs.status(400).json({ errors: errors.array() });
+    }
     const { email, username, password } = rq.body;
     if (email && username && password) {
         const newUser = await User.create({

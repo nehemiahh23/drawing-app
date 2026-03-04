@@ -1,11 +1,22 @@
 import express from "express"
+import { check } from "express-validator"
 import * as userController from "../controllers/userController.js"
 
 const router = express.Router()
 
 router.route("/")
 // .get(userController.getUser)
-.post(userController.createUser)
+.post([
+	check("email")
+		.notEmpty().withMessage("E-mail required.")
+		.isEmail().withMessage("Please input a valid e-mail address."),
+	check("username")
+		.notEmpty().withMessage("Username required."),
+	check("password")
+		.notEmpty().withMessage("Please input a password at least 8 characters long with at least one number and one special character.")
+		.matches(/^.\S{8,}$/).withMessage("Password must be at least 8 characters long.")
+		.matches(/^(?=.*[0-9])(?=.*[!@#$%^&*(){}[\]<>?/|.:;_-]).*$/).withMessage("Password must contain at least one number and one special character")
+], userController.createUser)
 
 router.route("/:id")
 .put(userController.editUser)
