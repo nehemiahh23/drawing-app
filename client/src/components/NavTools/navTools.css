@@ -1,0 +1,21 @@
+nav {
+	z-index: 1;
+	position: fixed;
+	display: flex;
+	left: 0;
+	top: 0;
+	height: 100vh;
+	width: 10vw;
+	flex-direction: column;
+	align-items: center;
+}
+
+a {
+	flex: 1;
+	width: 100%;
+}
+
+button {
+	height: 100%;
+	width: 100%;
+}
