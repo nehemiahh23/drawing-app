@@ -1,4 +1,4 @@
-import type { RequestHandler, Request, Response, NextFunction } from "express"
+import type { RequestHandler, Request } from "express"
 import jwt from "jsonwebtoken"
 import type { JwtPayload } from "jsonwebtoken"
 import "dotenv/config"

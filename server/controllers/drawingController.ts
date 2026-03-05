@@ -1,4 +1,6 @@
+import type { AuthRequest } from "../middleware/authMiddleware.js"
 import type { Request, Response } from "express"
+import type { JwtPayload } from "jsonwebtoken"
 import Drawing from "../models/drawingSchema.js"
 import { v2 as cloudinary } from 'cloudinary'
 import fs from "fs"
@@ -17,9 +19,10 @@ export async function getDrawings(rq: Request, rs: Response) {
 	}
 }
 
-export async function createDrawing(rq: Request, rs: Response) {
-	// check session before allowing creation
+export async function createDrawing(rq: AuthRequest, rs: Response) {
 	if (!rq.file) { return rs.status(400).json({ error: "Insufficient data to create resource." }) }
+
+	const payload: JwtPayload = rq.payload as JwtPayload
 
 	const type = rq.file.mimetype
 	if (type.slice(0, 6) !== "image/") { return rs.status(400).json({ error: "Invalid file type." }) }
@@ -31,7 +34,7 @@ export async function createDrawing(rq: Request, rs: Response) {
 		newDrawing = await Drawing.create({
 			...rq.body,
 			src: "temp",
-			userId: "0",
+			userId: payload.user.id,
 			locked: false
 		})
 	} catch(err) {
@@ -53,11 +56,20 @@ export async function createDrawing(rq: Request, rs: Response) {
 	}
 }
 
-export async function deleteDrawing(rq: Request, rs: Response) {
+export async function deleteDrawing(rq: AuthRequest, rs: Response) {
+	// TODO: Delete from cloud
 	if (!rq.params.id) { rs.status(400).json({ error: "Must specify an id parameter to delete." }) }
+
 	else {
-		const target = await Drawing.findByIdAndDelete(rq.params.id)
-		if (!target) { rs.status(404).json({ error: "Requested resource not found." }) }
-		else { rs.json(target) }
+		const target = await Drawing.findOne({ _id: rq.params.id })
+		const payload: JwtPayload = rq.payload as JwtPayload
+		
+		if (!target) { return rs.status(404).json({ error: "Requested resource not found." }) }
+		
+		if (target.userId !== payload.user.id) { return rs.status(401).json({ error: "Not authorized to delete resource." }) }
+		else {
+			target.deleteOne()
+			rs.json(target)
+		}
 	}
 }

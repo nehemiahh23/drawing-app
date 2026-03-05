@@ -39,6 +39,7 @@ export async function register(rq: Request, rs: Response) {
 	
 }
 
+// TODO: change username to email
 export async function login(rq: Request, rs: Response) {
 	const errors = validationResult(rq)
 	if (!errors.isEmpty()) { return rs.status(400).json({ errors: errors.array() }) }

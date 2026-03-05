@@ -6,10 +6,10 @@ const router = express.Router();
 const upload = multer({ dest: "./public/temp" });
 router.route("/")
     .get(drawingController.getDrawings)
-    .post(upload.single('drawing'), drawingController.createDrawing); // set new Drawing userId to token 
+    .post(auth, upload.single('drawing'), drawingController.createDrawing); // set new Drawing userId to token 
 // TODO: Add update route????
 router.route("/:id")
     .get(drawingController.getDrawings)
-    .delete(drawingController.deleteDrawing); // check if drawing userId matches token 
+    .delete(auth, drawingController.deleteDrawing); // check if drawing userId matches token 
 export default router;
 //# sourceMappingURL=drawingRoutes.js.map

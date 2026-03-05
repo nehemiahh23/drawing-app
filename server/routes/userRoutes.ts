@@ -21,7 +21,7 @@ router.route("/")
 ], authController.register)
 
 router.route("/:id")
-.put(auth, userController.editUser) // check if param id matches token (same below)
+.put(auth, userController.editUser)
 .delete(auth, userController.deleteUser)
 
 export default router

@@ -18,7 +18,7 @@ router.route("/")
         .matches(/^(?=.*[0-9])(?=.*[!@#$%^&*(){}[\]<>?/|.:;_-]).*$/).withMessage("Password must contain at least one number and one special character")
 ], authController.register);
 router.route("/:id")
-    .put(auth, userController.editUser) // check if param id matches token (same below)
+    .put(auth, userController.editUser)
     .delete(auth, userController.deleteUser);
 export default router;
 //# sourceMappingURL=userRoutes.js.map
