@@ -44,7 +44,7 @@ export async function createDrawing(rq: AuthRequest, rs: Response) {
 	}
 
 	try {
-		uploadRes = await cloudinary.uploader.upload(rq.file.path)
+		uploadRes = await cloudinary.uploader.upload(rq.file.path, { public_id: String(newDrawing._id), display_name: newDrawing.title })
 		if (!uploadRes.url) { throw new Error("Cloud upload failed.") }
 		newDrawing.src = uploadRes.url
 		await newDrawing.save()

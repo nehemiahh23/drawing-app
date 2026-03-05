@@ -43,7 +43,7 @@ export async function createDrawing(rq, rs) {
         return rs.status(500).json(err);
     }
     try {
-        uploadRes = await cloudinary.uploader.upload(rq.file.path);
+        uploadRes = await cloudinary.uploader.upload(rq.file.path, { public_id: String(newDrawing._id), display_name: newDrawing.title });
         if (!uploadRes.url) {
             throw new Error("Cloud upload failed.");
         }
