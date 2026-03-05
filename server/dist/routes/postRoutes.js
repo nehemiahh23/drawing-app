@@ -1,13 +1,14 @@
 import express from "express";
+import auth from "../middleware/authMiddleware.js";
 import * as postController from "../controllers/postController.js";
 const router = express.Router();
 router.route("/")
     .get(postController.getPosts)
-    .post(postController.createPost);
+    .post(auth, postController.createPost);
 router.route("/:id")
-    .delete(postController.deletePost)
+    .delete(auth, postController.deletePost)
     .get(postController.getPosts) // (on FE, only use if there wasn't a clicked post in state)
-    .put(postController.editPost);
+    .put(auth, postController.editPost);
 router.route("/user/:user_id")
     .get(postController.getPosts);
 export default router;

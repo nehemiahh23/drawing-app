@@ -2,7 +2,6 @@ import type { Request, Response, NextFunction, ErrorRequestHandler } from "expre
 
 export function requestLogger(rq: Request, rs: Response, next: NextFunction) {
 	console.log(`${rq.method} request sent to ${rq.path}`)
-
 	next()
 }
 

@@ -1,5 +1,5 @@
-import type { Request, Response } from "express";
-export declare function createUser(rq: Request, rs: Response): Promise<void>;
-export declare function editUser(rq: Request, rs: Response): Promise<void>;
-export declare function deleteUser(rq: Request, rs: Response): Promise<void>;
+import type { AuthRequest } from "../middleware/authMiddleware.js";
+import type { Response } from "express";
+export declare function editUser(rq: AuthRequest, rs: Response): Promise<Response<any, Record<string, any>> | undefined>;
+export declare function deleteUser(rq: AuthRequest, rs: Response): Promise<Response<any, Record<string, any>> | undefined>;
 //# sourceMappingURL=userController.d.ts.map

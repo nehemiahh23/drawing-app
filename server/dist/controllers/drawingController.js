@@ -19,10 +19,10 @@ export async function getDrawings(rq, rs) {
     }
 }
 export async function createDrawing(rq, rs) {
-    // check session before allowing creation
     if (!rq.file) {
         return rs.status(400).json({ error: "Insufficient data to create resource." });
     }
+    const payload = rq.payload;
     const type = rq.file.mimetype;
     if (type.slice(0, 6) !== "image/") {
         return rs.status(400).json({ error: "Invalid file type." });
@@ -30,10 +30,11 @@ export async function createDrawing(rq, rs) {
     let newDrawing;
     let uploadRes;
     try {
+        // TODO: Change "temp" to a 404 img link
         newDrawing = await Drawing.create({
             ...rq.body,
             src: "temp",
-            userId: "0",
+            userId: payload.user.id,
             locked: false
         });
     }
@@ -57,17 +58,24 @@ export async function createDrawing(rq, rs) {
     }
 }
 export async function deleteDrawing(rq, rs) {
+    // TODO: Delete from cloud
+    const target = await Drawing.findById(rq.params.id);
+    const payload = rq.payload;
     if (!rq.params.id) {
-        rs.status(400).json({ error: "Must specify an id parameter to delete." });
+        return rs.status(400).json({ error: "Must specify an id parameter to delete." });
     }
-    else {
-        const target = await Drawing.findByIdAndDelete(rq.params.id);
-        if (!target) {
-            rs.status(404).json({ error: "Requested resource not found." });
-        }
-        else {
-            rs.json(target);
-        }
+    if (!target) {
+        return rs.status(404).json({ error: "Requested resource not found." });
+    }
+    if (target.userId !== payload.user.id) {
+        return rs.status(401).json({ error: "Not authorized to delete resource." });
+    }
+    try {
+        target.deleteOne();
+        rs.json(target);
+    }
+    catch (err) {
+        return rs.status(500).json({ error: err });
     }
 }
 //# sourceMappingURL=drawingController.js.map
