@@ -53,7 +53,7 @@ export async function createDrawing(rq, rs) {
         rs.json(newDrawing);
     }
     catch (err) {
-        newDrawing.deleteOne();
+        await newDrawing.deleteOne();
         return rs.status(500).json({ error: err });
     }
 }
@@ -71,7 +71,8 @@ export async function deleteDrawing(rq, rs) {
         return rs.status(401).json({ error: "Not authorized to delete resource." });
     }
     try {
-        target.deleteOne();
+        await target.deleteOne();
+        await cloudinary.uploader.destroy(String(target._id));
         rs.json(target);
     }
     catch (err) {

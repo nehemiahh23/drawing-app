@@ -52,7 +52,7 @@ export async function createDrawing(rq: AuthRequest, rs: Response) {
 		fs.unlink(`./${rq.file.path}`, err => err && console.log(err))
 		rs.json(newDrawing)
 	} catch(err) {
-		newDrawing.deleteOne()
+		await newDrawing.deleteOne()
 		return rs.status(500).json({ error: err })
 	}
 }
@@ -61,13 +61,14 @@ export async function deleteDrawing(rq: AuthRequest, rs: Response) {
 	// TODO: Delete from cloud
 	const target = await Drawing.findById(rq.params.id)
 	const payload: JwtPayload = rq.payload as JwtPayload
-	
+
 	if (!rq.params.id) { return rs.status(400).json({ error: "Must specify an id parameter to delete." }) }
 	if (!target) { return rs.status(404).json({ error: "Requested resource not found." }) }
 	if (target.userId !== payload.user.id) { return rs.status(401).json({ error: "Not authorized to delete resource." }) }
 	
 	try {
-		target.deleteOne()
+		await target.deleteOne()
+		await cloudinary.uploader.destroy(String(target._id))
 		rs.json(target)
 	} catch(err) {
 		return rs.status(500).json({ error: err })
