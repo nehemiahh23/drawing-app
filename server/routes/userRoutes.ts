@@ -1,4 +1,5 @@
 import express from "express"
+import auth from "../middleware/authMiddleware.js"
 import { check } from "express-validator"
 import * as userController from "../controllers/userController.js"
 import * as authController from "../controllers/authController.js"
@@ -6,8 +7,7 @@ import * as authController from "../controllers/authController.js"
 const router = express.Router()
 
 router.route("/")
-// .get(userController.getUser)
-// mw before route
+// TODO: .get(userController.getUser)
 .post([
 	check("email")
 		.notEmpty().withMessage("E-mail required.")
@@ -21,7 +21,7 @@ router.route("/")
 ], authController.register)
 
 router.route("/:id")
-.put(userController.editUser)
-.delete(userController.deleteUser)
+.put(auth, userController.editUser) // check if param id matches token (same below)
+.delete(auth, userController.deleteUser)
 
 export default router
