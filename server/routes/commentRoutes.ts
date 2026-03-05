@@ -5,10 +5,10 @@ import * as commentController from "../controllers/commentController.js"
 const router = express.Router()
 
 router.route("/:id")
-.delete(auth, commentController.deleteComment) // check if comment userId matches token
+.delete(auth, commentController.deleteComment)
 
 router.route("/post/:post_id")
 .get(commentController.getPostComments)
-.post(auth, commentController.createComment) // set new Comment userId to token
+.post(auth, commentController.createComment)
 
 export default router
