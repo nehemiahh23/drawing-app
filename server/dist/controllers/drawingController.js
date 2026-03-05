@@ -59,22 +59,23 @@ export async function createDrawing(rq, rs) {
 }
 export async function deleteDrawing(rq, rs) {
     // TODO: Delete from cloud
+    const target = await Drawing.findById(rq.params.id);
+    const payload = rq.payload;
     if (!rq.params.id) {
-        rs.status(400).json({ error: "Must specify an id parameter to delete." });
+        return rs.status(400).json({ error: "Must specify an id parameter to delete." });
     }
-    else {
-        const target = await Drawing.findOne({ _id: rq.params.id });
-        const payload = rq.payload;
-        if (!target) {
-            return rs.status(404).json({ error: "Requested resource not found." });
-        }
-        if (target.userId !== payload.user.id) {
-            return rs.status(401).json({ error: "Not authorized to delete resource." });
-        }
-        else {
-            target.deleteOne();
-            rs.json(target);
-        }
+    if (!target) {
+        return rs.status(404).json({ error: "Requested resource not found." });
+    }
+    if (target.userId !== payload.user.id) {
+        return rs.status(401).json({ error: "Not authorized to delete resource." });
+    }
+    try {
+        target.deleteOne();
+        rs.json(target);
+    }
+    catch (err) {
+        return rs.status(500).json({ error: err });
     }
 }
 //# sourceMappingURL=drawingController.js.map

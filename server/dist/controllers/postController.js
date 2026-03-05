@@ -80,7 +80,7 @@ export async function editPost(rq, rs) {
     }
 }
 export async function deletePost(rq, rs) {
-    const target = await Post.findByIdAndDelete(rq.params.id);
+    const target = await Post.findById(rq.params.id);
     const payload = rq.payload;
     if (!rq.params.id) {
         return rs.status(400).json({ error: "Must specify an id parameter to delete." });
