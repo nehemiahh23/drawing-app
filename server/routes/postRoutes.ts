@@ -6,12 +6,12 @@ const router = express.Router()
 
 router.route("/")
 .get(postController.getPosts) 
-.post(postController.createPost) // set new Post userId to token
+.post(auth, postController.createPost)
 
 router.route("/:id")
-.delete(postController.deletePost) // check if post userId matches token
+.delete(auth, postController.deletePost)
 .get(postController.getPosts) // (on FE, only use if there wasn't a clicked post in state)
-.put(postController.editPost) // check if post userId matches token
+.put(auth, postController.editPost)
 
 router.route("/user/:user_id")
 .get(postController.getPosts)

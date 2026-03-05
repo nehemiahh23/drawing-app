@@ -30,6 +30,7 @@ export async function createDrawing(rq, rs) {
     let newDrawing;
     let uploadRes;
     try {
+        // TODO: Change "temp" to a 404 img link
         newDrawing = await Drawing.create({
             ...rq.body,
             src: "temp",
