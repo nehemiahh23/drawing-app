@@ -5,7 +5,6 @@ import * as userController from "../controllers/userController.js";
 import * as authController from "../controllers/authController.js";
 const router = express.Router();
 router.route("/")
-    // TODO: .get(userController.getUser)
     .post([
     check("email")
         .notEmpty().withMessage("E-mail required.")
@@ -18,6 +17,7 @@ router.route("/")
         .matches(/^(?=.*[0-9])(?=.*[!@#$%^&*(){}[\]<>?/|.:;_-]).*$/).withMessage("Password must contain at least one number and one special character")
 ], authController.register);
 router.route("/:id")
+    // TODO: .get(userController.getUser) // response should have extra info added on if auth
     .put(auth, userController.editUser)
     .delete(auth, userController.deleteUser);
 export default router;

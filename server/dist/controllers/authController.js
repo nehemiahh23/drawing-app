@@ -34,7 +34,7 @@ export async function register(rq, rs) {
         rs.status(400).json(err);
     }
 }
-// TODO: change username to email
+// TODO: login w/username or email
 export async function login(rq, rs) {
     const errors = validationResult(rq);
     if (!errors.isEmpty()) {
