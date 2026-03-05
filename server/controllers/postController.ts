@@ -73,7 +73,7 @@ export async function editPost(rq: AuthRequest, rs: Response) {
 }
 
 export async function deletePost(rq: AuthRequest, rs: Response) {
-	const target = await Post.findByIdAndDelete(rq.params.id)
+	const target = await Post.findOne({ _id: rq.params.id})
 	const payload: JwtPayload = rq.payload as JwtPayload
 
 	if (!rq.params.id) { return rs.status(400).json({ error: "Must specify an id parameter to delete." }) }
