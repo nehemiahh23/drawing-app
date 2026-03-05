@@ -20,14 +20,6 @@ router.route("/")
 		.matches(/^(?=.*[0-9])(?=.*[!@#$%^&*(){}[\]<>?/|.:;_-]).*$/).withMessage("Password must contain at least one number and one special character")
 ], authController.register)
 
-router.route("/login")
-.post([
-	check("username")
-		.notEmpty().withMessage("Please input a username."),
-	check("password")
-		.notEmpty().withMessage("Please input a password.")
-], authController.login)
-
 router.route("/:id")
 .put(userController.editUser)
 .delete(userController.deleteUser)

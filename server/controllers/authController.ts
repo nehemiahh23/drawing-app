@@ -4,16 +4,15 @@ import jwt from "jsonwebtoken"
 import bcrypt from "bcryptjs"
 import User from "../models/userSchema.js"
 
+const JWT_SECRET: string = process.env.JWT_SECRET as string
 
 export async function register(rq: Request, rs: Response) {
 	const errors = validationResult(rq)
-
 	if (!errors.isEmpty()) { return rs.status(400).json({ errors: errors.array() }) }
 
-	const { email, username, password } = rq.body
-	
-	if (email && username && password) {
-		const JWT_SECRET: string = process.env.JWT_SECRET as string
+	try {
+		const { email, username, password } = rq.body
+		
 		const newUser = await User.create({
 			email: email,
 			username: username,
@@ -34,15 +33,36 @@ export async function register(rq: Request, rs: Response) {
 			if (err) { throw err }
 			rs.json({ token })
 		})
-	} else {
-		rs.status(400).json({ error: "Insufficient data to create resource." })
+	} catch (err) {
+		rs.status(400).json(err)
 	}
+	
 }
 
 export async function login(rq: Request, rs: Response) {
 	const errors = validationResult(rq)
-
-	if (!errors.isEmpty()) { return  }
-
+	if (!errors.isEmpty()) { return rs.status(400).json({ errors: errors.array() }) }
+	
 	const { username, password } = rq.body
+
+	try {
+		let user = await User.findOne({ username: username })
+		if (!user) { return rs.status(400).json({ errors: [{ msg: "Invalid credentials." }] }) }
+
+		const match = await bcrypt.compare(password, user.password)
+		if (!match) { return rs.status(400).json({ errors: [{ msg: "Invalid credentials." }] }) }
+
+		const payload = {
+			user: {
+				id: user._id
+			}
+		}
+
+		jwt.sign(payload, JWT_SECRET, { expiresIn: 7200000 }, (err, token) => {
+			if (err) { throw err }
+			rs.json({ token })
+		})
+	} catch(err) {
+		rs.status(400).json(err)
+	}
 }

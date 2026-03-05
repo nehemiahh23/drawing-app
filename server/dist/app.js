@@ -6,6 +6,8 @@ import userRoutes from "./routes/userRoutes.js";
 import drawingRoutes from "./routes/drawingRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
+import * as authController from "./controllers/authController.js";
+import { check } from "express-validator";
 import { requestLogger, globalError } from "./middleware/loggingMiddleware.js";
 import { drawings, users, comments, posts } from "./utils/seed.js";
 import Drawing from "./models/drawingSchema.js";
@@ -26,6 +28,13 @@ app.use("/users", userRoutes);
 app.use("/api/drawings", drawingRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/posts", postRoutes);
+app.route("/login")
+    .post([
+    check("username")
+        .notEmpty().withMessage("Please input a username."),
+    check("password")
+        .notEmpty().withMessage("Please input a password.")
+], authController.login);
 app.route("/seed")
     .post(async (rq, rs) => {
     await Drawing.deleteMany({});
