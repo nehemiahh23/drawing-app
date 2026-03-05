@@ -73,6 +73,7 @@ export async function editPost(rq: AuthRequest, rs: Response) {
 }
 
 export async function deletePost(rq: AuthRequest, rs: Response) {
+	// TODO: Delete all associated comments
 	const target = await Post.findById(rq.params.id)
 	const payload: JwtPayload = rq.payload as JwtPayload
 

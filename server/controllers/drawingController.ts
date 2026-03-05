@@ -1,6 +1,7 @@
 import type { AuthRequest } from "../middleware/authMiddleware.js"
 import type { Request, Response } from "express"
 import type { JwtPayload } from "jsonwebtoken"
+import type { IDrawing } from "../models/types.js"
 import Drawing from "../models/drawingSchema.js"
 import { v2 as cloudinary } from 'cloudinary'
 import fs from "fs"
@@ -21,9 +22,9 @@ export async function getDrawings(rq: Request, rs: Response) {
 
 export async function createDrawing(rq: AuthRequest, rs: Response) {
 	if (!rq.file) { return rs.status(400).json({ error: "Insufficient data to create resource." }) }
-
+	
 	const payload: JwtPayload = rq.payload as JwtPayload
-
+	
 	const type = rq.file.mimetype
 	if (type.slice(0, 6) !== "image/") { return rs.status(400).json({ error: "Invalid file type." }) }
 	
@@ -42,23 +43,46 @@ export async function createDrawing(rq: AuthRequest, rs: Response) {
 		fs.unlink(`./${rq.file.path}`, err => err && console.log(err))
 		return rs.status(500).json(err)
 	}
-
+	
 	try {
 		uploadRes = await cloudinary.uploader.upload(rq.file.path, { public_id: String(newDrawing._id), display_name: newDrawing.title })
 		if (!uploadRes.url) { throw new Error("Cloud upload failed.") }
 		newDrawing.src = uploadRes.url
 		await newDrawing.save()
-
+		
 		fs.unlink(`./${rq.file.path}`, err => err && console.log(err))
 		rs.json(newDrawing)
 	} catch(err) {
 		await newDrawing.deleteOne()
-		return rs.status(500).json({ error: err })
+		return rs.status(500).json(err)
+	}
+}
+
+export async function editDrawing(rq: AuthRequest, rs: Response) {
+	const target: IDrawing = await Drawing.findById(rq.params.id) as IDrawing
+	const payload: JwtPayload = rq.payload as JwtPayload
+	let uploadRes
+	
+	if (!rq.params.id) { return rs.status(400).json({ error: "Must specify an id parameter to update." }) }
+	if (!rq.file || !rq.body.title) { return rs.status(400).json({ error: "Insufficient data to update resource." }) }
+	if (!target) { return rs.status(404).json({ error: "Requested resource not found." }) }
+	if (target.userId !== payload.user.id) { return rs.status(401).json({ error: "Not authorized to update resource." }) }
+	if (target.locked) { return rs.status(403).json({ error: "Drawing has a corresponding public post and cannot be changed." }) }
+
+	try {
+		target.title = rq.body.title ? rq.body.title : target.title
+		uploadRes = await cloudinary.uploader.upload(rq.file.path, { public_id: String(target._id), overwrite: true, invalidate: true, display_name: target.title })
+		target.src = uploadRes.url
+		await target.save()
+		rs.json(target)
+	} catch(err) {
+		if (rq.file) { fs.unlink(`./${rq.file.path}`, err => err && console.log(err)) }
+		return rs.status(500).json(err)
 	}
 }
 
 export async function deleteDrawing(rq: AuthRequest, rs: Response) {
-	// TODO: Delete from cloud
+	// TODO: Delete associated post as well
 	const target = await Drawing.findById(rq.params.id)
 	const payload: JwtPayload = rq.payload as JwtPayload
 

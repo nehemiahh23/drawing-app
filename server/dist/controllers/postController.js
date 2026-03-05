@@ -80,6 +80,7 @@ export async function editPost(rq, rs) {
     }
 }
 export async function deletePost(rq, rs) {
+    // TODO: Delete all associated comments
     const target = await Post.findById(rq.params.id);
     const payload = rq.payload;
     if (!rq.params.id) {
