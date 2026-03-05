@@ -19,7 +19,6 @@ const auth: RequestHandler = async (rq: AuthRequest, rs, next) => {
 	try {
 		const decoded = jwt.verify(token, JWT_SECRET)
 		rq.payload = decoded
-		// const user = 
 		
 		if (!await User.findById((rq.payload as JwtPayload).user.id)) { return rs.status(404).json({ error: "User does not exist." }) }
 		

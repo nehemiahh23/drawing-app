@@ -11,7 +11,6 @@ const auth = async (rq, rs, next) => {
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
         rq.payload = decoded;
-        // const user = 
         if (!await User.findById(rq.payload.user.id)) {
             return rs.status(404).json({ error: "User does not exist." });
         }
