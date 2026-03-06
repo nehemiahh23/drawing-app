@@ -27,7 +27,6 @@ export async function createPost(rq: AuthRequest, rs: Response) {
 	const drawing: IDrawing = await Drawing.findById(drawingId) as IDrawing
 	const payload: JwtPayload = rq.payload as JwtPayload
 
-	// TODO: Implement express-validator to replace all "Insufficient data" statements
 	if (!drawingId) { return rs.status(400).json({ error: "Insufficient data to create resource." }) }
 	if (!drawing) { return rs.status(404).json({ error: "Requested resource not found." }) }
 	if (drawing.userId !== payload.user.id) { return rs.status(401).json({ error: "Not authorized to access resource." }) }
@@ -74,7 +73,6 @@ export async function editPost(rq: AuthRequest, rs: Response) {
 }
 
 export async function deletePost(rq: AuthRequest, rs: Response) {
-	// TODO: Delete all associated comments
 	const target = await Post.findById(rq.params.id)
 	const payload: JwtPayload = rq.payload as JwtPayload
 

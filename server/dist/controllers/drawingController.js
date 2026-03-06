@@ -31,10 +31,9 @@ export async function createDrawing(rq, rs) {
     let newDrawing;
     let uploadRes;
     try {
-        // TODO: Change "temp" to a 404 img link
         newDrawing = await Drawing.create({
             ...rq.body,
-            src: "temp",
+            src: "https://res.cloudinary.com/ddka2pw9a/image/upload/v1772767575/2153483_e8wtpj.jpg",
             userId: payload.user.id,
             locked: false
         });
@@ -92,7 +91,6 @@ export async function editDrawing(rq, rs) {
     }
 }
 export async function deleteDrawing(rq, rs) {
-    // TODO: Delete associated post as well
     const target = await Drawing.findById(rq.params.id);
     const payload = rq.payload;
     if (!rq.params.id) {

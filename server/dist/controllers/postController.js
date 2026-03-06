@@ -24,7 +24,6 @@ export async function createPost(rq, rs) {
     let { drawingId, title } = rq.body;
     const drawing = await Drawing.findById(drawingId);
     const payload = rq.payload;
-    // TODO: Implement express-validator to replace all "Insufficient data" statements
     if (!drawingId) {
         return rs.status(400).json({ error: "Insufficient data to create resource." });
     }
@@ -81,7 +80,6 @@ export async function editPost(rq, rs) {
     }
 }
 export async function deletePost(rq, rs) {
-    // TODO: Delete all associated comments
     const target = await Post.findById(rq.params.id);
     const payload = rq.payload;
     if (!rq.params.id) {

@@ -33,10 +33,9 @@ export async function createDrawing(rq: AuthRequest, rs: Response) {
 	let uploadRes
 	
 	try {
-		// TODO: Change "temp" to a 404 img link
 		newDrawing = await Drawing.create({
 			...rq.body,
-			src: "temp",
+			src: "https://res.cloudinary.com/ddka2pw9a/image/upload/v1772767575/2153483_e8wtpj.jpg",
 			userId: payload.user.id,
 			locked: false
 		})
@@ -83,7 +82,6 @@ export async function editDrawing(rq: AuthRequest, rs: Response) {
 }
 
 export async function deleteDrawing(rq: AuthRequest, rs: Response) {
-	// TODO: Delete associated post as well
 	const target = await Drawing.findById(rq.params.id)
 	const payload: JwtPayload = rq.payload as JwtPayload
 

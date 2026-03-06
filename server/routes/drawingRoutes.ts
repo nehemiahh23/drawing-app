@@ -10,7 +10,6 @@ router.route("/")
 .get(drawingController.getDrawings)
 .post(auth, upload.single('drawing'), drawingController.createDrawing)
 
-// TODO: Add duplicate route
 router.route("/:id")
 .get(drawingController.getDrawings)
 .put(auth, upload.single('drawing'), drawingController.editDrawing)

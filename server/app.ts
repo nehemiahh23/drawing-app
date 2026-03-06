@@ -28,7 +28,6 @@ app.use(express.json())
 app.use(requestLogger)
 
 // routes
-// TODO: Add lean() to all appropriate GET routes
 app.use("/users", userRoutes)
 app.use("/api/drawings", drawingRoutes)
 app.use("/api/comments", commentRoutes)
