@@ -24,18 +24,17 @@ export async function createPost(rq, rs) {
     let { drawingId, title } = rq.body;
     const drawing = await Drawing.findById(drawingId);
     const payload = rq.payload;
-    // TODO: Implement express-validator to replace all "Insufficient data" statements
     if (!drawingId) {
         return rs.status(400).json({ error: "Insufficient data to create resource." });
+    }
+    if (!drawing) {
+        return rs.status(404).json({ error: "Requested resource not found." });
     }
     if (drawing.userId !== payload.user.id) {
         return rs.status(401).json({ error: "Not authorized to access resource." });
     }
     if (drawing.locked) {
         return rs.status(403).json({ error: "Drawing already has a corresponding public post." });
-    }
-    if (!drawing) {
-        return rs.status(404).json({ error: "Requested resource not found." });
     }
     if (!title) {
         title = drawing.title;
@@ -52,6 +51,7 @@ export async function createPost(rq, rs) {
         rs.json(newPost);
     }
     catch (err) {
+        console.log(err);
         return rs.status(500).json(err);
     }
 }
@@ -94,6 +94,7 @@ export async function deletePost(rq, rs) {
     try {
         await target.deleteOne();
         await Drawing.findByIdAndUpdate(target.drawingId, { locked: false });
+        target.deleteComments();
         rs.json(target);
     }
     catch (err) {

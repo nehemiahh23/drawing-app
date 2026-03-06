@@ -4,9 +4,7 @@ export interface IDrawing extends Document {
     userId: string;
     title: string;
     locked: boolean;
-    likes: number;
-    commentIds: string[];
-    getComments(): Promise<IComment[]>;
+    deletePost(): Promise<void>;
 }
 export interface IUser {
     email: string;
@@ -27,5 +25,6 @@ export interface IPost extends Document {
     likes: number;
     commentIds: string[];
     getComments(): Promise<IComment[]>;
+    deleteComments(): Promise<void>;
 }
 //# sourceMappingURL=types.d.ts.map

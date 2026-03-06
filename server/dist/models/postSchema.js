@@ -28,6 +28,9 @@ const postSchema = new mongoose.Schema({
                 data.push(c);
             }
             return data;
+        },
+        async deleteComments() {
+            await Comment.deleteMany({ postId: String(this._id) });
         }
     }
 });

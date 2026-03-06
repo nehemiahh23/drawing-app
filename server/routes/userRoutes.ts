@@ -20,8 +20,11 @@ router.route("/")
 ], authController.register)
 
 router.route("/:id")
-// TODO: .get(userController.getUser) // response should have extra info added on if auth
+.get(userController.getUsers) // response should have extra info added on if auth
 .put(auth, userController.editUser)
 .delete(auth, userController.deleteUser)
+
+router.route("/settings")
+.get(auth, userController.getSelf)
 
 export default router
