@@ -13,5 +13,22 @@ A React frontend which displays data from [Pexels API](http://pexels.com/). Data
 ## Usage
 - Use the Gallery button to view the image data.
 
+<!-- TODO: Add the fancy technologies list from Sneeks -->
 ## Technologies Used
 - Vite + React
+- EaselJS
+- Express.js
+- MongoDB/Mongoose
+
+## API Routes
+| Method | Path | Description |
+| --- | --- | --- |
+| POST | /seed | Empties the database and seeds with test data from ``/utils/seed.ts``. |
+| POST | /users | Creates a user. Username and email must be unique. |
+| PUT | /users/:id | Edit the given users username and/or password. |
+| DELETE | /users/:id | Deletes the selected user. |
+| GET | /api/drawings | Returns all drawings. Can also return a specific image by `/:id` parameter. |
+| POST | /api/drawings | Create new drawing. Title must be unique. User ID is currently a set placeholder value. |
+| DELETE | /api/drawings/:id | Delete the selected drawing |
+| GET | /api/comments/post/:drawing_id | Get the comments associated with the `/:drawing_id`. |
+| POST | /api/comments/post/:drawing_id | Post a new comment under the `/:drawing_id`. |
