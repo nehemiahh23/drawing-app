@@ -31,8 +31,9 @@ app.use("/api/comments", commentRoutes);
 app.use("/api/posts", postRoutes);
 app.route("/login")
     .post([
-    check("username")
-        .notEmpty().withMessage("Please input a username."),
+    check("email")
+        .notEmpty().withMessage("E-mail required.")
+        .isEmail().withMessage("Please input a valid e-mail address."),
     check("password")
         .notEmpty().withMessage("Please input a password.")
 ], authController.login);
