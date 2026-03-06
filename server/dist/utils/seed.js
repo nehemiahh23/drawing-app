@@ -63,35 +63,35 @@ export const users = [
         _id: "65a1b2c3d4e5f6a7b8c9d0a1",
         email: "alice.chen@example.com",
         username: "alice_artist",
-        password: "hashed_password_1",
+        password: "$2b$10$TANj6RoyWaIJtexULL0RnOfPE2HnE6zZxfEUVALspzZ/vRCa0HFh6",
         likes: []
     },
     {
         _id: "65a1b2c3d4e5f6a7b8c9d0a2",
         email: "bob.williams@example.com",
         username: "bobcreates",
-        password: "hashed_password_2",
+        password: "$2b$10$TANj6RoyWaIJtexULL0RnOfPE2HnE6zZxfEUVALspzZ/vRCa0HFh6",
         likes: []
     },
     {
         _id: "65a1b2c3d4e5f6a7b8c9d0a3",
         email: "clara.martinez@example.com",
         username: "clara_draws",
-        password: "hashed_password_3",
+        password: "$2b$10$TANj6RoyWaIJtexULL0RnOfPE2HnE6zZxfEUVALspzZ/vRCa0HFh6",
         likes: []
     },
     {
         _id: "65a1b2c3d4e5f6a7b8c9d0a4",
         email: "david.kim@example.com",
         username: "davidsketch",
-        password: "hashed_password_4",
+        password: "$2b$10$TANj6RoyWaIJtexULL0RnOfPE2HnE6zZxfEUVALspzZ/vRCa0HFh6",
         likes: []
     },
     {
         _id: "65a1b2c3d4e5f6a7b8c9d0a5",
         email: "emma.taylor@example.com",
         username: "emma_creative",
-        password: "hashed_password_5",
+        password: "$2b$10$TANj6RoyWaIJtexULL0RnOfPE2HnE6zZxfEUVALspzZ/vRCa0HFh6",
         likes: []
     }
 ];
