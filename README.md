@@ -21,14 +21,22 @@ A React frontend which displays data from [Pexels API](http://pexels.com/). Data
 - MongoDB/Mongoose
 
 ## API Routes
-| Method | Path | Description |
-| --- | --- | --- |
-| POST | /seed | Empties the database and seeds with test data from ``/utils/seed.ts``. |
-| POST | /users | Creates a user. Username and email must be unique. |
-| PUT | /users/:id | Edit the given users username and/or password. |
-| DELETE | /users/:id | Deletes the selected user. |
-| GET | /api/drawings | Returns all drawings. Can also return a specific image by `/:id` parameter. |
-| POST | /api/drawings | Create new drawing. Title must be unique. User ID is currently a set placeholder value. |
-| DELETE | /api/drawings/:id | Delete the selected drawing |
-| GET | /api/comments/post/:drawing_id | Get the comments associated with the `/:drawing_id`. |
-| POST | /api/comments/post/:drawing_id | Post a new comment under the `/:drawing_id`. |
+| Method | Path | Description | Access
+| --- | --- | --- | --- |
+| POST | /seed | Empties the database and seeds with test data from ``/utils/seed.ts``. | Public |
+| POST | /users | Creates a user. Username and email must be unique. | Public |
+| GET | /users/:id | Get all users' usernames and likes. | Public |
+| PUT | /users/:id | Edit the given users username and/or password. | Private |
+| DELETE | /users/:id | Deletes the selected user. | Private |
+| POST | /api/drawings | Create new drawing. | Private |
+| GET | /api/drawings | Returns all drawings. Can also return a specific drawing by `/:id` parameter. | Public |
+| PUT | /api/drawings/:id | Edit the given drawing's title or overwrite its source image. | Private |
+| DELETE | /api/drawings/:id | Delete the selected drawing | Private |
+| POST | /api/posts | Create new post. | Private |
+| GET | /api/posts | Returns all posts. Can also return a specific post by `/:id` parameter. | Public |
+| GET | /api/posts/user/:user_id | Returns all posts attributed to the specified user. | Public |
+| PUT | /api/posts/:id | Edit the given post's title. Not currently implemented in the frontend. | Private |
+| DELETE | /api/posts/:id | Delete the selected post. | Private |
+| GET | /api/comments/post/:post_id | Get the comments associated with the `/:post_id`. | Public |
+| POST | /api/comments/post/:post_id | Post a new comment under the `/:post_id`. | Private |
+| DELETE | /api/comments/:id | Delete the selected comment. | Private |
