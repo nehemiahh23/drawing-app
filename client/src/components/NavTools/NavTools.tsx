@@ -6,9 +6,9 @@ import "./navTools.css"
 const NavTools = () => {
 	const { studioMode } = useModeContext()
 
+	// TODO: first Nav should be changed to Tools when implemented
   return (
 	<nav>
-		{/* first Nav should be changed to Tools when implemented */}
 		{ studioMode ? <Nav /> : <Nav /> }
 	</nav>	
   )

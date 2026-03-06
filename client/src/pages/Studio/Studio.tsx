@@ -1,6 +1,10 @@
+import Canvas from "../../components/Canvas/Canvas.js"
+
 function Studio() {
   return (
-	<main>Studio</main>
+	<main>
+		<Canvas />
+	</main>
   )
 }
 export default Studio
