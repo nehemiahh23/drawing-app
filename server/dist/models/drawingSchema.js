@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Comment from "./commentSchema.js";
+import Post from "./postSchema.js";
 const drawingSchema = new mongoose.Schema({
     src: {
         type: String,
@@ -18,7 +18,16 @@ const drawingSchema = new mongoose.Schema({
         required: true
     }
 }, {
-    timestamps: true
+    timestamps: true,
+    methods: {
+        async deletePost() {
+            const post = await Post.findOne({ drawingId: String(this._id) });
+            if (post) {
+                await post.deleteComments();
+                await post.deleteOne();
+            }
+        }
+    }
 });
 drawingSchema.index({ title: "text" });
 drawingSchema.index({ likes: -1 });

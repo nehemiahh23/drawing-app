@@ -1,4 +1,5 @@
 import Drawing from "../models/drawingSchema.js";
+import Post from "../models/postSchema.js";
 import { v2 as cloudinary } from 'cloudinary';
 import fs from "fs";
 import "dotenv/config";
@@ -30,10 +31,9 @@ export async function createDrawing(rq, rs) {
     let newDrawing;
     let uploadRes;
     try {
-        // TODO: Change "temp" to a 404 img link
         newDrawing = await Drawing.create({
             ...rq.body,
-            src: "temp",
+            src: "https://res.cloudinary.com/ddka2pw9a/image/upload/v1772767575/2153483_e8wtpj.jpg",
             userId: payload.user.id,
             locked: false
         });
@@ -43,7 +43,7 @@ export async function createDrawing(rq, rs) {
         return rs.status(500).json(err);
     }
     try {
-        uploadRes = await cloudinary.uploader.upload(rq.file.path);
+        uploadRes = await cloudinary.uploader.upload(rq.file.path, { public_id: String(newDrawing._id), display_name: newDrawing.title });
         if (!uploadRes.url) {
             throw new Error("Cloud upload failed.");
         }
@@ -53,12 +53,44 @@ export async function createDrawing(rq, rs) {
         rs.json(newDrawing);
     }
     catch (err) {
-        newDrawing.deleteOne();
-        return rs.status(500).json({ error: err });
+        await newDrawing.deleteOne();
+        return rs.status(500).json(err);
+    }
+}
+export async function editDrawing(rq, rs) {
+    const target = await Drawing.findById(rq.params.id);
+    const payload = rq.payload;
+    let uploadRes;
+    if (!rq.params.id) {
+        return rs.status(400).json({ error: "Must specify an id parameter to update." });
+    }
+    if (!rq.file || !rq.body.title) {
+        return rs.status(400).json({ error: "Insufficient data to update resource." });
+    }
+    if (!target) {
+        return rs.status(404).json({ error: "Requested resource not found." });
+    }
+    if (target.userId !== payload.user.id) {
+        return rs.status(401).json({ error: "Not authorized to update resource." });
+    }
+    if (target.locked) {
+        return rs.status(403).json({ error: "Drawing has a corresponding public post and cannot be changed." });
+    }
+    try {
+        target.title = rq.body.title ? rq.body.title : target.title;
+        uploadRes = await cloudinary.uploader.upload(rq.file.path, { public_id: String(target._id), overwrite: true, invalidate: true, display_name: target.title });
+        target.src = uploadRes.url;
+        await target.save();
+        rs.json(target);
+    }
+    catch (err) {
+        if (rq.file) {
+            fs.unlink(`./${rq.file.path}`, err => err && console.log(err));
+        }
+        return rs.status(500).json(err);
     }
 }
 export async function deleteDrawing(rq, rs) {
-    // TODO: Delete from cloud
     const target = await Drawing.findById(rq.params.id);
     const payload = rq.payload;
     if (!rq.params.id) {
@@ -71,7 +103,9 @@ export async function deleteDrawing(rq, rs) {
         return rs.status(401).json({ error: "Not authorized to delete resource." });
     }
     try {
-        target.deleteOne();
+        await target.deletePost();
+        await target.deleteOne();
+        cloudinary.uploader.destroy(String(target._id));
         rs.json(target);
     }
     catch (err) {

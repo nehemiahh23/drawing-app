@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import Comment from "./commentSchema.js"
-import type { IDrawing, IComment } from "./types.js";
+import Post from "./postSchema.js"
+import type { IDrawing, IPost } from "./types.js";
 
 const drawingSchema = new mongoose.Schema<IDrawing>(
 	{
@@ -22,7 +22,17 @@ const drawingSchema = new mongoose.Schema<IDrawing>(
 		}
 	},
 	{
-		timestamps: true
+		timestamps: true,
+		methods: {
+			async deletePost() {
+				const post: IPost = await Post.findOne({ drawingId: String(this._id) }) as IPost
+
+				if (post) {
+					await post.deleteComments()
+					await post.deleteOne()
+				}
+			}
+		}
 	}
 )
 

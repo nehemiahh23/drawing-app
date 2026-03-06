@@ -7,9 +7,9 @@ const upload = multer({ dest: "./public/temp" });
 router.route("/")
     .get(drawingController.getDrawings)
     .post(auth, upload.single('drawing'), drawingController.createDrawing);
-// TODO: Add update route????
 router.route("/:id")
     .get(drawingController.getDrawings)
+    .put(auth, upload.single('drawing'), drawingController.editDrawing)
     .delete(auth, drawingController.deleteDrawing);
 export default router;
 //# sourceMappingURL=drawingRoutes.js.map

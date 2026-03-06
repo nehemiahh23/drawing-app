@@ -34,15 +34,14 @@ export async function register(rq, rs) {
         rs.status(400).json(err);
     }
 }
-// TODO: login w/username or email
 export async function login(rq, rs) {
     const errors = validationResult(rq);
     if (!errors.isEmpty()) {
         return rs.status(400).json({ errors: errors.array() });
     }
-    const { username, password } = rq.body;
+    const { email, password } = rq.body;
     try {
-        let user = await User.findOne({ username: username });
+        let user = await User.findOne({ email: email });
         if (!user) {
             return rs.status(400).json({ errors: [{ msg: "Invalid credentials." }] });
         }
