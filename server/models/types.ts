@@ -5,9 +5,7 @@ export interface IDrawing extends Document {
 	userId: string,
 	title: string,
 	locked: boolean,
-	likes: number,
-	commentIds: string[],
-	getComments(): Promise<IComment[]>
+	deletePost(): Promise<void>
 }
 
 export interface IUser {
@@ -30,5 +28,6 @@ export interface IPost extends Document {
 	title?: string,
 	likes: number,
 	commentIds: string[],
-	getComments(): Promise<IComment[]>
+	getComments(): Promise<IComment[]>,
+	deleteComments(): Promise<void>
 }

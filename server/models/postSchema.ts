@@ -34,6 +34,9 @@ const postSchema = new mongoose.Schema<IPost>(
 				}
 
 				return data
+			},
+			async deleteComments() {
+				await Comment.deleteMany({ postId: String(this._id) })
 			}
 		}
 	}

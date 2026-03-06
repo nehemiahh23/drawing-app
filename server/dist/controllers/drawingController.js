@@ -1,4 +1,5 @@
 import Drawing from "../models/drawingSchema.js";
+import Post from "../models/postSchema.js";
 import { v2 as cloudinary } from 'cloudinary';
 import fs from "fs";
 import "dotenv/config";
@@ -104,8 +105,9 @@ export async function deleteDrawing(rq, rs) {
         return rs.status(401).json({ error: "Not authorized to delete resource." });
     }
     try {
+        await target.deletePost();
         await target.deleteOne();
-        await cloudinary.uploader.destroy(String(target._id));
+        cloudinary.uploader.destroy(String(target._id));
         rs.json(target);
     }
     catch (err) {
