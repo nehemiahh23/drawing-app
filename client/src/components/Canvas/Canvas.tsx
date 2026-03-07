@@ -1,26 +1,48 @@
 import * as createjs from "createjs-module"
-import { useEffect, useRef } from "react"
+import { useState, useEffect, useRef, RefObject } from "react"
 import "./canvas.css"
 
 function Canvas() {
-	const canvasRef = useRef(null)
+	const canvasRef: RefObject<HTMLCanvasElement | null> = useRef(null)
+	const stageRef: RefObject<createjs.Stage | null> = useRef(null)
+	const shapeRef: RefObject<createjs.Shape | null> = useRef(null)
+	const [pos, setPos] = useState({ x: 0, y: 0 })
 
 	useEffect(() => {
-		const stage = new createjs.Stage("canvas")
-		const circle = new createjs.Shape()
-		let canvasElem: HTMLCanvasElement
-		
 		if (canvasRef.current) {
-			canvasElem = canvasRef.current as HTMLCanvasElement
-			circle.x = canvasElem.width / 2
-			circle.y = canvasElem.height / 2
+			canvasRef.current.width = window.innerWidth * 0.75
+			canvasRef.current.height = window.innerHeight * 0.8
 		}
-		
-		circle.graphics.beginFill("#9900ff").drawCircle(0, 0, 40)
-		stage.addChild(circle)
+
+		const stage = new createjs.Stage("canvas") // create stage on the #canvas element
+		stageRef.current = stage // store stage ref
+
+		const cursor = new createjs.Shape() // create cursor
+		cursor.graphics.setStrokeStyle(1).beginStroke("#000").drawCircle(0, 0, 2)
+		cursor.x = pos.x
+		cursor.y = pos.y
+		shapeRef.current = cursor
+
+		stage.addChild(cursor)
 		stage.update()
+		stage.addEventListener("stagemousemove", handleMove)
+
+		return () => {
+			stage.removeAllEventListeners()
+		}
 	}, [])
 
+	useEffect(() => {
+		if (shapeRef.current && stageRef.current) {
+			shapeRef.current.x = pos.x
+			shapeRef.current.y = pos.y
+			stageRef.current.update()
+		}
+	}, [pos])
+
+	function handleMove(e: Object) {
+		setPos({...pos, x: e.stageX, y: e.stageY})
+	}
 
   return (
 	<canvas id="canvas" ref={canvasRef} />

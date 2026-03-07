@@ -11,6 +11,10 @@ body, html {
 
 #root {
 	width: stretch;
+	height: stretch;
+	display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 *, *::before, *::after {
