@@ -27,13 +27,14 @@ function Nav() {
 				<div>Portfolio</div>
 			</button>
 		</Link>
+		{/* TODO: combine prefs and login buttons, conditionally link to own profile or login page statefully */}
 		<Link to="">
 			<button disabled>
 				<div>Preferences</div>
 			</button>
 		</Link>
-		<Link to="">
-			<button disabled>
+		<Link to="/login">
+			<button>
 				<div>Sign In</div>
 			</button>
 		</Link>

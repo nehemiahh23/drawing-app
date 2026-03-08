@@ -74,7 +74,7 @@ function Canvas() {
 		createjs.Ticker.addEventListener("tick", handleDraw)
 	}, [mouseDown, pos])
 	
-	function handleDraw(e: Object) { // depending on mouse state, fires every tick
+	function handleDraw(_e: Object) { // depending on mouse state, fires every tick
 		if (mouseDown) {
 			strokeRef.current?.graphics.lineTo(pos.x, pos.y).moveTo(pos.x, pos.y)
 			stageRef.current?.update()
