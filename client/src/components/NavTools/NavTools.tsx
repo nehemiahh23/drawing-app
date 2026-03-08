@@ -4,12 +4,12 @@ import Nav from "../Nav.js"
 import "./navTools.css"
 
 const NavTools = () => {
-	const { canvasMode } = useModeContext()
+	const { studioMode } = useModeContext()
 
+	// TODO: first Nav should be changed to Tools when implemented
   return (
 	<nav>
-		{/* first Nav should be changed to Tools when implemented */}
-		{ canvasMode ? <Nav /> : <Nav /> }
+		{ studioMode ? <Nav /> : <Nav /> }
 	</nav>	
   )
 }

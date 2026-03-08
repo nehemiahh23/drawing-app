@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import NavTools from './components/NavTools/NavTools.js'
 import Feed from './pages/Feed/Feed.js'
-import Canvas from './pages/Canvas/Canvas.js'
+import Studio from './pages/Studio/Studio.js'
 import "./App.css"
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
 		<NavTools />
 		<Routes>
 			<Route path='/feed' element={<Feed />} />
-			<Route path='/' element={<Canvas />} />
+			<Route path='/' element={<Studio />} />
 		</Routes>
 	</>
   )
