@@ -24,7 +24,9 @@ export interface IComment extends Document {
 
 export interface IPost extends Document {
 	userId: string,
+	username: string,
 	drawingId: string,
+	src: string,
 	title?: string,
 	likes: number,
 	commentIds: string[],

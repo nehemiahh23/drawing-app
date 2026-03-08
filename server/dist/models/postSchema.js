@@ -5,7 +5,15 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    username: {
+        type: String,
+        required: true
+    },
     drawingId: {
+        type: String,
+        required: true
+    },
+    src: {
         type: String,
         required: true
     },
