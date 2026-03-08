@@ -27,10 +27,11 @@ function Canvas() {
 		cursorRef.current = cursor
 		
 		const stroke = new createjs.Shape() // create stroke object
+		// stroke.graphics.setStrokeStyle(5, "round")
 		strokeRef.current = stroke
 		
 		stage.addChild(cursor) // add objects to stage
-		stage.addChild(stroke) 
+		stage.addChild(stroke)
 		stage.update()
 		
 		stage.addEventListener("stagemousemove", handleMove)
@@ -57,12 +58,13 @@ function Canvas() {
 	}, [pos])
 	
 	function handleMouseDown(e: Object) { // handles stroke position and mouse state
+		strokeRef.current?.graphics.setStrokeStyle(5, "round", "round", undefined, true).beginStroke("#000")
 		setStrokePos({...strokePos, x: e.stageX, y: e.stageY})
 		setMouseDown(true)
 	}
 	
 	useEffect(() => { // draw initial point of stroke
-		strokeRef.current?.graphics.drawCircle(strokePos.x, strokePos.y, 1).beginFill("#000")
+		strokeRef.current?.graphics.drawCircle(strokePos.x, strokePos.y, 0).beginFill("#000")
 		// stageRef.current?.update()
 	}, [strokePos])
 	
@@ -74,7 +76,7 @@ function Canvas() {
 	function handleDraw(e: Object) { // depending on mouse state, fires every tick
 		if (mouseDown) {
 			console.log(strokePos.x, strokePos.y, pos.x, pos.y)
-			strokeRef.current?.graphics.drawCircle(pos.x, pos.y, 1).beginStroke("#000").lineTo(pos.x, pos.y).moveTo(pos.x, pos.y)
+			strokeRef.current?.graphics.lineTo(pos.x, pos.y).moveTo(pos.x, pos.y)
 			stageRef.current?.update()
 		}
 	}
