@@ -10,23 +10,25 @@ const AuthProvider = ({ children }: Props) => {
 	
 	function login(input: IFormData) {
 		axios.post("http://localhost:3000/login", input)
-		.then(r => console.log(r.data))
-		.catch(err => {
-			setErrors(err.response.data.errors.map(e => e.msg))
-			console.log(err.response)
-		})
+		.then(r => setCookies("token", r.data.token))
+		.catch(err => setErrors(err.response.data.errors.map(e => e.msg)))
 	}
 
 	function register(input: IFormData) {
 		axios.post("http://localhost:3000/users", input)
-		.then(r => console.log(r.data))
+		.then(r => setCookies("token", r.data.token))
 		.catch(err => setErrors(err.response.data.errors.map(e => e.msg)))
+	}
+
+	function logOut() {
+		["token"].forEach((token) => removeCookie("token"))
 	}
 	
 	const cookieData = useMemo(() => ({
 		cookies,
 		login,
 		register,
+		logOut,
 		errors,
 		setErrors
 	}), [cookies, errors])

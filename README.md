@@ -24,7 +24,7 @@ A React frontend which displays data from [Pexels API](http://pexels.com/). Data
 | Method | Path | Description | Access
 | --- | --- | --- | --- |
 | POST | /seed | Empties the database and seeds with test data from ``/utils/seed.ts``. | Public |
-| POST | /users | Creates a user. Username and email must be unique. Returns a JavaScript Web Token. | Public |
+| POST | /users | Creates a user. Username and email must be unique. Returns a JSON Web Token. | Public |
 | POST | /login | Log in with e-mail address and password. Returns a JavaScript Web Token. | Public |
 | GET | /users/:id | Get all users' usernames and likes. | Public |
 | PUT | /users/:id | Edit the given users username and/or password. | Private |
