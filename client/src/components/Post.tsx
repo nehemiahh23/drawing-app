@@ -13,5 +13,5 @@ export default Post
 interface Props {
 	src: string,
 	alt: string,
-	author: string
+	author: string | undefined
 }
