@@ -20,17 +20,19 @@ function Canvas() {
 		const stage = new createjs.Stage("canvas") // create stage on the #canvas element
 		stageRef.current = stage
 
+		// TODO: create separate layer for cursor to keep it out of the actual image file
 		const cursor = new createjs.Shape() // create cursor obj
 		cursor.graphics.setStrokeStyle(1).beginStroke("#000").drawCircle(0, 0, 5) // draw cursor
 		cursor.x, cursor.y = pos.x, pos.y // set cursor initial position
 		cursorRef.current = cursor
 		
-		stage.addChild(cursor) // add cursor to stage
+		const stroke = new createjs.Shape() // create stroke object
+		strokeRef.current = stroke
+		
+		stage.addChild(cursor) // add objects to stage
+		stage.addChild(stroke) 
 		stage.update()
 		
-		const stroke = new createjs.Shape() // create stroke object (set props and draw inside of drag handler)
-		strokeRef.current = stroke
-
 		stage.addEventListener("stagemousemove", handleMove)
 		stage.addEventListener("stagemousedown", handleMouseDown)
 		stage.addEventListener("stagemouseup", handleMouseUp)
@@ -38,50 +40,50 @@ function Canvas() {
 		
 		return () => {
 			stage.removeAllEventListeners()
+			createjs.Ticker.removeAllEventListeners()
 		}
 	}, [])
 	
-	useEffect(() => {
-		if (cursorRef.current && stageRef.current) { // when handleMove changes cursor pos, set the position of cursor object and update stage
+	function handleMove(e: Object) { // handles position state
+		setPos({...pos, x: e.stageX, y: e.stageY})
+	}
+	
+	useEffect(() => { // updates cursor position as state changes
+		if (cursorRef.current && stageRef.current) {
 			cursorRef.current.x = pos.x
 			cursorRef.current.y = pos.y
 			stageRef.current.update()
 		}
 	}, [pos])
 	
-	useEffect(() => {
-		if (strokeRef.current && stageRef.current) { // same as above for stroke starting point
-			strokeRef.current.x = strokePos.x
-			strokeRef.current.y = strokePos.y
-			stageRef.current.update()
-		}
-	}, [strokePos])
-	
-	useEffect(() => {
-		createjs.Ticker.removeAllEventListeners()
-		createjs.Ticker.addEventListener("tick", handleDraw)
-	}, [mouseDown])
-
-	function handleMove(e: Object) {
-		setPos({...pos, x: e.stageX, y: e.stageY})
-	}
-	
-	function handleMouseDown(e: Object) {
+	function handleMouseDown(e: Object) { // handles stroke position and mouse state
 		setStrokePos({...strokePos, x: e.stageX, y: e.stageY})
 		setMouseDown(true)
 	}
 	
-	function handleMouseUp(e: Object) {
-		setMouseDown(false)
+	useEffect(() => { // draw initial point of stroke
+		strokeRef.current?.graphics.drawCircle(strokePos.x, strokePos.y, 1).beginFill("#000")
+		// stageRef.current?.update()
+	}, [strokePos])
+	
+	useEffect(() => { // re-add tick event handler to keep updated stroke position state
+		createjs.Ticker.removeAllEventListeners()
+		createjs.Ticker.addEventListener("tick", handleDraw)
+	}, [mouseDown, pos])
+	
+	function handleDraw(e: Object) { // depending on mouse state, fires every tick
+		if (mouseDown) {
+			console.log(strokePos.x, strokePos.y, pos.x, pos.y)
+			strokeRef.current?.graphics.drawCircle(pos.x, pos.y, 1).beginStroke("#000").lineTo(pos.x, pos.y).moveTo(pos.x, pos.y)
+			stageRef.current?.update()
+		}
 	}
 	
-	function handleDraw(e: Object) {
-		if (mouseDown) {
-			console.log("down")
-			strokeRef.current?.graphics.moveTo(strokePos.x, strokePos.y).setStrokeStyle(5).beginStroke("#000").lineTo(e.stageX, e.stageY)
-			setStrokePos({...strokePos, x: e.stageX, y: e.stageY})
-			stageRef.current?.update()
-		} else { console.log("up") }
+	function handleMouseUp(_e: Object) {
+		strokeRef.current?.graphics.endStroke()
+		stageRef.current?.update()
+		setMouseDown(false)
+		// console.log(strokeRef.current)
 	}
 
   return (
