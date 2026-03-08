@@ -1,6 +1,7 @@
-import { useState, ChangeEvent } from "react"
+import { useState, ChangeEvent, SubmitEvent, FunctionComponent } from "react"
+import axios from "axios"
 
-function LoginForm() {
+const LoginForm: FunctionComponent<Props> = ({ setErrors }) => {
 	const [fields, setFields] = useState({
 		email: "",
 		password: ""
@@ -10,8 +11,18 @@ function LoginForm() {
 		setFields({...fields, [e.target.name]: e.target.value})
 	}
 
+	const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
+		e.preventDefault()
+
+		// if (!fields.email || !fields.password) return
+
+		axios.post("http://localhost:3000/login", fields)
+		.then(r => console.log(r.data))
+		.catch(err => setErrors(err.response.data.errors.map(e => e.msg)))
+	}
+
   return (
-	<form id="login">
+	<form id="login" onSubmit={handleSubmit}>
 		<label htmlFor="email"> E-mail:
 			<input type="email" name="email" value={fields.email} onChange={handleChange} /><br />
 		</label>
@@ -22,4 +33,9 @@ function LoginForm() {
 	</form>
   )
 }
+
+interface Props {
+	setErrors: React.Dispatch<string[]>
+}
+
 export default LoginForm
