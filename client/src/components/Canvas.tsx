@@ -1,6 +1,5 @@
 import * as createjs from "createjs-module"
 import { useState, useEffect, useRef, RefObject } from "react"
-import "./canvas.css"
 
 function Canvas() {
 	const canvasRef: RefObject<HTMLCanvasElement | null> = useRef(null)
