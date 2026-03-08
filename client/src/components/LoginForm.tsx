@@ -1,7 +1,8 @@
 import { useState, ChangeEvent, SubmitEvent, FunctionComponent } from "react"
-import axios from "axios"
+import { useAuthContext } from "../hooks/authContext.js"
 
-const LoginForm: FunctionComponent<Props> = ({ setErrors }) => {
+function LoginForm({ setErrors }) {
+	const context = useAuthContext()
 	const [fields, setFields] = useState({
 		email: "",
 		password: ""
@@ -13,12 +14,11 @@ const LoginForm: FunctionComponent<Props> = ({ setErrors }) => {
 
 	const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault()
-
-		// if (!fields.email || !fields.password) return
-
-		axios.post("http://localhost:3000/login", fields)
-		.then(r => console.log(r.data))
-		.catch(err => setErrors(err.response.data.errors.map(e => e.msg)))
+		context.login(fields)
+		setFields({
+			email: "",
+			password: ""
+		})
 	}
 
   return (
@@ -29,13 +29,9 @@ const LoginForm: FunctionComponent<Props> = ({ setErrors }) => {
 		<label htmlFor="password"> Password:
 			<input type="password" name="password" value={fields.password} onChange={handleChange} /><br />
 		</label>
-		<input type="submit" value="Sign Up" />
+		<input type="submit" value="Log In" />
 	</form>
   )
-}
-
-interface Props {
-	setErrors: React.Dispatch<string[]>
 }
 
 export default LoginForm

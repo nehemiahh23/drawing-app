@@ -1,24 +1,25 @@
 import { MouseEventHandler, useState } from "react"
+import { useAuthContext } from "../../hooks/authContext.js"
 import LoginForm from "../../components/LoginForm.js"
 import RegisterForm from "../../components/RegisterForm.js"
 import "./login.css"
 
 function Login() {
 	const [register, setRegister] = useState(false)
-	const [errors, setErrors] = useState([])
+	const context = useAuthContext()
 
 	const handleClick: MouseEventHandler = (e) => {
 		e.preventDefault()
 		setRegister(r => !r)
-		setErrors([])
+		context.setErrors([])
 	}
 	
   return (
 	<>
 		<fieldset>
-			{ register ? <RegisterForm setErrors={setErrors} /> : <LoginForm setErrors={setErrors} /> }
+			{ register ? <RegisterForm /> : <LoginForm /> }
 			<a href="" onClick={handleClick}>{ register ? "Login" : "Register" }</a>
-			{ errors.map(e => <p>{e}</p>) }
+			{ context.errors.map(e => <p>{e}</p>) }
 		</fieldset>
 	</>
   )

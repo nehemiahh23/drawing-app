@@ -1,7 +1,8 @@
 import { useState, ChangeEvent, SubmitEvent, FunctionComponent } from "react"
-import axios from "axios"
+import { useAuthContext } from "../hooks/authContext.js"
 
-const RegisterForm: FunctionComponent<Props> = ({ setErrors }) => {
+function RegisterForm() {
+	const context = useAuthContext()
 	const [fields, setFields] = useState({
 		email: "",
 		username: "",
@@ -15,12 +16,13 @@ const RegisterForm: FunctionComponent<Props> = ({ setErrors }) => {
 
 	const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault()
-
-		// if (!fields.email || !fields.password) return
-
-		axios.post("http://localhost:3000/users", fields)
-		.then(r => console.log(r.data))
-		.catch(err => setErrors(err.response.data.errors.map(e => e.msg)))
+		context.register(fields)
+		setFields({
+			email: "",
+			username: "",
+			password: "",
+			confirm: ""
+		})
 	}
 
   return (
@@ -40,10 +42,6 @@ const RegisterForm: FunctionComponent<Props> = ({ setErrors }) => {
 		<input type="submit" value="Sign Up" />
 	</form>
   )
-}
-
-interface Props {
-	setErrors: React.Dispatch<string[]>
 }
 
 export default RegisterForm
