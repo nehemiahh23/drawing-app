@@ -26,7 +26,7 @@ const Feed: FunctionComponent<Props> = ({ data, setData }) => {
 
   return (
 	<main>
-		{ data.map(p => <Post key={p._id} title={p.title} />) }
+		{ data.map(p => <Post key={p._id} {...p} />) }
 	</main>
   )
 }
