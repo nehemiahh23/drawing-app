@@ -37,6 +37,7 @@ function Canvas() {
 		stage.addEventListener("stagemousemove", handleMove)
 		stage.addEventListener("stagemousedown", handleMouseDown)
 		stage.addEventListener("stagemouseup", handleMouseUp)
+		createjs.Ticker.framerate = 60
 		createjs.Ticker.addEventListener("tick", handleDraw)
 		
 		return () => {
@@ -75,7 +76,6 @@ function Canvas() {
 	
 	function handleDraw(e: Object) { // depending on mouse state, fires every tick
 		if (mouseDown) {
-			console.log(strokePos.x, strokePos.y, pos.x, pos.y)
 			strokeRef.current?.graphics.lineTo(pos.x, pos.y).moveTo(pos.x, pos.y)
 			stageRef.current?.update()
 		}
@@ -85,7 +85,6 @@ function Canvas() {
 		strokeRef.current?.graphics.endStroke()
 		stageRef.current?.update()
 		setMouseDown(false)
-		// console.log(strokeRef.current)
 	}
 
   return (
