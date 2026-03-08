@@ -5,7 +5,7 @@ import "./feed.css"
 
 function Feed() {
 	const [link, setLink] = useState(`https://api.pexels.com/v1/curated?page=1&per_page=12`)
-	const [data, setData] = useState([])
+	const [data, setData] = useState([]) // TODO: Elevate this state so it stays rather than fetching every render
 	
 	axios.defaults.headers.common['Authorization'] = import.meta.env.VITE_PEXELS_KEY
 	

@@ -3,18 +3,18 @@ import { useModeContext } from "../hooks/modeContext.js"
 import { Link } from "react-router-dom"
 
 function Nav() {
-	const { setCanvasMode } = useModeContext()
+	const { setStudioMode } = useModeContext()
 
 	function handleClick(e: MouseEvent<HTMLButtonElement>) {
 		const target = e.target as HTMLElement
-		target.id === "canvas" ? setCanvasMode(true) : setCanvasMode(false)
+		target.id === "studio" ? setStudioMode(true) : setStudioMode(false)
 	}
 
   return (
 	<>
 		<Link to="/">
 			<button onClick={handleClick}>
-				<div id="canvas">Canvas</div>
+				<div id="studio">Studio</div>
 			</button>
 		</Link>
 		<Link to="/feed">
