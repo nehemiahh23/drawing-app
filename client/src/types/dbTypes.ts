@@ -1,4 +1,5 @@
 export interface IPost {
+	_id: string,
 	userId: string,
 	username: string,
 	drawingId: string,
