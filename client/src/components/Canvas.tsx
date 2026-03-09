@@ -111,10 +111,17 @@ const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) =
 		canvasRef.current?.toBlob((blob) => {
 			const file: Blob = blob as Blob
 			payload.append("drawing", file, `${title}.png`)
-			axios.postForm("http://localhost:3000/api/drawings", payload)
-			.then(r => setCanvasData({ ...canvasData, id: r.data._id }))
-			// .then(r => console.log(r.data))
-			.catch(err => console.log(err.response))
+
+			if (!canvasData.id) {
+				axios.postForm("http://localhost:3000/api/drawings", payload)
+				.then(r => setCanvasData({ ...canvasData, id: r.data._id }))
+				.catch(err => console.log(err))
+			} else {
+				axios.put(`http://localhost:3000/api/drawings/${canvasData.id}`, payload)
+				.then(r => setCanvasData({ ...canvasData, id: r.data._id }))
+				.catch(err => console.log(err))
+
+			}
 		})
 	}
 
@@ -122,7 +129,11 @@ const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) =
 		setTitle(e.target.value)
 	}
 
-	function handleSave(e: Object) {
+	function handleSave(_e: Object) {
+		save()
+	}
+
+	function save() {
 		canvasRef.current && setCanvasData({ ...canvasData, url: canvasRef.current.toDataURL(), title: title})
 	}
 
