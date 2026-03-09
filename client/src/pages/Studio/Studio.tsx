@@ -1,4 +1,5 @@
-import Canvas from "../../components/Canvas/Canvas.js"
+import Canvas from "../../components/Canvas.js"
+import "./studio.css"
 
 function Studio() {
   return (

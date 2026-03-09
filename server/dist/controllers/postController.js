@@ -1,5 +1,6 @@
 import Post from "../models/postSchema.js";
 import Drawing from "../models/drawingSchema.js";
+import User from "../models/userSchema.js";
 import "dotenv/config";
 export async function getPosts(rq, rs) {
     let data;
@@ -24,6 +25,7 @@ export async function createPost(rq, rs) {
     let { drawingId, title } = rq.body;
     const drawing = await Drawing.findById(drawingId);
     const payload = rq.payload;
+    const user = await User.findById(payload.user.id);
     if (!drawingId) {
         return rs.status(400).json({ error: "Insufficient data to create resource." });
     }
@@ -43,7 +45,9 @@ export async function createPost(rq, rs) {
         const newPost = await Post.create({
             userId: payload.user.id,
             drawingId: drawingId,
+            src: drawing.src,
             title: title,
+            username: user.username,
             likes: 0
         });
         drawing.locked = true;

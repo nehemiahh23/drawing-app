@@ -100,7 +100,9 @@ export const posts = [
     {
         _id: "65a1b2c3d4e5f6a7b8c9d0b1",
         userId: "65a1b2c3d4e5f6a7b8c9d0a1",
+        username: "alice_artist",
         drawingId: "65a1b2c3d4e5f6a7b8c9d0f1",
+        src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmOm4u60oQR6t9DM-jorQugVTthmHLc_ae_g&s",
         title: "Sunset Over Mountains",
         likes: 0,
         commentIds: ["65a1b2c3d4e5f6a7b8c9d0e1", "65a1b2c3d4e5f6a7b8c9d0e2"]
@@ -108,7 +110,9 @@ export const posts = [
     {
         _id: "65a1b2c3d4e5f6a7b8c9d0b2",
         userId: "65a1b2c3d4e5f6a7b8c9d0a2",
+        username: "bobcreates",
         drawingId: "65a1b2c3d4e5f6a7b8c9d0f2",
+        src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmOm4u60oQR6t9DM-jorQugVTthmHLc_ae_g&s",
         title: "My Take on Shapes",
         likes: 0,
         commentIds: ["65a1b2c3d4e5f6a7b8c9d0e3"]
@@ -116,7 +120,9 @@ export const posts = [
     {
         _id: "65a1b2c3d4e5f6a7b8c9d0b3",
         userId: "65a1b2c3d4e5f6a7b8c9d0a3",
+        username: "clara_draws",
         drawingId: "65a1b2c3d4e5f6a7b8c9d0f3",
+        src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmOm4u60oQR6t9DM-jorQugVTthmHLc_ae_g&s",
         title: "Ocean Waves",
         likes: 0,
         commentIds: ["65a1b2c3d4e5f6a7b8c9d0e4", "65a1b2c3d4e5f6a7b8c9d0e5", "65a1b2c3d4e5f6a7b8c9d0e6"]
@@ -124,7 +130,9 @@ export const posts = [
     {
         _id: "65a1b2c3d4e5f6a7b8c9d0b4",
         userId: "65a1b2c3d4e5f6a7b8c9d0a4",
+        username: "davidsketch",
         drawingId: "65a1b2c3d4e5f6a7b8c9d0f4",
+        src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmOm4u60oQR6t9DM-jorQugVTthmHLc_ae_g&s",
         title: "Lights of the City",
         likes: 0,
         commentIds: []
@@ -132,7 +140,9 @@ export const posts = [
     {
         _id: "65a1b2c3d4e5f6a7b8c9d0b5",
         userId: "65a1b2c3d4e5f6a7b8c9d0a5",
+        username: "emma_creative",
         drawingId: "65a1b2c3d4e5f6a7b8c9d0f5",
+        src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmOm4u60oQR6t9DM-jorQugVTthmHLc_ae_g&s",
         title: "Forest Path",
         likes: 0,
         commentIds: ["65a1b2c3d4e5f6a7b8c9d0e7"]

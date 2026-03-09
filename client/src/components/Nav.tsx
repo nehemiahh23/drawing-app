@@ -1,8 +1,10 @@
 import { MouseEvent } from "react"
 import { useModeContext } from "../hooks/modeContext.js"
+import { useAuthContext } from "../hooks/authContext.js"
 import { Link } from "react-router-dom"
 
 function Nav() {
+	const context = useAuthContext()
 	const { setStudioMode } = useModeContext()
 
 	function handleClick(e: MouseEvent<HTMLButtonElement>) {
@@ -27,16 +29,8 @@ function Nav() {
 				<div>Portfolio</div>
 			</button>
 		</Link>
-		<Link to="">
-			<button disabled>
-				<div>Preferences</div>
-			</button>
-		</Link>
-		<Link to="">
-			<button disabled>
-				<div>Sign In</div>
-			</button>
-		</Link>
+		{/* TODO: combine prefs and login buttons, conditionally link to own profile or login page statefully */}
+		{ context.cookies.token ? <Link to="/account"><button><div>Account</div></button></Link> : <Link to="/login"><button><div>Sign In</div></button></Link> }		
 	</>
   )
 }

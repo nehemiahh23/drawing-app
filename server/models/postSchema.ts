@@ -8,7 +8,15 @@ const postSchema = new mongoose.Schema<IPost>(
 			type: String,
 			required: true
 		},
+		username: {
+			type: String,
+			required: true
+		},
 		drawingId: {
+			type: String,
+			required: true
+		},
+		src: {
 			type: String,
 			required: true
 		},
