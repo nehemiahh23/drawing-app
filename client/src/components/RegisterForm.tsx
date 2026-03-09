@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, SubmitEvent } from "react"
+import { useState, ChangeEvent, SubmitEvent, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuthContext } from "../hooks/authContext.js"
 
@@ -12,6 +12,10 @@ function RegisterForm() {
 		confirm: ""
 	})
 
+	useEffect(() => {
+		context.cookies.token ? navigate("/account") : null
+	}, [context.cookies.token])
+
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setFields({...fields, [e.target.name]: e.target.value})
 	}
@@ -19,21 +23,14 @@ function RegisterForm() {
 	const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
-		try {
-			await context.register(fields)
-			
-			setFields({
-				email: "",
-				username: "",
-				password: "",
-				confirm: ""
-			})
-		} catch(err) {
-			console.log(err)
-			return
-		}
+		await context.register(fields)
 		
-		navigate("/account")
+		setFields({
+			email: "",
+			username: "",
+			password: "",
+			confirm: ""
+		})
 	}
 
   return (
