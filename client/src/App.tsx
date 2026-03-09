@@ -14,7 +14,12 @@ function App() {
 	const context = useAuthContext()
 	axios.defaults.headers.common["x-auth-token"] = context.cookies.token
 
-	const [data, setData] = useState<IPost[]>([])
+	const [feedData, setFeedData] = useState<IPost[]>([])
+	const [canvasData, setCanvasData] = useState({
+		title: "",
+		url: "",
+		id: ""
+	})
 	
   return (
 	<>
@@ -22,8 +27,8 @@ function App() {
 		<Routes>
 			<Route path='/login' element={<Login />} />
 			<Route path='/account' element={<Account />} />
-			<Route path='/feed' element={<Feed data={data} setData={setData} />} />
-			<Route path='/' element={<Studio />} />
+			<Route path='/feed' element={<Feed feedData={feedData} setFeedData={setFeedData} />} />
+			<Route path='/' element={<Studio canvasData={canvasData} setCanvasData={setCanvasData} />} />
 		</Routes>
 	</>
   )

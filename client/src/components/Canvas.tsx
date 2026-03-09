@@ -1,9 +1,10 @@
 import * as createjs from "createjs-module"
 import { useState, useEffect, useRef, RefObject } from "react"
+import type { Props } from "../pages/Studio/Studio.js"
 import { useAuthContext } from "../hooks/authContext.js"
 import axios from "axios"
 
-function Canvas() {
+const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) => {
 	const canvasRef: RefObject<HTMLCanvasElement | null> = useRef(null)
 	const stageRef: RefObject<createjs.Stage | null> = useRef(null)
 	const cursorRef: RefObject<createjs.Shape | null> = useRef(null)
@@ -15,15 +16,13 @@ function Canvas() {
 	const [mouseDown, setMouseDown] = useState(false)
 	
 	const context = useAuthContext()
-	const [title, setTitle] = useState("")
+	const [title, setTitle] = useState(canvasData.title ? canvasData.title : "")
 
 	useEffect(() => {
 		if (canvasRef.current) { // canvas dimensions set here to avoid stretching
 			canvasRef.current.width = window.innerWidth * 0.75
 			canvasRef.current.height = window.innerHeight * 0.8
-			const ctx =  canvasRef.current.getContext("2d")
 		}
-
 
 		const stage = new createjs.Stage("canvas") // create stage on the #canvas element
 		stageRef.current = stage
@@ -41,7 +40,11 @@ function Canvas() {
 		bg.graphics.beginFill("#FFF").drawRect(0, 0, canvasRef.current?.width, canvasRef.current?.height)
 		bgRef.current = bg
 		
-		stage.addChild(bg) // add objects to stage
+		if (canvasData.url) {
+			const bitmap = new createjs.Bitmap(canvasData.url)
+			stage.addChild(bitmap)
+			bitmap.image.onload =() => stage.update()
+		} else { stage.addChild(bg) }
 		stage.addChild(cursor) 
 		stage.addChild(stroke)
 		stage.update()
@@ -109,7 +112,7 @@ function Canvas() {
 			const file: Blob = blob as Blob
 			payload.append("drawing", file, `${title}.png`)
 			axios.postForm("http://localhost:3000/api/drawings", payload)
-			.then(r => alert(`Successfully saved ${title} to cloud.`))
+			.then(r => setCanvasData({ ...canvasData, id: r.data._id }))
 			// .then(r => console.log(r.data))
 			.catch(err => console.log(err.response))
 		})
@@ -119,12 +122,17 @@ function Canvas() {
 		setTitle(e.target.value)
 	}
 
+	function handleSave(e: Object) {
+		canvasRef.current && setCanvasData({ ...canvasData, url: canvasRef.current.toDataURL(), title: title})
+	}
+
   return (
 	<>
 		<input type="text" value={title} onChange={handleTitle} />
 		<canvas id="canvas" ref={canvasRef} />
-		{ context.cookies.token && <button onClick={handleSubmit}>Upload</button> }
+		{ context.cookies.token && <><button onClick={handleSave}>Save</button> <button onClick={handleSubmit}>{ canvasData.id ? "Update" : "Upload" }</button></> }
 	</>
   )
 }
+
 export default Canvas
