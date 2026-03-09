@@ -1,9 +1,10 @@
 import type { AuthRequest } from "../middleware/authMiddleware.js"
 import type { Request, Response } from "express";
 import type { JwtPayload } from "jsonwebtoken"
-import type { IDrawing } from "../models/types.js";
+import type { IDrawing, IUser } from "../models/types.js";
 import Post from "../models/postSchema.js"
 import Drawing from "../models/drawingSchema.js"
+import User from "../models/userSchema.js"
 import "dotenv/config"
 
 export async function getPosts(rq: Request, rs: Response) {
@@ -26,6 +27,7 @@ export async function createPost(rq: AuthRequest, rs: Response) {
 	let { drawingId, title } = rq.body
 	const drawing: IDrawing = await Drawing.findById(drawingId) as IDrawing
 	const payload: JwtPayload = rq.payload as JwtPayload
+	const user: IUser = await User.findById(payload.user.id) as IUser
 
 	if (!drawingId) { return rs.status(400).json({ error: "Insufficient data to create resource." }) }
 	if (!drawing) { return rs.status(404).json({ error: "Requested resource not found." }) }
@@ -40,7 +42,9 @@ export async function createPost(rq: AuthRequest, rs: Response) {
 		const newPost = await Post.create({
 			userId: payload.user.id,
 			drawingId: drawingId,
+			src: drawing.src,
 			title: title,
+			username: user.username,
 			likes: 0
 		})
 	

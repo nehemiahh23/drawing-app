@@ -7,12 +7,10 @@ const router = express.Router();
 router.route("/")
     .post([
     check("email")
-        .notEmpty().withMessage("E-mail required.")
         .isEmail().withMessage("Please input a valid e-mail address."),
     check("username")
         .notEmpty().withMessage("Username required."),
     check("password")
-        .notEmpty().withMessage("Please input a password at least 8 characters long with at least one number and one special character.")
         .matches(/^.\S{8,}$/).withMessage("Password must be at least 8 characters long.")
         .matches(/^(?=.*[0-9])(?=.*[!@#$%^&*(){}[\]<>?/|.:;_-]).*$/).withMessage("Password must contain at least one number and one special character")
 ], authController.register);

@@ -1,7 +1,7 @@
-import "dotenv/config"
 import express from "express"
 import connect from "./db/conn.js"
 import cloudConnect from "./db/cloudConn.js"
+import cors from "cors"
 import userRoutes from "./routes/userRoutes.js"
 import drawingRoutes from "./routes/drawingRoutes.js"
 import commentRoutes from "./routes/commentRoutes.js"
@@ -14,6 +14,7 @@ import Drawing from "./models/drawingSchema.js"
 import User from "./models/userSchema.js"
 import Comment from "./models/commentSchema.js"
 import Post from "./models/postSchema.js"
+import "dotenv/config"
 
 // setup
 const app = express()
@@ -23,6 +24,7 @@ cloudConnect()
 
 
 // mw
+app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(requestLogger)
@@ -36,7 +38,6 @@ app.use("/api/posts", postRoutes)
 app.route("/login")
 .post([
 	check("email")
-	.notEmpty().withMessage("E-mail required.")
 	.isEmail().withMessage("Please input a valid e-mail address."),
 	check("password")
 		.notEmpty().withMessage("Please input a password.")

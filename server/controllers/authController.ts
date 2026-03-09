@@ -33,8 +33,16 @@ export async function register(rq: Request, rs: Response) {
 			if (err) { throw err }
 			rs.json({ token })
 		})
-	} catch (err) {
-		rs.status(400).json(err)
+	} catch (err: any) {
+		switch (err.code) {
+			case 11000:
+				rs.status(400).json({ errors: [{ msg: "User already registered with that username/email." }] })
+				break;
+			default:
+				rs.status(500).json(err)
+				break;
+		}
+
 	}
 	
 }
@@ -63,6 +71,6 @@ export async function login(rq: Request, rs: Response) {
 			rs.json({ token })
 		})
 	} catch(err) {
-		rs.status(400).json(err)
+		rs.status(500).json(err)
 	}
 }

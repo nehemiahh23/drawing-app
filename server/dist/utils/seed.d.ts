@@ -15,7 +15,9 @@ export declare const users: {
 export declare const posts: {
     _id: string;
     userId: string;
+    username: string;
     drawingId: string;
+    src: string;
     title: string;
     likes: number;
     commentIds: string[];

@@ -1,17 +1,20 @@
 import { FunctionComponent } from "react"
 
-const Post: FunctionComponent<Props> = ({ src, alt, author }) => {
+const Post: FunctionComponent<Props> = ({ username, title, src, likes }) => {
   return (
 	<div className="post">
-		<img src={src} alt={alt} />
-		<p>by {author}</p>
+		<img src={src} alt={title} />
+		<h2>{title}</h2>
+		<p>by {username}</p>
+		<div>Likes: {likes}</div>
 	</div>
   )
 }
 export default Post
 
 interface Props {
+	username: string,
 	src: string,
-	alt: string,
-	author: string
+	title?: string,
+	likes: number
 }

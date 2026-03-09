@@ -31,7 +31,14 @@ export async function register(rq, rs) {
         });
     }
     catch (err) {
-        rs.status(400).json(err);
+        switch (err.code) {
+            case 11000:
+                rs.status(400).json({ errors: [{ msg: "User already registered with that username/email." }] });
+                break;
+            default:
+                rs.status(500).json(err);
+                break;
+        }
     }
 }
 export async function login(rq, rs) {
@@ -62,7 +69,7 @@ export async function login(rq, rs) {
         });
     }
     catch (err) {
-        rs.status(400).json(err);
+        rs.status(500).json(err);
     }
 }
 //# sourceMappingURL=authController.js.map
