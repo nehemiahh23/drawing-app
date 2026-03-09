@@ -14,7 +14,7 @@ function Canvas() {
 	const [mouseDown, setMouseDown] = useState(false)
 	
 	const context = useAuthContext()
-	const [title, setTitle] = useState("placeholder")
+	const [title, setTitle] = useState("")
 
 	useEffect(() => {
 		if (canvasRef.current) { // canvas dimensions set here to avoid stretching
@@ -103,13 +103,19 @@ function Canvas() {
 			payload.append("drawing", file, `${title}.png`)
 			payload.entries().forEach(e => console.log(e[0]+ ":"+e[1]))
 			axios.postForm("http://localhost:3000/api/drawings", payload)
-			.then(r => console.log(r.data))
+			.then(r => alert(`Successfully saved ${r.data.title} to cloud.`))
+			// .then(r => console.log(r.data))
 			.catch(err => console.log(err.response.data))
 		})
 	}
 
+	function handleTitle(e: Object) {
+		setTitle(e.target.value)
+	}
+
   return (
 	<>
+		<input type="text" value={title} onChange={handleTitle} />
 		<canvas id="canvas" ref={canvasRef} />
 		{ context.cookies.token && <button onClick={handleSubmit}>Upload</button> }
 	</>
