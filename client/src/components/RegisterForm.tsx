@@ -1,8 +1,10 @@
-import { useState, ChangeEvent, SubmitEvent, FunctionComponent } from "react"
+import { useState, ChangeEvent, SubmitEvent } from "react"
+import { useNavigate } from "react-router-dom"
 import { useAuthContext } from "../hooks/authContext.js"
 
 function RegisterForm() {
 	const context = useAuthContext()
+	const navigate = useNavigate()
 	const [fields, setFields] = useState({
 		email: "",
 		username: "",
@@ -14,15 +16,24 @@ function RegisterForm() {
 		setFields({...fields, [e.target.name]: e.target.value})
 	}
 
-	const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		context.register(fields)
-		setFields({
-			email: "",
-			username: "",
-			password: "",
-			confirm: ""
-		})
+
+		try {
+			await context.register(fields)
+			
+			setFields({
+				email: "",
+				username: "",
+				password: "",
+				confirm: ""
+			})
+		} catch(err) {
+			console.log(err)
+			return
+		}
+		
+		navigate("/account")
 	}
 
   return (
