@@ -1,14 +1,20 @@
 import * as createjs from "createjs-module"
 import { useState, useEffect, useRef, RefObject } from "react"
+import { useAuthContext } from "../hooks/authContext.js"
+import axios from "axios"
 
 function Canvas() {
 	const canvasRef: RefObject<HTMLCanvasElement | null> = useRef(null)
 	const stageRef: RefObject<createjs.Stage | null> = useRef(null)
 	const cursorRef: RefObject<createjs.Shape | null> = useRef(null)
 	const strokeRef: RefObject<createjs.Shape | null> = useRef(null)
+
 	const [pos, setPos] = useState({ x: 0, y: 0 })
 	const [strokePos, setStrokePos] = useState({ x: 0, y: 0 })
 	const [mouseDown, setMouseDown] = useState(false)
+	
+	const context = useAuthContext()
+	const [title, setTitle] = useState("placeholder")
 
 	useEffect(() => {
 		if (canvasRef.current) { // canvas dimensions set here to avoid stretching
@@ -86,8 +92,27 @@ function Canvas() {
 		setMouseDown(false)
 	}
 
+	function handleSubmit(e: Object) {
+		if (!context.cookies.token) return
+		
+		const payload = new FormData()
+		payload.append("title", title)
+
+		canvasRef.current?.toBlob((blob) => {
+			const file: Blob = blob as Blob
+			payload.append("drawing", file, `${title}.png`)
+			payload.entries().forEach(e => console.log(e[0]+ ":"+e[1]))
+			axios.postForm("http://localhost:3000/api/drawings", payload)
+			.then(r => console.log(r.data))
+			.catch(err => console.log(err.response.data))
+		})
+	}
+
   return (
-	<canvas id="canvas" ref={canvasRef} />
+	<>
+		<canvas id="canvas" ref={canvasRef} />
+		{ context.cookies.token && <button onClick={handleSubmit}>Upload</button> }
+	</>
   )
 }
 export default Canvas
