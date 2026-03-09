@@ -8,6 +8,7 @@ function Canvas() {
 	const stageRef: RefObject<createjs.Stage | null> = useRef(null)
 	const cursorRef: RefObject<createjs.Shape | null> = useRef(null)
 	const strokeRef: RefObject<createjs.Shape | null> = useRef(null)
+	const bgRef: RefObject<createjs.Shape | null> = useRef(null)
 
 	const [pos, setPos] = useState({ x: 0, y: 0 })
 	const [strokePos, setStrokePos] = useState({ x: 0, y: 0 })
@@ -20,7 +21,9 @@ function Canvas() {
 		if (canvasRef.current) { // canvas dimensions set here to avoid stretching
 			canvasRef.current.width = window.innerWidth * 0.75
 			canvasRef.current.height = window.innerHeight * 0.8
+			const ctx =  canvasRef.current.getContext("2d")
 		}
+
 
 		const stage = new createjs.Stage("canvas") // create stage on the #canvas element
 		stageRef.current = stage
@@ -32,10 +35,14 @@ function Canvas() {
 		cursorRef.current = cursor
 		
 		const stroke = new createjs.Shape() // create stroke object
-		// stroke.graphics.setStrokeStyle(5, "round")
 		strokeRef.current = stroke
 		
-		stage.addChild(cursor) // add objects to stage
+		const bg = new createjs.Shape() // draw background 
+		bg.graphics.beginFill("#FFF").drawRect(0, 0, canvasRef.current?.width, canvasRef.current?.height)
+		bgRef.current = bg
+		
+		stage.addChild(bg) // add objects to stage
+		stage.addChild(cursor) 
 		stage.addChild(stroke)
 		stage.update()
 		
@@ -101,11 +108,10 @@ function Canvas() {
 		canvasRef.current?.toBlob((blob) => {
 			const file: Blob = blob as Blob
 			payload.append("drawing", file, `${title}.png`)
-			payload.entries().forEach(e => console.log(e[0]+ ":"+e[1]))
 			axios.postForm("http://localhost:3000/api/drawings", payload)
-			.then(r => alert(`Successfully saved ${r.data.title} to cloud.`))
+			.then(r => alert(`Successfully saved ${title} to cloud.`))
 			// .then(r => console.log(r.data))
-			.catch(err => console.log(err.response.data))
+			.catch(err => console.log(err.response))
 		})
 	}
 
