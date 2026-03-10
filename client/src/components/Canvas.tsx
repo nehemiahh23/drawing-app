@@ -1,5 +1,5 @@
 import * as createjs from "createjs-module"
-import { useState, useEffect, useRef, RefObject } from "react"
+import { useState, useEffect, useRef, useReducer, RefObject } from "react"
 import type { Props } from "../pages/Studio/Studio.js"
 import { useAuthContext } from "../hooks/authContext.js"
 import axios from "axios"
@@ -14,11 +14,13 @@ const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) =
 	const [pos, setPos] = useState({ x: 0, y: 0 })
 	const [strokePos, setStrokePos] = useState({ x: 0, y: 0 })
 	const [mouseDown, setMouseDown] = useState(false)
+	const [clears, setClears] = useState(0)
 	
 	const context = useAuthContext()
 	const [title, setTitle] = useState(canvasData.title ? canvasData.title : "")
 
 	useEffect(() => {
+		console.log("getting here")
 		if (canvasRef.current) { // canvas dimensions set here to avoid stretching
 			canvasRef.current.width = window.innerWidth * 0.75
 			canvasRef.current.height = window.innerHeight * 0.8
@@ -41,9 +43,7 @@ const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) =
 		bgRef.current = bg
 		
 		if (canvasData.url) {
-			const bitmap = new createjs.Bitmap(canvasData.url)
-			stage.addChild(bitmap)
-			bitmap.image.onload =() => stage.update()
+			load(stage)
 		} else { stage.addChild(bg) }
 		stage.addChild(cursor) 
 		stage.addChild(stroke)
@@ -59,7 +59,7 @@ const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) =
 			stage.removeAllEventListeners()
 			createjs.Ticker.removeAllEventListeners()
 		}
-	}, [])
+	}, [clears])
 	
 	function handleMove(e: Object) { // handles position state
 		setPos({...pos, x: e.stageX, y: e.stageY})
@@ -108,6 +108,8 @@ const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) =
 		const payload = new FormData()
 		payload.append("title", title)
 
+		e.target.disabled = true
+
 		canvasRef.current?.toBlob((blob) => {
 			const file: Blob = blob as Blob
 			payload.append("drawing", file, `${title}.png`)
@@ -120,28 +122,48 @@ const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) =
 				axios.put(`http://localhost:3000/api/drawings/${canvasData.id}`, payload)
 				.then(r => setCanvasData({ ...canvasData, id: r.data._id }))
 				.catch(err => console.log(err))
-
 			}
+
+			save()
 		})
+
+		e.target.disabled = false
 	}
 
 	function handleTitle(e: Object) {
 		setTitle(e.target.value)
 	}
 
-	function handleSave(_e: Object) {
-		save()
-	}
-
 	function save() {
 		canvasRef.current && setCanvasData({ ...canvasData, url: canvasRef.current.toDataURL(), title: title})
+	}
+
+	function load(stage) {
+		setTitle(canvasData.title)
+		const bitmap = new createjs.Bitmap(canvasData.url)
+		stage.addChild(bitmap)
+		bitmap.image.onload =() => stage.update()
+	}
+
+	function clear() {
+		setCanvasData({
+			title: "",
+			url: "",
+			id: ""
+		})
+		setTitle("")
+		
+		stageRef.current?.removeAllChildren()
+		stageRef.current?.update()
+		setClears(clears + 1)
 	}
 
   return (
 	<>
 		<input type="text" value={title} onChange={handleTitle} />
 		<canvas id="canvas" ref={canvasRef} />
-		{ context.cookies.token && <><button onClick={handleSave}>Save</button> <button onClick={handleSubmit}>{ canvasData.id ? "Update" : "Upload" }</button></> }
+		{ context.cookies.token && <><button onClick={save}>Save</button> <button onClick={handleSubmit}>{ canvasData.id ? "Update" : "Upload" }</button></> }
+		<button onClick={clear}>Clear</button> // TODO: clearing canvas (and canvasData), then handle image loading and deletion from portfolio
 	</>
   )
 }
