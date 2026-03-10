@@ -94,8 +94,16 @@ export async function editDrawing(rq, rs) {
     }
 }
 export async function deleteDrawing(rq, rs) {
-    const target = await Drawing.findById(rq.params.id);
     const payload = rq.payload;
+    if (rq.body) {
+        const invalid = await Drawing.find({ _id: { $in: rq.body.ids }, userId: { $ne: payload.user.id } });
+        if (invalid.length) {
+            return rs.status(401).json({ error: "Not authorized to delete resource." });
+        }
+        const deleted = await Drawing.deleteMany({ _id: { $in: rq.body.ids } });
+        return rs.json(deleted);
+    }
+    const target = await Drawing.findById(rq.params.id);
     if (!rq.params.id) {
         return rs.status(400).json({ error: "Must specify an id parameter to delete." });
     }

@@ -6,7 +6,8 @@ const router = express.Router();
 const upload = multer({ dest: "./public/temp" });
 router.route("/")
     .get(drawingController.getDrawings)
-    .post(auth, upload.single('drawing'), drawingController.createDrawing);
+    .post(auth, upload.single('drawing'), drawingController.createDrawing)
+    .delete(auth, drawingController.deleteDrawing);
 router.route("/:id")
     .get(drawingController.getDrawings)
     .put(auth, upload.single('drawing'), drawingController.editDrawing)
