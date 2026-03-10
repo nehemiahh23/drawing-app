@@ -8,16 +8,19 @@ export async function getDrawings(rq, rs) {
     if (rq.params.id) {
         data = await Drawing.find({ _id: rq.params.id });
         if (!data.length) {
-            rs.status(404).json({ error: "Drawing does not exist." });
+            return rs.status(404).json({ error: "Drawing does not exist." });
         }
-        else {
-            rs.json(data);
+    }
+    else if (rq.params.user_id) {
+        data = await Drawing.find({ userId: rq.params.user_id });
+        if (!data.length) {
+            return rs.status(404).json({ error: "No posts attributed to user." });
         }
     }
     else {
         data = await Drawing.find({});
-        rs.json(data);
     }
+    rs.json(data);
 }
 export async function createDrawing(rq, rs) {
     if (!rq.file) {

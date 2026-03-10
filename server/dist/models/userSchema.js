@@ -16,6 +16,13 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     likes: [String]
+}, {
+    methods: {
+        async getDrawings() {
+            const data = await Drawing.find({ userId: String(this._id) });
+            return data;
+        }
+    }
 });
 userSchema.index({ username: "text" });
 userSchema.set("timestamps", true);

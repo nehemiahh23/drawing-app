@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import type { IUser } from "./types.js";
+import type { IUser, IDrawing } from "./types.js";
 declare const _default: mongoose.Model<IUser, {}, {}, {
     id: string;
 }, mongoose.Document<unknown, {}, IUser, {
@@ -65,7 +65,7 @@ declare const _default: mongoose.Model<IUser, {}, {}, {
     }, "id"> & {
         id: string;
     }>;
-    getLikes?: mongoose.SchemaDefinitionProperty<() => Promise<import("./types.js").IDrawing[]>, IUser, mongoose.Document<unknown, {}, IUser, {
+    getDrawings?: mongoose.SchemaDefinitionProperty<() => Promise<IDrawing[]>, IUser, mongoose.Document<unknown, {}, IUser, {
         id: string;
     }, mongoose.DefaultSchemaOptions> & Omit<IUser & {
         _id: mongoose.Types.ObjectId;

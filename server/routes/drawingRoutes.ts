@@ -15,4 +15,7 @@ router.route("/:id")
 .put(auth, upload.single('drawing'), drawingController.editDrawing)
 .delete(auth, drawingController.deleteDrawing)
 
+router.route("/user/:user_id")
+.get(drawingController.getDrawings)
+
 export default router

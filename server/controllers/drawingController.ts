@@ -13,12 +13,15 @@ export async function getDrawings(rq: Request, rs: Response) {
 
 	if (rq.params.id) {
 		data = await Drawing.find({ _id: rq.params.id })
-		if (!data.length) { rs.status(404).json({ error: "Drawing does not exist." }) }
-		else { rs.json(data) }
+		if (!data.length) { return rs.status(404).json({ error: "Drawing does not exist." }) }
+	} else if (rq.params.user_id) {
+		data = await Drawing.find({ userId: rq.params.user_id })
+		if (!data.length) { return rs.status(404).json({ error: "No posts attributed to user." }) }
 	} else {
 		data = await Drawing.find({})
-		rs.json(data)
 	}
+
+	rs.json(data)
 }
 
 export async function createDrawing(rq: AuthRequest, rs: Response) {

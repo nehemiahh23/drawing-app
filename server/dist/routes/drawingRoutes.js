@@ -11,5 +11,7 @@ router.route("/:id")
     .get(drawingController.getDrawings)
     .put(auth, upload.single('drawing'), drawingController.editDrawing)
     .delete(auth, drawingController.deleteDrawing);
+router.route("/user/:user_id")
+    .get(drawingController.getDrawings);
 export default router;
 //# sourceMappingURL=drawingRoutes.js.map

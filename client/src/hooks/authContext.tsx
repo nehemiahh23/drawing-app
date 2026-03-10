@@ -1,23 +1,38 @@
 import { useContext, createContext, useMemo, ReactNode, useState } from "react"
-import { useCookies, Cookies } from "react-cookie"
+import { useCookies } from "react-cookie"
 import axios from "axios"
 
 const AuthContext = createContext(null)
 
 const AuthProvider = ({ children }: Props) => {
 	const [cookies, setCookies,  removeCookie] = useCookies(["token"])
+	const [userId, setUserId] = useState("")
 	const [errors, setErrors] = useState([])
-	
-	function login(input: IFormData) {
-		axios.post("http://localhost:3000/login", input)
-		.then(r => setCookies("token", r.data.token))
-		.catch(err => setErrors(err.response.data.errors.map(e => e.msg)))
+
+	async function login(input: IFormData) {
+		try {
+			const r = await axios.post("http://localhost:3000/login", input)
+			setCookies("token", r.data.token)
+
+			const u = await axios.get("http://localhost:3000/users/p/settings", { headers: {"x-auth-token": r.data.token} })
+			setUserId(u.data._id)
+		} catch (err) {
+			// console.log(err.response)
+			setErrors(err.response.data.errors.map(e => e.msg))
+		}
 	}
 
-	function register(input: IFormData) {
-		axios.post("http://localhost:3000/users", input)
-		.then(r => setCookies("token", r.data.token))
-		.catch(err => setErrors(err.response.data.errors.map(e => e.msg)))
+	async function register(input: IFormData) {
+		try {
+			const r = await axios.post("http://localhost:3000/users", input)
+			setCookies("token", r.data.token)
+
+			const u = await axios.get("http://localhost:3000/users/p/settings", { headers: {"x-auth-token": r.data.token} })
+			setUserId(u.data._id)
+		} catch (err) {
+			// console.log(err.response)
+			setErrors(err.response.data.errors.map(e => e.msg))
+		}
 	}
 
 	function logOut() {
@@ -30,8 +45,9 @@ const AuthProvider = ({ children }: Props) => {
 		register,
 		logOut,
 		errors,
-		setErrors
-	}), [cookies, errors])
+		setErrors,
+		userId
+	}), [cookies, errors, userId])
 	
 	return (
 		<AuthContext.Provider value={cookieData}>
