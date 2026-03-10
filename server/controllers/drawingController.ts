@@ -48,7 +48,7 @@ export async function createDrawing(rq: AuthRequest, rs: Response) {
 	}
 	
 	try {
-		uploadRes = await cloudinary.uploader.upload(rq.file.path, { public_id: String(newDrawing._id), display_name: newDrawing.title })
+		uploadRes = await cloudinary.uploader.upload(rq.file.path, { public_id: String(newDrawing._id), display_name: newDrawing.title, tags: "non_seed" })
 		if (!uploadRes.url) { throw new Error("Cloud upload failed.") }
 		newDrawing.src = uploadRes.url
 		await newDrawing.save()
@@ -90,9 +90,16 @@ export async function deleteDrawing(rq: AuthRequest, rs: Response) {
 	if (rq.body) {
 		const invalid = await Drawing.find({ _id: { $in: rq.body.ids }, userId: { $ne: payload.user.id } })
 		if (invalid.length) { return rs.status(401).json({ error: "Not authorized to delete resource." }) }
-
+		
 		const deleted = await Drawing.deleteMany({ _id: { $in: rq.body.ids } })
-		return rs.json(deleted)
+		let delRes
+		try {
+			delRes = await cloudinary.api.delete_resources(rq.body.ids)
+		} catch(err) {
+			console.log(err)
+		}
+
+		return rs.json(delRes)
 	} 
 
 	const target = await Drawing.findById(rq.params.id)

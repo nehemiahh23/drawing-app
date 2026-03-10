@@ -18,6 +18,7 @@ function Portfolio({ drawings, setDrawings }) {
 		return async () => {
 			if (markedList.length) {
 				await axios.delete(`http://localhost:3000/api/drawings`, { data: { "ids": markedList } })
+				.then(r => console.log(r.data))
 
 				setDrawings(list => list.filter(d => !markedList.includes(d._id)))
 				setMarkedList([])
