@@ -1,0 +1,16 @@
+.drawing-card {
+	display: flex;
+	flex-direction: column;
+	max-width: 20%;
+}
+
+.drawing-card img {
+	object-fit: cover;
+	max-width: 400px;
+}
+
+.drawing-container {
+	display: flex;
+}
+
+/* TODO: fix saving on upload(maybe call it outside the blob callback) */

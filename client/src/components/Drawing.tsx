@@ -5,11 +5,11 @@ function Drawing({ id, src, title, locked, markedList, setMarkedList }) {
 	const [marked, setMarked] = useState(false)
 	
 	function handlePost() {
-		
+		// create post OR redirect to post if locked
 	}
 	
 	function handleEdit() {
-
+		// redirect to canvas and send drawing data SOMEHOW
 	}
 	
 	function handleDelete(e) {
@@ -25,7 +25,7 @@ function Drawing({ id, src, title, locked, markedList, setMarkedList }) {
 	}
 	
 	return (
-	<div>
+	<div className="drawing-card">
 		<h1>{title}</h1>
 		<img src={src} alt={title} />
 		<button>{ locked ? "View Post" : "Create Post" }</button>
