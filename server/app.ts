@@ -14,6 +14,7 @@ import Drawing from "./models/drawingSchema.js"
 import User from "./models/userSchema.js"
 import Comment from "./models/commentSchema.js"
 import Post from "./models/postSchema.js"
+import { v2 as cloudinary } from 'cloudinary'
 import "dotenv/config"
 
 // setup
@@ -46,6 +47,7 @@ app.route("/login")
 app.route("/seed")
 .post(async (rq, rs) => {
 	await Drawing.deleteMany({})
+	await cloudinary.api.delete_resources_by_tag("non_seed")
 	await User.deleteMany({})
 	await Comment.deleteMany({})
 	await Post.deleteMany({})

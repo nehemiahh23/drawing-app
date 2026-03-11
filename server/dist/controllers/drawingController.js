@@ -8,16 +8,19 @@ export async function getDrawings(rq, rs) {
     if (rq.params.id) {
         data = await Drawing.find({ _id: rq.params.id });
         if (!data.length) {
-            rs.status(404).json({ error: "Drawing does not exist." });
+            return rs.status(404).json({ error: "Drawing does not exist." });
         }
-        else {
-            rs.json(data);
+    }
+    else if (rq.params.user_id) {
+        data = await Drawing.find({ userId: rq.params.user_id });
+        if (!data.length) {
+            return rs.status(404).json({ error: "No posts attributed to user." });
         }
     }
     else {
         data = await Drawing.find({});
-        rs.json(data);
     }
+    rs.json(data);
 }
 export async function createDrawing(rq, rs) {
     if (!rq.file) {
@@ -33,7 +36,7 @@ export async function createDrawing(rq, rs) {
     try {
         newDrawing = await Drawing.create({
             ...rq.body,
-            src: "https://res.cloudinary.com/ddka2pw9a/image/upload/v1772767575/2153483_e8wtpj.jpg",
+            src: "https://res.cloudinary.com/ddka2pw9a/image/upload/v1773178805/69b08faa513358e4412d8505.png",
             userId: payload.user.id,
             locked: false
         });
@@ -43,7 +46,7 @@ export async function createDrawing(rq, rs) {
         return rs.status(500).json(err);
     }
     try {
-        uploadRes = await cloudinary.uploader.upload(rq.file.path, { public_id: String(newDrawing._id), display_name: newDrawing.title });
+        uploadRes = await cloudinary.uploader.upload(rq.file.path, { public_id: String(newDrawing._id), display_name: newDrawing.title, tags: "non_seed" });
         if (!uploadRes.url) {
             throw new Error("Cloud upload failed.");
         }
@@ -91,8 +94,23 @@ export async function editDrawing(rq, rs) {
     }
 }
 export async function deleteDrawing(rq, rs) {
-    const target = await Drawing.findById(rq.params.id);
     const payload = rq.payload;
+    if (rq.body) {
+        const invalid = await Drawing.find({ _id: { $in: rq.body.ids }, userId: { $ne: payload.user.id } });
+        if (invalid.length) {
+            return rs.status(401).json({ error: "Not authorized to delete resource." });
+        }
+        const deleted = await Drawing.deleteMany({ _id: { $in: rq.body.ids } });
+        let delRes;
+        try {
+            delRes = await cloudinary.api.delete_resources(rq.body.ids);
+        }
+        catch (err) {
+            console.log(err);
+        }
+        return rs.json(delRes);
+    }
+    const target = await Drawing.findById(rq.params.id);
     if (!rq.params.id) {
         return rs.status(400).json({ error: "Must specify an id parameter to delete." });
     }

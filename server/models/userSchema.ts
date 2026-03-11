@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import type { IUser } from "./types.js";
+import type { IUser, IDrawing } from "./types.js";
 import Drawing from "./drawingSchema.js"
 
 const userSchema = new mongoose.Schema<IUser>(
@@ -19,6 +19,14 @@ const userSchema = new mongoose.Schema<IUser>(
 			required: true
 		},
 		likes: [String]
+	},
+	{
+		methods: {
+			async getDrawings() {
+				const data: IDrawing[] =  await Drawing.find({ userId: String(this._id) }) as IDrawing[]
+				return data
+			}
+		}
 	}
 )
 

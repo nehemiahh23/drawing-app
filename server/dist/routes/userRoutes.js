@@ -18,7 +18,9 @@ router.route("/:id")
     .get(userController.getUsers) // response should have extra info added on if auth
     .put(auth, userController.editUser)
     .delete(auth, userController.deleteUser);
-router.route("/settings")
+router.route("/user/settings")
     .get(auth, userController.getSelf);
+router.route("/user/drawings")
+    .get(auth, userController.getDrawings);
 export default router;
 //# sourceMappingURL=userRoutes.js.map

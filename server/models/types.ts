@@ -13,7 +13,8 @@ export interface IUser {
 	username: string,
 	password: string,
 	likes: string[],
-	getLikes(): Promise<IDrawing[]>
+	getDrawings(): Promise<IDrawing[]>
+	// getLikes(): Promise<IDrawing[]> should be list of posts
 }
 
 export interface IComment extends Document {

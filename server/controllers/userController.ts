@@ -22,11 +22,20 @@ export async function getUsers(rq: Request, rs: Response) {
 
 export async function getSelf(rq: AuthRequest, rs: Response) {
 	const payload: JwtPayload = rq.payload as JwtPayload 
-	if (rq.params.id !== payload.user.id) { return rs.status(401).json({ error: "Not authorized to read data." }) }
 
 	let target = await User.findById(payload.user.id)
 	if (!target) { rs.status(404).json({ error: "Requested user not found." }) }
 	else { rs.json(target) }
+}
+
+export async function getDrawings(rq: AuthRequest, rs: Response) {
+	const payload: JwtPayload = rq.payload as JwtPayload 
+	let target = await User.findById(payload.user.id)
+	if (!target) { return rs.status(404).json({ error: "Requested user not found." }) }
+
+	let data = await target.getDrawings()
+	if (!data) { rs.status(404).json({ errors: { msg: "No drawings associated with this user." } }) }
+	else { rs.json(data) }
 }
 
 export async function editUser(rq: AuthRequest, rs: Response) {

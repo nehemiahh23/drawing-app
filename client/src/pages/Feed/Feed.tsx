@@ -4,7 +4,7 @@ import type { IPost } from "../../types/dbTypes.js"
 import axios from "axios"
 import "./feed.css"
 
-const Feed: FunctionComponent<Props> = ({ data, setData }) => {
+const Feed: FunctionComponent<Props> = ({ feedData, setFeedData }) => {
 	// const [link, setLink] = useState(`https://api.pexels.com/v1/curated?page=1&per_page=12`)
 	
 	// const handleScroll = async (_e) => {
@@ -13,9 +13,9 @@ const Feed: FunctionComponent<Props> = ({ data, setData }) => {
 	// }
 	
 	useEffect(() => {
-		if (!data.length){
+		if (!feedData.length){
 			axios.get("http://localhost:3000/api/posts")
-			.then(r => setData(r.data))
+			.then(r => setFeedData(r.data))
 		}
 		// window.addEventListener("scroll", handleScroll)
 
@@ -26,14 +26,14 @@ const Feed: FunctionComponent<Props> = ({ data, setData }) => {
 
   return (
 	<main>
-		{ data.map(p => <Post key={p._id} {...p} />) }
+		{ feedData.map(p => <Post key={p._id} {...p} />) }
 	</main>
   )
 }
 
 interface Props {
-	data: IPost[],
-	setData: React.Dispatch<IPost[]>
+	feedData: IPost[],
+	setFeedData: React.Dispatch<IPost[]>
 }
 
 export default Feed

@@ -9,10 +9,14 @@ const upload = multer({ dest: "./public/temp" })
 router.route("/")
 .get(drawingController.getDrawings)
 .post(auth, upload.single('drawing'), drawingController.createDrawing)
+.delete(auth, drawingController.deleteDrawing)
 
 router.route("/:id")
 .get(drawingController.getDrawings)
 .put(auth, upload.single('drawing'), drawingController.editDrawing)
 .delete(auth, drawingController.deleteDrawing)
+
+router.route("/user/:user_id")
+.get(drawingController.getDrawings)
 
 export default router
