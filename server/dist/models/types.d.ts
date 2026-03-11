@@ -11,7 +11,7 @@ export interface IUser {
     username: string;
     password: string;
     likes: string[];
-    getLikes(): Promise<IDrawing[]>;
+    getDrawings(): Promise<IDrawing[]>;
 }
 export interface IComment extends Document {
     userId: string;

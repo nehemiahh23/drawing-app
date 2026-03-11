@@ -12,7 +12,7 @@ function Nav() {
 		target.id === "studio" ? setStudioMode(true) : setStudioMode(false)
 	}
 
-  return (
+  return ( // nested for later styling
 	<>
 		<Link to="/">
 			<button onClick={handleClick}>
@@ -24,8 +24,8 @@ function Nav() {
 				<div>Gallery</div>
 			</button>
 		</Link>
-		<Link to="">
-			<button disabled>
+		<Link to="/portfolio">
+			<button disabled={ context.cookies.token ? false : true }>
 				<div>Portfolio</div>
 			</button>
 		</Link>

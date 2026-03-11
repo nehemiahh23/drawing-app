@@ -1,14 +1,23 @@
 import * as createjs from "createjs-module"
-import { useState, useEffect, useRef, RefObject } from "react"
+import { useState, useEffect, useRef, useReducer, RefObject } from "react"
+import type { Props } from "../pages/Studio/Studio.js"
+import { useAuthContext } from "../hooks/authContext.js"
+import axios from "axios"
 
-function Canvas() {
+const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) => {
 	const canvasRef: RefObject<HTMLCanvasElement | null> = useRef(null)
 	const stageRef: RefObject<createjs.Stage | null> = useRef(null)
 	const cursorRef: RefObject<createjs.Shape | null> = useRef(null)
 	const strokeRef: RefObject<createjs.Shape | null> = useRef(null)
+	const bgRef: RefObject<createjs.Shape | null> = useRef(null)
+
 	const [pos, setPos] = useState({ x: 0, y: 0 })
 	const [strokePos, setStrokePos] = useState({ x: 0, y: 0 })
 	const [mouseDown, setMouseDown] = useState(false)
+	const [clears, setClears] = useState(0)
+	
+	const context = useAuthContext()
+	const [title, setTitle] = useState(canvasData.title ? canvasData.title : "")
 
 	useEffect(() => {
 		if (canvasRef.current) { // canvas dimensions set here to avoid stretching
@@ -26,10 +35,16 @@ function Canvas() {
 		cursorRef.current = cursor
 		
 		const stroke = new createjs.Shape() // create stroke object
-		// stroke.graphics.setStrokeStyle(5, "round")
 		strokeRef.current = stroke
 		
-		stage.addChild(cursor) // add objects to stage
+		const bg = new createjs.Shape() // draw background 
+		bg.graphics.beginFill("#FFF").drawRect(0, 0, canvasRef.current?.width, canvasRef.current?.height)
+		bgRef.current = bg
+		
+		if (canvasData.url) {
+			load(stage)
+		} else { stage.addChild(bg) }
+		stage.addChild(cursor) 
 		stage.addChild(stroke)
 		stage.update()
 		
@@ -43,7 +58,7 @@ function Canvas() {
 			stage.removeAllEventListeners()
 			createjs.Ticker.removeAllEventListeners()
 		}
-	}, [])
+	}, [clears])
 	
 	function handleMove(e: Object) { // handles position state
 		setPos({...pos, x: e.stageX, y: e.stageY})
@@ -86,8 +101,70 @@ function Canvas() {
 		setMouseDown(false)
 	}
 
+	function handleSubmit(e: Object) {
+		if (!context.cookies.token) return
+		
+		const payload = new FormData()
+		payload.append("title", title)
+
+		e.target.disabled = true
+
+		canvasRef.current?.toBlob((blob) => {
+			const file: Blob = blob as Blob
+			payload.append("drawing", file, `${title}.png`)
+
+			if (!canvasData.id) {
+				axios.postForm("http://localhost:3000/api/drawings", payload)
+				.then(r => setCanvasData({ ...canvasData, id: r.data._id }))
+				.catch(err => console.log(err))
+			} else {
+				axios.put(`http://localhost:3000/api/drawings/${canvasData.id}`, payload)
+				.then(r => setCanvasData({ ...canvasData, id: r.data._id }))
+				.catch(err => console.log(err))
+			}
+
+			save()
+		})
+
+		e.target.disabled = false
+	}
+
+	function handleTitle(e: Object) {
+		setTitle(e.target.value)
+	}
+
+	function save() {
+		canvasRef.current && setCanvasData({ ...canvasData, url: canvasRef.current.toDataURL(), title: title})
+	}
+
+	function load(stage) {
+		setTitle(canvasData.title)
+		const bitmap = new createjs.Bitmap(canvasData.url)
+		stage.addChild(bitmap)
+		bitmap.image.onload =() => stage.update()
+	}
+
+	function clear() {
+		setCanvasData({
+			title: "",
+			url: "",
+			id: ""
+		})
+		setTitle("")
+		
+		stageRef.current?.removeAllChildren()
+		stageRef.current?.update()
+		setClears(clears + 1)
+	}
+
   return (
-	<canvas id="canvas" ref={canvasRef} />
+	<>
+		<input type="text" value={title} onChange={handleTitle} />
+		<canvas id="canvas" ref={canvasRef} />
+		{ context.cookies.token && <><button onClick={save}>Save</button> <button onClick={handleSubmit}>{ canvasData.id ? "Update" : "Upload" }</button></> }
+		<button onClick={clear}>Clear</button> // TODO: handle image loading and deletion from portfolio
+	</>
   )
 }
+
 export default Canvas
