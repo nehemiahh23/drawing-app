@@ -161,7 +161,8 @@ const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) =
 	<>
 		<input type="text" value={title} onChange={handleTitle} />
 		<canvas id="canvas" ref={canvasRef} />
-		{ context.cookies.token && <><button onClick={save}>Save</button> <button onClick={handleSubmit}>{ canvasData.id ? "Update" : "Upload" }</button></> }
+		<button onClick={save}>Save</button>
+		{ context.cookies.token && <button onClick={handleSubmit}>{ canvasData.id ? "Update" : "Upload" }</button> }
 		<button onClick={clear}>Clear</button> // TODO: handle image loading and deletion from portfolio
 	</>
   )

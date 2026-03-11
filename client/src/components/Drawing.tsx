@@ -28,8 +28,8 @@ function Drawing({ id, src, title, locked, markedList, setMarkedList }) {
 	<div className="drawing-card">
 		<h1>{title}</h1>
 		<img src={src} alt={title} />
-		<button disabled={ locked ? false : true }>{ locked ? "View Post" : "Create Post" }</button>
-		<button>Edit</button>
+		<button disabled>{ locked ? "View Post" : "Create Post" }</button>
+		<button disabled>Edit</button>
 		<button onClick={handleDelete}>{ marked ? "Marked For Deletion" : "Delete" }</button>
 	</div>
   )
