@@ -14,7 +14,7 @@ const AuthProvider = ({ children }: Props) => {
 			const r = await axios.post("http://localhost:3000/login", input)
 			setCookies("token", r.data.token)
 
-			const u = await axios.get("http://localhost:3000/users/p/settings", { headers: {"x-auth-token": r.data.token} })
+			const u = await axios.get("http://localhost:3000/users/user/settings", { headers: {"x-auth-token": r.data.token} })
 			setUserId(u.data._id)
 		} catch (err) {
 			// console.log(err.response)
@@ -27,7 +27,7 @@ const AuthProvider = ({ children }: Props) => {
 			const r = await axios.post("http://localhost:3000/users", input)
 			setCookies("token", r.data.token)
 
-			const u = await axios.get("http://localhost:3000/users/p/settings", { headers: {"x-auth-token": r.data.token} })
+			const u = await axios.get("http://localhost:3000/users/user/settings", { headers: {"x-auth-token": r.data.token} })
 			setUserId(u.data._id)
 		} catch (err) {
 			// console.log(err.response)
@@ -35,15 +35,16 @@ const AuthProvider = ({ children }: Props) => {
 		}
 	}
 
-	function logOut() {
+	function logout() {
 		["token"].forEach((token) => removeCookie("token"))
+		setUserId("")
 	}
 	
 	const cookieData = useMemo(() => ({
 		cookies,
 		login,
+		logout,
 		register,
-		logOut,
 		errors,
 		setErrors,
 		userId

@@ -20,7 +20,6 @@ const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) =
 	const [title, setTitle] = useState(canvasData.title ? canvasData.title : "")
 
 	useEffect(() => {
-		console.log("getting here")
 		if (canvasRef.current) { // canvas dimensions set here to avoid stretching
 			canvasRef.current.width = window.innerWidth * 0.75
 			canvasRef.current.height = window.innerHeight * 0.8

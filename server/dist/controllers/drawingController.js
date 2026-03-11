@@ -36,7 +36,7 @@ export async function createDrawing(rq, rs) {
     try {
         newDrawing = await Drawing.create({
             ...rq.body,
-            src: "https://res.cloudinary.com/ddka2pw9a/image/upload/v1772767575/2153483_e8wtpj.jpg",
+            src: "https://res.cloudinary.com/ddka2pw9a/image/upload/v1773178805/69b08faa513358e4412d8505.png",
             userId: payload.user.id,
             locked: false
         });
