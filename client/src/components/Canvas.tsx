@@ -106,13 +106,14 @@ const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) =
 		
 		const payload = new FormData()
 		payload.append("title", title)
-
+		
+		save()
 		e.target.disabled = true
-
+		
 		canvasRef.current?.toBlob((blob) => {
 			const file: Blob = blob as Blob
 			payload.append("drawing", file, `${title}.png`)
-
+			
 			if (!canvasData.id) {
 				axios.postForm("http://localhost:3000/api/drawings", payload)
 				.then(r => setCanvasData({ ...canvasData, id: r.data._id }))
@@ -122,10 +123,11 @@ const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) =
 				.then(r => setCanvasData({ ...canvasData, id: r.data._id }))
 				.catch(err => console.log(err))
 			}
-
-			save()
 		})
-
+		
+		stageRef.current?.addChild(cursorRef.current)
+		stageRef.current?.update()
+		
 		e.target.disabled = false
 	}
 
@@ -133,7 +135,15 @@ const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) =
 		setTitle(e.target.value)
 	}
 
+	function handleSave() {
+		save()
+		stageRef.current?.addChild(cursorRef.current)
+		stageRef.current?.update()
+	}
+
 	function save() {
+		stageRef.current?.removeChild(cursorRef.current)
+		stageRef.current?.update()
 		canvasRef.current && setCanvasData({ ...canvasData, url: canvasRef.current.toDataURL(), title: title})
 	}
 
@@ -161,7 +171,7 @@ const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) =
 	<>
 		<input type="text" value={title} onChange={handleTitle} />
 		<canvas id="canvas" ref={canvasRef} />
-		<button onClick={save}>Save</button>
+		<button onClick={handleSave}>Save</button>
 		{ context.cookies.token && <button onClick={handleSubmit}>{ canvasData.id ? "Update" : "Upload" }</button> }
 		<button onClick={clear}>Clear</button> // TODO: handle image loading and deletion from portfolio
 	</>
