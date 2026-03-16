@@ -42,7 +42,7 @@ const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) =
 		bgRef.current = bg
 		
 		if (canvasData.url) {
-			load(stage)
+			load()
 		} else { stage.addChild(bg) }
 		stage.addChild(cursor) 
 		stage.addChild(stroke)
@@ -106,26 +106,28 @@ const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) =
 		
 		const payload = new FormData()
 		payload.append("title", title)
-
+		
+		save()
 		e.target.disabled = true
-
+		
 		canvasRef.current?.toBlob((blob) => {
 			const file: Blob = blob as Blob
 			payload.append("drawing", file, `${title}.png`)
-
+			
 			if (!canvasData.id) {
 				axios.postForm("http://localhost:3000/api/drawings", payload)
-				.then(r => setCanvasData({ ...canvasData, id: r.data._id }))
+				.then(r => setCanvasData(data => { return {...data, id: r.data._id} }))
 				.catch(err => console.log(err))
 			} else {
 				axios.put(`http://localhost:3000/api/drawings/${canvasData.id}`, payload)
-				.then(r => setCanvasData({ ...canvasData, id: r.data._id }))
+				.then(r => setCanvasData(data => { return {...data, id: r.data._id} }))
 				.catch(err => console.log(err))
 			}
-
-			save()
 		})
-
+		
+		stageRef.current?.addChild(cursorRef.current)
+		stageRef.current?.update()
+		
 		e.target.disabled = false
 	}
 
@@ -134,14 +136,18 @@ const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) =
 	}
 
 	function save() {
+		stageRef.current?.removeChild(cursorRef.current)
+		stageRef.current?.update()
 		canvasRef.current && setCanvasData({ ...canvasData, url: canvasRef.current.toDataURL(), title: title})
+		stageRef.current?.addChild(cursorRef.current)
+		stageRef.current?.update()
 	}
 
-	function load(stage) {
+	function load() {
 		setTitle(canvasData.title)
 		const bitmap = new createjs.Bitmap(canvasData.url)
-		stage.addChild(bitmap)
-		bitmap.image.onload =() => stage.update()
+		stageRef.current?.addChild(bitmap)
+		bitmap.image.onload =() => stageRef.current?.update()
 	}
 
 	function clear() {
@@ -163,9 +169,10 @@ const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) =
 		<canvas id="canvas" ref={canvasRef} />
 		<button onClick={save}>Save</button>
 		{ context.cookies.token && <button onClick={handleSubmit}>{ canvasData.id ? "Update" : "Upload" }</button> }
-		<button onClick={clear}>Clear</button> // TODO: handle image loading and deletion from portfolio
+		<button onClick={clear}>Clear</button>
 	</>
   )
+  // TODO: handle image loading from portfolio
 }
 
 export default Canvas
