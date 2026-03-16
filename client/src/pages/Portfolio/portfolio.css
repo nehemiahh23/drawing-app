@@ -12,5 +12,3 @@
 .drawing-container {
 	display: flex;
 }
-
-/* TODO: fix saving on upload(maybe call it outside the blob callback) */
