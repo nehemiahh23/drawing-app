@@ -116,11 +116,11 @@ const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) =
 			
 			if (!canvasData.id) {
 				axios.postForm("http://localhost:3000/api/drawings", payload)
-				.then(r => setCanvasData({ ...canvasData, id: r.data._id }))
+				.then(r => setCanvasData(data => { return {...data, id: r.data._id} }))
 				.catch(err => console.log(err))
 			} else {
 				axios.put(`http://localhost:3000/api/drawings/${canvasData.id}`, payload)
-				.then(r => setCanvasData({ ...canvasData, id: r.data._id }))
+				.then(r => setCanvasData(data => { return {...data, id: r.data._id} }))
 				.catch(err => console.log(err))
 			}
 		})
@@ -173,9 +173,10 @@ const Canvas: React.FunctionComponent<Props> = ({ canvasData, setCanvasData }) =
 		<canvas id="canvas" ref={canvasRef} />
 		<button onClick={handleSave}>Save</button>
 		{ context.cookies.token && <button onClick={handleSubmit}>{ canvasData.id ? "Update" : "Upload" }</button> }
-		<button onClick={clear}>Clear</button> // TODO: handle image loading and deletion from portfolio
+		<button onClick={clear}>Clear</button>
 	</>
   )
+  // TODO: handle image loading from portfolio
 }
 
 export default Canvas
