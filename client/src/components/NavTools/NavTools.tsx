@@ -1,15 +1,21 @@
 import { useModeContext } from "../../hooks/modeContext.js"
+import Tools from "../Tools.js"
 import Nav from "../Nav.js"
 // import Tools from "./Tools.js"
 import "./navTools.css"
 
 const NavTools = () => {
-	const { studioMode } = useModeContext()
+	const { studioMode, setStudioMode } = useModeContext()
 
-	// TODO: first Nav should be changed to Tools when implemented
+	function handleClick() {
+		const mode: boolean = !studioMode
+		setStudioMode(mode)
+	}
+
   return (
 	<nav>
-		{ studioMode ? <Nav /> : <Nav /> }
+		{ studioMode ? <Tools /> : <Nav /> }
+		<button onClick={handleClick}>{"<->"}</button>
 	</nav>	
   )
 }

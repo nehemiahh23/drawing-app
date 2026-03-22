@@ -1,6 +1,9 @@
 function Tools() {
   return (
-	<div>Tools</div>
+	<div>
+		<button>P</button>
+		<button>E</button>
+	</div>
   )
 }
 export default Tools
