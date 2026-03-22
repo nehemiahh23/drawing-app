@@ -12,8 +12,8 @@ body, html {
 #root {
 	width: stretch;
 	display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: space-between;
 }
 
 *, *::before, *::after {

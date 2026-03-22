@@ -3,7 +3,7 @@ main {
 	flex-direction: column;
 	flex-wrap: wrap;
 	padding-top: 3%;
-    margin: 0 2%;
+    margin: 0 auto;
 }
 
 .post {
