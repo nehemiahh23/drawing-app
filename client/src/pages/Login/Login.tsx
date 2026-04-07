@@ -15,13 +15,13 @@ function Login() {
 	}
 	
   return (
-	<>
+	<main>
 		<fieldset>
 			{ register ? <RegisterForm /> : <LoginForm /> }
 			<a href="" onClick={handleClick}>{ register ? "Login" : "Register" }</a>
 			{ context.errors.map(e => <p>{e}</p>) }
 		</fieldset>
-	</>
+	</main>
   )
 }
 export default Login
